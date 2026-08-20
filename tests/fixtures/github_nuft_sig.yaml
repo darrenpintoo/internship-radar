@@ -1,0 +1,29 @@
+name: "SIG"
+website: "https://careers.sig.com/intern-openings"
+locations: "Bala Cynwyd, Chicago, NYC"
+notes: "Has a huge poker culture. Fairly chill culture but pay tends to be on the lower side, especially for SWEs. Considered one of the best or the best firms for traders to start their career."
+roles:
+  - role_type: "QT"
+    links:
+      - url: "https://careers.sig.com/quantitative-trading-internships-co-ops/jobs/10849"
+        label: "Chicago"
+      - url: "https://careers.sig.com/quantitative-trading-internships-co-ops/jobs/10718"
+        label: "NYC"
+
+  - role_type: "QR"
+    links:
+      - url: "https://careers.sig.com/quantitative-systematic-trading-quantitative-research/jobs/10819"
+        label: "Master's (Bala Cynwyd)"
+      - url: "https://careers.sig.com/phds-postdocs/jobs/10820"
+        label: "Master's (NYC)"
+      - url: "https://careers.sig.com/phds-postdocs/jobs/10817"
+        label: "PhD (Bala Cynwyd)"
+      - url: "https://careers.sig.com/phds-postdocs/jobs/10818"
+        label: "PhD (NYC)"
+
+  - role_type: "SWE"
+    links:
+      - url: "https://careers.sig.com/intern-co-op/jobs/10838"
+        label: "Quantitative Strategy Developer"
+      - url: "https://careers.sig.com/intern-co-op-technology/jobs/10837"
+        label: "Trading System Engineering"

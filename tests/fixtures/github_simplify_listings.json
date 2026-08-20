@@ -1,0 +1,149 @@
+[
+ {
+  "source": "Simplify",
+  "category": "Quant",
+  "company_name": "Aquatic Capital Management",
+  "id": "76c586e3-eb16-454a-a7d8-5431a785b342",
+  "title": "Quantitative Researcher \u2013 Intern",
+  "active": true,
+  "terms": [
+   "Summer 2027"
+  ],
+  "date_updated": 1775085661,
+  "date_posted": 1775081547,
+  "url": "https://job-boards.greenhouse.io/aquaticcapitalmanagement/jobs/8489186002",
+  "locations": [
+   "London, UK",
+   "Chicago, IL"
+  ],
+  "company_url": "https://simplify.jobs/c/Aquatic-Capital-Management",
+  "is_visible": true,
+  "sponsorship": "Other",
+  "degrees": [
+   "Bachelor's",
+   "Master's",
+   "PhD"
+  ]
+ },
+ {
+  "source": "Simplify",
+  "category": "Software",
+  "company_name": "Aquatic Capital Management",
+  "id": "15636fe2-413f-4e5d-b6c9-0d42dc5edc5f",
+  "title": "Software Engineer Intern",
+  "active": true,
+  "terms": [
+   "Summer 2027"
+  ],
+  "date_updated": 1775086186,
+  "date_posted": 1775081547,
+  "url": "https://job-boards.greenhouse.io/aquaticcapitalmanagement/jobs/8489233002",
+  "locations": [
+   "London, UK",
+   "Chicago, IL"
+  ],
+  "company_url": "https://simplify.jobs/c/Aquatic-Capital-Management",
+  "is_visible": true,
+  "sponsorship": "Other",
+  "degrees": [
+   "Bachelor's",
+   "Master's",
+   "PhD"
+  ]
+ },
+ {
+  "source": "Simplify",
+  "category": "Software",
+  "company_name": "Ellipsis Labs",
+  "id": "4f45fa19-d12a-4b2b-804a-16e5c8cdc02d",
+  "title": "Software Engineer",
+  "active": true,
+  "terms": [
+   "Summer 2027"
+  ],
+  "date_updated": 1774563646,
+  "date_posted": 1774563646,
+  "url": "https://jobs.ashbyhq.com/ellipsislabs/02136b22-35b1-4b3d-8bef-567c3380a849/application",
+  "locations": [
+   "NYC"
+  ],
+  "company_url": "https://simplify.jobs/c/Ellipsis-Labs",
+  "is_visible": true,
+  "sponsorship": "Other",
+  "degrees": []
+ },
+ {
+  "source": "Simplify",
+  "category": "Software",
+  "company_name": "KLA",
+  "id": "fd5d3c48-0c2b-4c54-924a-e8e7f3789c6b",
+  "title": "Application Engineer Intern",
+  "active": false,
+  "terms": [
+   "Winter 2026",
+   "Spring 2026",
+   "Summer 2026",
+   "Fall 2026",
+   "Winter 2027",
+   "Spring 2027",
+   "Summer 2027",
+   "Fall 2027"
+  ],
+  "date_updated": 1767136607,
+  "date_posted": 1767136607,
+  "url": "https://kla.wd1.myworkdayjobs.com/Search/job/Milpitas-CA/Application-Engineer-Intern_2532180-1",
+  "locations": [
+   "Milpitas, CA"
+  ],
+  "company_url": "https://simplify.jobs/c/KLA",
+  "is_visible": true,
+  "sponsorship": "Other",
+  "degrees": []
+ },
+ {
+  "date_updated": 1766764298,
+  "sponsorship": "U.S. Citizenship is Required",
+  "active": true,
+  "degrees": [
+   "Bachelor's"
+  ],
+  "url": "https://avav.wd1.myworkdayjobs.com/en-US/AVAV/job/20521-Seneca-Meadows-Pkwy-Germantown-MD/Software-Engineering-Intern---Hyper-RF-Division_6367",
+  "company_name": "AeroVironment",
+  "title": "Software Engineering Intern \u2013 Hyper-RF Division",
+  "locations": [
+   "Germantown, MD"
+  ],
+  "terms": [
+   "Summer 2026"
+  ],
+  "category": "Software Engineering",
+  "source": "AlmondCroffle",
+  "id": "3697b474-d02a-477a-949b-63c212baa9a1",
+  "date_posted": 1766764298,
+  "company_url": "",
+  "is_visible": true
+ },
+ {
+  "date_updated": 1774263255,
+  "sponsorship": "Other",
+  "active": true,
+  "degrees": [
+   "Bachelor's"
+  ],
+  "url": "https://job-boards.greenhouse.io/genevatrading/jobs/5085231007",
+  "company_name": "Geneva Trading",
+  "title": "Junior Software Engineer",
+  "locations": [
+   "Chicago, IL"
+  ],
+  "terms": [
+   "Summer 2026"
+  ],
+  "category": "Software Engineering",
+  "source": "AlmondCroffle",
+  "id": "58821bd1-bd22-45bf-82f0-c375329b1523",
+  "date_posted": 1774263048,
+  "company_url": "",
+  "is_visible": false
+ }
+]

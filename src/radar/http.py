@@ -102,18 +102,42 @@ class Http:
         return self.get(url, **kwargs).json()
 
 
-class FixtureHttp:
-    """Zero-network stand-in for dry-run and tests: url -> fixture file path."""
+class FixtureResponse:
+    """Just enough of httpx.Response for adapters: .content / .text / .json()."""
 
-    def __init__(self, mapping: dict[str, Path]):
+    def __init__(self, content: bytes):
+        self.content = content
+
+    @property
+    def text(self) -> str:
+        return self.content.decode("utf-8")
+
+    def json(self):
+        return json.loads(self.text)
+
+
+class FixtureHttp:
+    """Zero-network stand-in for dry-run and tests.
+
+    mapping: url -> fixture file Path, or raw bytes/str content (bytes lets
+    dry-run serve e.g. an in-memory tarball for the NUFT tracker mode).
+    """
+
+    def __init__(self, mapping: dict[str, Path | bytes | str]):
         self._mapping = mapping
 
     def close(self) -> None:
         pass
 
-    def get_json(self, url: str, **_kwargs):
-        path = self._mapping.get(url)
-        if path is None:
+    def get(self, url: str, **_kwargs) -> FixtureResponse:
+        value = self._mapping.get(url)
+        if value is None:
             raise KeyError(f"no fixture registered for {url}")
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
+        if isinstance(value, bytes):
+            return FixtureResponse(value)
+        if isinstance(value, str):
+            return FixtureResponse(value.encode("utf-8"))
+        return FixtureResponse(Path(value).read_bytes())
+
+    def get_json(self, url: str, **kwargs):
+        return self.get(url, **kwargs).json()
