@@ -1,0 +1,53 @@
+name: digest
+on:
+  # ≈8:10 AM EDT; accept the 1h winter drift or adjust in November (SPEC §9.2).
+  # Actions cron routinely fires 5-30+ min late — delivery time is approximate
+  # by design; flash alerts, not a tighter cron, are the latency lever.
+  schedule: [{cron: "10 12 * * *"}]
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: {group: radar, cancel-in-progress: false}   # SAME literal group as poll.yml — load-bearing
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with: {enable-cache: true}
+      - run: uv sync --frozen
+      - id: poll
+        run: uv run radar poll
+        continue-on-error: true        # a crashed poll must not suppress the morning email
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_TO: ${{ vars.DIGEST_TO }}
+          OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: uv run radar digest       # nonzero iff the Resend send fails
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_TO: ${{ vars.DIGEST_TO }}
+          OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
+          SHEET_WEBAPP_URL: ${{ secrets.SHEET_WEBAPP_URL }}
+          SHEET_TOKEN: ${{ secrets.SHEET_TOKEN }}
+      - name: persist state
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name radar-bot
+          git config user.email bot@users.noreply.github.com
+          git add data/jobs.db
+          git diff --cached --quiet && exit 0
+          git commit -m "state: digest $(date -u +%FT%TZ) [skip ci]"
+          for i in 1 2 3; do
+            git push && exit 0
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase -X theirs "origin/$GITHUB_REF_NAME" || { git rebase --abort; exit 1; }
+          done
+          exit 1
+      - name: propagate poll failure
+        if: steps.poll.outcome == 'failure'
+        run: exit 1                    # run shows red so Actions notifications fire

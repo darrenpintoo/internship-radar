@@ -1,0 +1,172 @@
+# Company registry — see SPEC.md §4.
+# ats: greenhouse | lever | ashby | icims | workday | eightfold | avature |
+#      smartrecruiters | gem | workable | custom | tracker-only | probe
+# token: board identifier in the ATS URL; for icims/avature/eightfold = careers host
+# tier: S | 1 | 2   (drives digest grouping, enrichment priority, flash alerts — not filtering)
+# Rows whose adapter doesn't exist yet behave as tracker-only until it ships.
+# Tokens marked "probed 2026-08-20" were verified against a live 200 + jobs payload.
+companies:
+  # ---- verified live 2026-08-20 (probed) ----
+  - {name: Anthropic,            tier: S, ats: greenhouse, token: anthropic}
+  - {name: Datadog,              tier: 1, ats: greenhouse, token: datadog}
+  - {name: Stripe,               tier: 1, ats: greenhouse, token: stripe}
+  - {name: Jump Trading,         tier: S, ats: greenhouse, token: jumptrading}
+  - {name: Hudson River Trading, tier: S, ats: greenhouse, token: wehrtyou}
+  - {name: Five Rings,           tier: S, ats: greenhouse, token: fiveringsllc}
+  - {name: Radix Trading,        tier: S, ats: greenhouse, token: radixuniversity}
+  - {name: Optiver,              tier: 1, ats: greenhouse, token: optiverus}
+  - {name: IMC Trading,          tier: 1, ats: greenhouse, token: imc}
+  - {name: DRW,                  tier: 1, ats: greenhouse, token: drweng}
+  - {name: Akuna Capital,        tier: 1, ats: greenhouse, token: akunacapital}
+  - {name: Old Mission,          tier: 1, ats: greenhouse, token: oldmissioncapital}
+  - {name: CTC,                  tier: 1, ats: greenhouse, token: chicagotradingcampus}
+  - {name: Tower Research,       tier: 1, ats: greenhouse, token: towerresearchcapital}
+  - {name: Belvedere Trading,    tier: 1, ats: lever,      token: belvederetrading}
+  - {name: Virtu Financial,      tier: 2, ats: greenhouse, token: virtu}
+  - {name: XTX Markets,          tier: 1, ats: greenhouse, token: xtxmarketstechnologies}
+  - {name: OpenAI,               tier: S, ats: ashby,      token: openai}   # ~12MB payload
+  - {name: Cerebras,             tier: 1, ats: ashby,      token: cerebras}
+  - {name: Groq,                 tier: 1, ats: tracker-only}   # Gem ATS; M3 (§5.10)
+  - {name: Together AI,          tier: 1, ats: greenhouse, token: togetherai}
+  - {name: Modal,                tier: 1, ats: ashby,      token: modal}
+  - {name: Anyscale,             tier: 2, ats: ashby,      token: anyscale}
+  - {name: Databricks,           tier: 1, ats: greenhouse, token: databricks}
+  - {name: Scale AI,             tier: 2, ats: greenhouse, token: scaleai}
+  - {name: SpaceX,               tier: 1, ats: greenhouse, token: spacex}          # 60s timeout tier
+  - {name: Anduril,              tier: 1, ats: greenhouse, token: andurilindustries}  # 60s timeout tier
+  - {name: Palantir,             tier: 1, ats: lever,      token: palantir}
+  - {name: Notion,               tier: 1, ats: ashby,      token: notion}
+  - {name: Roblox,               tier: 2, ats: greenhouse, token: roblox}
+  # ---- quant additions, verified live 2026-08-20 ----
+  - {name: SIG,                  tier: 1, ats: icims, token: careers.sig.com}
+  - {name: AQR,                  tier: 1, ats: greenhouse, token: aqr}
+  - {name: Walleye Capital,      tier: 1, ats: greenhouse, token: walleyecapital-external-students}
+  - {name: TransMarket Group,    tier: 1, ats: greenhouse, token: transmarketgroup}
+  - {name: Arrowstreet Capital,  tier: 1, ats: workday}   # M3; arrowstreetcapital.wd5 / Campus_Careers
+  - {name: Two Sigma,            tier: 1, ats: avature, token: careers.twosigma.com}  # M3
+  - {name: Maven Securities,     tier: 2, ats: greenhouse, token: mavensecuritiesholdingltd}
+  - {name: Stevens Capital,      tier: 2, ats: greenhouse, token: scm}
+  - {name: Xantium,              tier: 2, ats: greenhouse, token: xantium}
+  - {name: Seven Research,       tier: 2, ats: greenhouse, token: sevenresearch}
+  - {name: BlackEdge Capital,    tier: 2, ats: greenhouse, token: blackedgecapital}
+  - {name: Voloridge,            tier: 2, ats: greenhouse, token: voloridgeinvestmentmanagement}
+  - {name: GSA Capital,          tier: 2, ats: greenhouse, token: gsacapital}
+  - {name: WorldQuant,           tier: 2, ats: greenhouse, token: worldquant}
+  - {name: Schonfeld,            tier: 2, ats: greenhouse, token: schonfeld}
+  - {name: Geneva Trading,       tier: 2, ats: greenhouse, token: genevatrading}
+  - {name: Valkyrie Trading,     tier: 2, ats: lever,      token: valkyrietrading}
+  - {name: 3Red Partners,        tier: 2, ats: greenhouse, token: 3redpartners}
+  - {name: Vatic Labs,           tier: 2, ats: greenhouse, token: vaticlabs}
+  - {name: Voleon,               tier: 2, ats: ashby,      token: voleon}   # lever/voleon = stale 200+[]
+  - {name: Tudor,                tier: 2, ats: greenhouse, token: tudorgroup}
+  - {name: Marshall Wace,        tier: 2, ats: greenhouse, token: marshallwace}  # board empty; drop at M3 if still empty
+  - {name: Ellipsis Labs,        tier: 2, ats: ashby,      token: ellipsislabs}
+  - {name: InfiniteQuant,        tier: 2, ats: smartrecruiters, token: InfiniteQuant}  # M3
+  - {name: PEAK6,                tier: 2, ats: custom}     # M3 sitemap-diff (careers.peak6.com)
+  - {name: Balyasny,             tier: 2, ats: tracker-only}
+  # ---- ai-infra additions, tokens verified live 2026-08-20 ----
+  - {name: xAI,                  tier: 1, ats: greenhouse, token: xai}
+  - {name: CoreWeave,            tier: 1, ats: greenhouse, token: coreweave}  # includes W&B roles
+  - {name: Lambda,               tier: 1, ats: ashby,      token: lambda}
+  - {name: Tenstorrent,          tier: 1, ats: greenhouse, token: tenstorrent}
+  - {name: Etched,               tier: 1, ats: ashby,      token: etched}
+  - {name: SambaNova,            tier: 2, ats: greenhouse, token: sambanovasystems}
+  - {name: d-Matrix,             tier: 2, ats: ashby,      token: d-matrix}
+  - {name: Fireworks AI,         tier: 2, ats: ashby,      token: fireworks}
+  - {name: Baseten,              tier: 2, ats: ashby,      token: baseten}
+  - {name: Mistral AI,           tier: 2, ats: ashby,      token: mistral.ai}  # lever 'mistral' = stale 200+[]
+  - {name: Cohere,               tier: 2, ats: ashby,      token: cohere}
+  - {name: Perplexity,           tier: 2, ats: ashby,      token: perplexity}
+  - {name: Cursor,               tier: 2, ats: ashby,      token: cursor}
+  - {name: Vercel,               tier: 2, ats: greenhouse, token: vercel}   # ashby 'vercel' = stale 200+0
+  - {name: Nebius,               tier: 2, ats: greenhouse, token: nebius}
+  - {name: Crusoe,               tier: 2, ats: ashby,      token: crusoe}
+  - {name: Astera Labs,          tier: 2, ats: greenhouse, token: asteralabs}
+  - {name: Deepgram,             tier: 2, ats: ashby,      token: deepgram}
+  - {name: Hugging Face,         tier: 2, ats: workable,   token: huggingface}  # M3
+  # ---- robotics additions (track 4), tokens verified live 2026-08-20 ----
+  - {name: Zipline,              tier: 1, ats: greenhouse, token: flyzipline}
+  - {name: Applied Intuition,    tier: 1, ats: ashby,      token: applied}
+  - {name: Figure,               tier: 1, ats: greenhouse, token: figureai}  # ashby 'figure' = stale 200+0
+  - {name: Physical Intelligence, tier: 1, ats: ashby,     token: physicalintelligence}
+  - {name: Astranis,             tier: 1, ats: greenhouse, token: astranis}
+  - {name: Rocket Lab,           tier: 1, ats: greenhouse, token: rocketlab}  # 60s timeout tier
+  - {name: Zoox,                 tier: 1, ats: lever,      token: zoox}
+  - {name: Skydio,               tier: 2, ats: ashby,      token: skydio}
+  - {name: Shield AI,            tier: 2, ats: lever,      token: shieldai}
+  - {name: Apptronik,            tier: 2, ats: greenhouse, token: apptronik}
+  - {name: Field AI,             tier: 2, ats: lever,      token: field-ai}
+  - {name: Nuro,                 tier: 2, ats: greenhouse, token: nuro}
+  - {name: Aurora,               tier: 2, ats: ashby,      token: aurora-operations-inc}
+  - {name: Motional,             tier: 2, ats: greenhouse, token: motional}
+  - {name: Saronic,              tier: 2, ats: ashby,      token: saronic}   # lever/saronic = stale 200+[]
+  - {name: Neros,                tier: 2, ats: greenhouse, token: nerostechnologies}
+  - {name: Hadrian,              tier: 2, ats: ashby,      token: hadrian-automation}
+  - {name: Gecko Robotics,       tier: 2, ats: ashby,      token: gecko-robotics}
+  - {name: Agility Robotics,     tier: 2, ats: greenhouse, token: agilityrobotics}
+  - {name: Kodiak,               tier: 2, ats: greenhouse, token: kodiak}
+  - {name: Machina Labs,         tier: 2, ats: lever,      token: MachinaLabs}  # CASE-SENSITIVE lever token
+  - {name: Serve Robotics,       tier: 2, ats: ashby,      token: serverobotics}
+  - {name: "1X",                 tier: 2, ats: ashby,      token: "1x"}
+  - {name: Waabi,                tier: 2, ats: lever,      token: waabi}
+  - {name: Boston Dynamics,      tier: 1, ats: workday}    # M3; bostondynamics.wd1
+  - {name: Skild AI,             tier: 2, ats: tracker-only}
+  # ---- custom stacks: tracker-only until/unless M3 adapter ----
+  - {name: Jane Street,          tier: S, ats: custom}     # own site — FIRST M3 adapter
+  - {name: Citadel,              tier: S, ats: tracker-only}   # bot-protected custom; NOT on Eightfold
+  - {name: Citadel Securities,   tier: S, ats: tracker-only}   # separate firm — never alias-merge with Citadel
+  - {name: Millennium,           tier: 1, ats: eightfold, token: career.mlp.com}  # M3, before Oct
+  - {name: DE Shaw,              tier: S, ats: tracker-only}
+  - {name: NVIDIA,               tier: S, ats: workday}    # M3 tenant #1
+  - {name: AMD,                  tier: 1, ats: icims, token: careers.amd.com}
+  - {name: Arm,                  tier: 1, ats: tracker-only}   # iCIMS; ride §5.9 adapter at M3
+  - {name: Qualcomm,             tier: 2, ats: tracker-only}   # Eightfold
+  - {name: Micron,               tier: 2, ats: tracker-only}   # Eightfold (tenant 403s)
+  - {name: Marvell,              tier: 2, ats: tracker-only}   # Workday; M3 candidate
+  - {name: Waymo,                tier: 1, ats: tracker-only}
+  - {name: Google,               tier: 1, ats: tracker-only}
+  - {name: Meta,                 tier: 1, ats: tracker-only}
+  - {name: Uber,                 tier: 1, ats: tracker-only}
+  - {name: Netflix,              tier: 2, ats: eightfold, token: explore.jobs.netflix.net}  # M3
+  # ---- still probe at M1 ----
+  - {name: Point72,              tier: 1, ats: probe}
+  - {name: PDT Partners,         tier: 1, ats: probe}
+  - {name: Squarepoint,          tier: 1, ats: probe}
+  - {name: Flow Traders,         tier: 1, ats: probe}
+  - {name: Wolverine Trading,    tier: 2, ats: probe}
+  - {name: Headlands,            tier: 1, ats: probe}
+  - {name: Aquatic Capital,      tier: 1, ats: probe}
+  - {name: DV Trading,           tier: 2, ats: probe}
+  - {name: Bridgewater,          tier: 2, ats: probe}
+
+# Alias map: EXACT full-string match on the normalized name (dict lookup — never
+# substring/prefix logic; that's how Citadel and Citadel Securities stay distinct).
+# Keys and values are company_norm forms (SPEC §6.1).
+aliases:
+  drw trading: drw
+  drw holdings: drw
+  susquehanna international group: sig
+  susquehanna: sig
+  hrt: hudson river trading
+  imc: imc trading
+  imc financial markets: imc trading
+  chicago trading company: ctc
+  millennium management: millennium
+  tower research capital: tower research
+  virtu: virtu financial
+  d e shaw: de shaw
+  the d e shaw group: de shaw
+  point72 asset management: point72
+  cubist systematic strategies: point72
+  quantic: walleye capital
+  stevens capital management: stevens capital
+  weights biases: coreweave
+  weights and biases: coreweave
+  figure ai: figure
+  kodiak ai: kodiak
+  kodiak robotics: kodiak
+  aurora innovation: aurora
+  1x technologies: 1x
+  balyasny asset management: balyasny
+  bam: balyasny
+  arrowstreet: arrowstreet capital

@@ -1,0 +1,317 @@
+{
+ "jobs": [
+  {
+   "absolute_url": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=7964062",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "education": "education_required",
+   "internal_job_id": 3457667,
+   "location": {
+    "name": "London, United Kingdom; New York, NY, United States; Singapore"
+   },
+   "metadata": [
+    {
+     "id": 31586,
+     "name": "Employment Type",
+     "value": "Intern",
+     "value_type": "single_select"
+    },
+    {
+     "id": 4118765,
+     "name": "Job Type",
+     "value": [
+      "Internship"
+     ],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 4168241,
+     "name": "Job Category",
+     "value": [
+      "Strategy Development"
+     ],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 832649,
+     "name": "Role Priority",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 40628704,
+     "name": "Career Site Metadata",
+     "value": [],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 45550074,
+     "name": "Career Site Ranking",
+     "value": null,
+     "value_type": "single_select"
+    }
+   ],
+   "id": 7964062,
+   "updated_at": "2026-08-14T09:29:17-04:00",
+   "requisition_id": "563",
+   "title": "Algorithm Development (Quant Research & Trading) Internship \u2013 Summer 2027",
+   "company_name": "Hudson River Trading",
+   "first_published": "2026-07-13T11:39:48-04:00",
+   "language": "en",
+   "application_deadline": null,
+   "content": "&lt;p&gt;&lt;em&gt;&lt;strong&gt;We do not allow multiple applications. Please apply to the ONE role you are most interested in and we will consider you for all open positions when reviewing your application.&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;\n&lt;p&gt;Hudson River Trading (HRT) is seeking exceptional full-time students to join our Algorithm Development Summer Internship Program. Algorithm Developers at HRT focus on the research and implementation of automated trading strategies. As an intern, you will have the opportunity to rotate between our high- and mid-frequency trading teams, as well as our machine learning teams. In close collaboration with full-time mentors, you will apply sophisticated quantitative modeling techniques to understand and predict market behavior and write software to improve our trading strategies.&lt;/p&gt;\n&lt;p&gt;Ideal candidates are quantitatively-driven and practically-minded programmers, scientists, and mathematicians who are excited to solve the most challenging problems in our field.&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;What to Expect&lt;/strong&gt;&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;Leverage our proprietary infrastructure (Python/C++) in conjunction with third-party tools to conduct quantitative research and data analysis&lt;/li&gt;\n&lt;li&gt;Use machine learning and time series techniques to derive novel insights on market behavior from large and complex datasets&lt;/li&gt;\n&lt;li&gt;Work on impactful projects in close collaboration with experienced researchers, traders, and developers&lt;/li&gt;\n&lt;li&gt;Utilize our world-class compute cluster to run simulations and crunch data&lt;/li&gt;\n&lt;li&gt;Build predictive models for financial markets using a combination of market and non-market data&lt;/li&gt;\n&lt;li&gt;Attend and participate in Tech Talks that provide an overview of markets and HRT\u2019s trading philosophy&lt;/li&gt;\n&lt;li&gt;Enjoy a curriculum of speakers, trading games, mentorships, and social events throughout the summer&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;&lt;strong&gt;Qualifications&lt;/strong&gt;&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;You are a full-time undergraduate or master\u2019s student in a quantitative discipline (math, physics, computer science, statistics, or a related program)&lt;/li&gt;\n&lt;li&gt;Experience programming in Python is a must; C++ is desired for those interested in low-latency trading&lt;/li&gt;\n&lt;li&gt;Experience with statistical analysis, numerical programming, or machine learning in Python, Pandas/Numpy, R, and/or MATLAB&lt;/li&gt;\n&lt;li&gt;A passion for applying quantitative models and technology toward solving real-world problems&lt;/li&gt;\n&lt;li&gt;Strong communication skills&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;We offer a weekly base salary offer in addition to a competitive signing bonus, company-paid housing, meals, and other perks.&lt;/p&gt;\n&lt;p&gt;New York: Weekly base salary of 5,800 USD&lt;br&gt;Singapore: Weekly base salary of 7,650 SGD&lt;br&gt;London: Weekly base salary of 4,350 GBP&lt;/p&gt;&lt;div class=&quot;content-conclusion&quot;&gt;&lt;p&gt;&lt;strong&gt;Culture&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;&lt;span data-sheets-value=&quot;{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. \\n\\nAt HRT we come from a variety of disciplines: mathematics and computer science, physics, and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization - from trading, to business operations, to recruiting and beyond.  Our culture celebrates great ideas whether they come from HRT veterans or new hires.  At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.\\n\\nFeel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&amp;quot;}&quot; data-sheets-userformat=&quot;{&amp;quot;2&amp;quot;:13185,&amp;quot;3&amp;quot;:{&amp;quot;1&amp;quot;:0},&amp;quot;10&amp;quot;:1,&amp;quot;11&amp;quot;:4,&amp;quot;12&amp;quot;:0,&amp;quot;15&amp;quot;:&amp;quot;IBM Plex Sans&amp;quot;,&amp;quot;16&amp;quot;:11}&quot; data-sheets-textstyleruns=&quot;{&amp;quot;1&amp;quot;:0}\uee10{&amp;quot;1&amp;quot;:328,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:402}\uee10{&amp;quot;1&amp;quot;:917,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:945}&quot;&gt;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. &lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;At HRT we welcome a variety of expertise: mathematics and computer science, physics and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization\u2014from trading, to business operations, to recruiting and beyond. We value openness and transparency, and celebrate great ideas from HRT veterans and new hires alike. At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.&lt;/span&gt;&lt;br&gt;&lt;br&gt;Feel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&lt;/span&gt;&lt;/p&gt;\n&lt;p&gt;&lt;em&gt;&lt;span data-sheets-value=&quot;{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. \\n\\nAt HRT we come from a variety of disciplines: mathematics and computer science, physics, and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization - from trading, to business operations, to recruiting and beyond.  Our culture celebrates great ideas whether they come from HRT veterans or new hires.  At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.\\n\\nFeel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&amp;quot;}&quot; data-sheets-userformat=&quot;{&amp;quot;2&amp;quot;:13185,&amp;quot;3&amp;quot;:{&amp;quot;1&amp;quot;:0},&amp;quot;10&amp;quot;:1,&amp;quot;11&amp;quot;:4,&amp;quot;12&amp;quot;:0,&amp;quot;15&amp;quot;:&amp;quot;IBM Plex Sans&amp;quot;,&amp;quot;16&amp;quot;:11}&quot; data-sheets-textstyleruns=&quot;{&amp;quot;1&amp;quot;:0}\uee10{&amp;quot;1&amp;quot;:328,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:402}\uee10{&amp;quot;1&amp;quot;:917,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:945}&quot;&gt;Please be advised: Use of AI tools during interviews or assessments is strictly prohibited, unless otherwise instructed or agreed upon. We employ various methods to evaluate the authenticity of candidate responses. If we determine that AI assistance was used during any stage of the hiring process, we reserve the right to immediately disqualify your candidacy or rescind any job offers extended.&lt;/span&gt;&lt;/em&gt;&lt;/p&gt;&lt;/div&gt;",
+   "departments": [
+    {
+     "id": 229066,
+     "name": "Campus",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "offices": [
+    {
+     "id": 5225,
+     "name": "London",
+     "location": "London, United Kingdom",
+     "child_ids": [],
+     "parent_id": null
+    },
+    {
+     "id": 5217,
+     "name": "New York City",
+     "location": "New York, NY, United States",
+     "child_ids": [],
+     "parent_id": null
+    },
+    {
+     "id": 5226,
+     "name": "Singapore",
+     "location": "Singapore",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "ai_disclaimer": null,
+   "include_ai_disclaimer": null,
+   "ai_opt_out_request_url": "http://app.greenhouse.io/ai_opt_out_request/job_post/7964062/ai_opt_out"
+  },
+  {
+   "absolute_url": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=8059837",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "education": "education_required",
+   "internal_job_id": 3457667,
+   "location": {
+    "name": "London, United Kingdom; New York, NY, United States; Singapore"
+   },
+   "metadata": [
+    {
+     "id": 31586,
+     "name": "Employment Type",
+     "value": "Intern",
+     "value_type": "single_select"
+    },
+    {
+     "id": 4118765,
+     "name": "Job Type",
+     "value": [
+      "Internship"
+     ],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 4168241,
+     "name": "Job Category",
+     "value": [
+      "Strategy Development"
+     ],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 832649,
+     "name": "Role Priority",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 40628704,
+     "name": "Career Site Metadata",
+     "value": [],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 45550074,
+     "name": "Career Site Ranking",
+     "value": null,
+     "value_type": "single_select"
+    }
+   ],
+   "id": 8059837,
+   "updated_at": "2026-08-14T09:29:17-04:00",
+   "requisition_id": "563",
+   "title": "Algorithm Development (Quant Research & Trading) PhD Internship \u2013 Summer 2027",
+   "company_name": "Hudson River Trading",
+   "first_published": "2026-07-13T11:39:49-04:00",
+   "language": "en",
+   "application_deadline": null,
+   "content": "&lt;p&gt;&lt;em&gt;&lt;strong&gt;We do not allow multiple applications. Please apply to the ONE role you are most interested in and we will consider you for all open positions when reviewing your application.&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;\n&lt;p&gt;Hudson River Trading (HRT) is seeking exceptional full-time PhD students to join our Algorithm Development summer internship program. Algorithm Developers at HRT focus on the research and implementation of automated trading strategies.&lt;/p&gt;\n&lt;p&gt;We trade on more than 200 markets around the world, across a variety of time horizons \u2013 offering ample opportunities to explore innovative, self-guided research and make a big impact on our business. Through this internship, you\u2019ll have the opportunity to rotate across teams, learning and collaborating alongside researchers and technologists that apply their passion and expertise to solving the most nuanced problems in our industry.&amp;nbsp;&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;What to Expect&lt;/strong&gt;&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;Use advanced research experience and expertise to apply academic research to impactful real-world problems in trading across time horizons and machine learning strategies&lt;/li&gt;\n&lt;li&gt;Leverage our proprietary infrastructure (Python/C++) in conjunction with third-party tools to conduct quantitative research and data analysis&lt;/li&gt;\n&lt;li&gt;Use machine learning and time series techniques to derive novel insights on market behavior from large and complex datasets&lt;/li&gt;\n&lt;li&gt;Utilize our industry-leading compute cluster to run simulations and crunch data&lt;/li&gt;\n&lt;li&gt;Build predictive models for financial markets using a combination of market and non-market data&lt;/li&gt;\n&lt;li&gt;Attend and participate in Tech Talks that provide an overview of markets and HRT\u2019s trading philosophy&lt;/li&gt;\n&lt;li&gt;Enjoy a curriculum of speakers, trading games, mentorships, and social events throughout the summer&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;&lt;strong&gt;Qualifications&lt;/strong&gt;&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;You are a full-time PhD student in a quantitative discipline (math, physics, computer science, statistics, operations research, machine learning etc.)&lt;/li&gt;\n&lt;li&gt;Fluency in Python is a must&lt;/li&gt;\n&lt;li&gt;Experience with statistical analysis, numerical programming, or machine learning in Python, Pandas/Numpy, R, and/or MATLAB&lt;/li&gt;\n&lt;li&gt;You\u2019re excited to apply your research expertise to identify new opportunities in worldwide markets &amp;nbsp;&lt;br&gt;Strong communication skills&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;We offer a weekly base salary offer in addition to a competitive signing bonus, company-paid housing, meals, and other perks.&lt;/p&gt;\n&lt;p&gt;New York: Weekly base salary of 5,800 USD&lt;br&gt;Singapore: Weekly base salary of 7,650 SGD&lt;br&gt;London: Weekly base salary of 4,350 GBP&lt;/p&gt;&lt;div class=&quot;content-conclusion&quot;&gt;&lt;p&gt;&lt;strong&gt;Culture&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;&lt;span data-sheets-value=&quot;{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. \\n\\nAt HRT we come from a variety of disciplines: mathematics and computer science, physics, and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization - from trading, to business operations, to recruiting and beyond.  Our culture celebrates great ideas whether they come from HRT veterans or new hires.  At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.\\n\\nFeel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&amp;quot;}&quot; data-sheets-userformat=&quot;{&amp;quot;2&amp;quot;:13185,&amp;quot;3&amp;quot;:{&amp;quot;1&amp;quot;:0},&amp;quot;10&amp;quot;:1,&amp;quot;11&amp;quot;:4,&amp;quot;12&amp;quot;:0,&amp;quot;15&amp;quot;:&amp;quot;IBM Plex Sans&amp;quot;,&amp;quot;16&amp;quot;:11}&quot; data-sheets-textstyleruns=&quot;{&amp;quot;1&amp;quot;:0}\uee10{&amp;quot;1&amp;quot;:328,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:402}\uee10{&amp;quot;1&amp;quot;:917,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:945}&quot;&gt;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. &lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;At HRT we welcome a variety of expertise: mathematics and computer science, physics and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization\u2014from trading, to business operations, to recruiting and beyond. We value openness and transparency, and celebrate great ideas from HRT veterans and new hires alike. At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.&lt;/span&gt;&lt;br&gt;&lt;br&gt;Feel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&lt;/span&gt;&lt;/p&gt;\n&lt;p&gt;&lt;em&gt;&lt;span data-sheets-value=&quot;{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. \\n\\nAt HRT we come from a variety of disciplines: mathematics and computer science, physics, and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization - from trading, to business operations, to recruiting and beyond.  Our culture celebrates great ideas whether they come from HRT veterans or new hires.  At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.\\n\\nFeel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&amp;quot;}&quot; data-sheets-userformat=&quot;{&amp;quot;2&amp;quot;:13185,&amp;quot;3&amp;quot;:{&amp;quot;1&amp;quot;:0},&amp;quot;10&amp;quot;:1,&amp;quot;11&amp;quot;:4,&amp;quot;12&amp;quot;:0,&amp;quot;15&amp;quot;:&amp;quot;IBM Plex Sans&amp;quot;,&amp;quot;16&amp;quot;:11}&quot; data-sheets-textstyleruns=&quot;{&amp;quot;1&amp;quot;:0}\uee10{&amp;quot;1&amp;quot;:328,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:402}\uee10{&amp;quot;1&amp;quot;:917,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:945}&quot;&gt;Please be advised: Use of AI tools during interviews or assessments is strictly prohibited, unless otherwise instructed or agreed upon. We employ various methods to evaluate the authenticity of candidate responses. If we determine that AI assistance was used during any stage of the hiring process, we reserve the right to immediately disqualify your candidacy or rescind any job offers extended.&lt;/span&gt;&lt;/em&gt;&lt;/p&gt;&lt;/div&gt;",
+   "departments": [
+    {
+     "id": 229066,
+     "name": "Campus",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "offices": [
+    {
+     "id": 5225,
+     "name": "London",
+     "location": "London, United Kingdom",
+     "child_ids": [],
+     "parent_id": null
+    },
+    {
+     "id": 5217,
+     "name": "New York City",
+     "location": "New York, NY, United States",
+     "child_ids": [],
+     "parent_id": null
+    },
+    {
+     "id": 5226,
+     "name": "Singapore",
+     "location": "Singapore",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "ai_disclaimer": null,
+   "include_ai_disclaimer": null,
+   "ai_opt_out_request_url": "http://app.greenhouse.io/ai_opt_out_request/job_post/8059837/ai_opt_out"
+  },
+  {
+   "absolute_url": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=8052083",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "education": "education_required",
+   "internal_job_id": 3489904,
+   "location": {
+    "name": "Austin, TX, United States; Chicago, Illinois, United States; London, United Kingdom; New York, NY, United States; Singapore"
+   },
+   "metadata": [
+    {
+     "id": 31586,
+     "name": "Employment Type",
+     "value": "Intern",
+     "value_type": "single_select"
+    },
+    {
+     "id": 4118765,
+     "name": "Job Type",
+     "value": [
+      "Internship"
+     ],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 4168241,
+     "name": "Job Category",
+     "value": [
+      "Software Engineering:C++",
+      "Software Engineering:Python"
+     ],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 832649,
+     "name": "Role Priority",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 40628704,
+     "name": "Career Site Metadata",
+     "value": [],
+     "value_type": "multi_select"
+    },
+    {
+     "id": 45550074,
+     "name": "Career Site Ranking",
+     "value": null,
+     "value_type": "single_select"
+    }
+   ],
+   "id": 8052083,
+   "updated_at": "2026-08-14T09:29:17-04:00",
+   "requisition_id": "570",
+   "title": "Software Engineering Internship (C++ or Python) \u2013 Summer 2027",
+   "company_name": "Hudson River Trading",
+   "first_published": "2026-07-13T11:35:06-04:00",
+   "language": "en",
+   "application_deadline": null,
+   "content": "&lt;p&gt;&lt;em&gt;&lt;strong&gt;We do not allow multiple applications. Please apply to the ONE role you are most interested in and we will consider you for all open positions when reviewing your application.&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;\n&lt;p&gt;Hudson River Trading (HRT) is seeking highly motivated full-time students to join our Software Engineering Summer Internship Program. HRT brings together the sharpest minds across quantitative disciplines\u2014math, computer science, physics, engineering, and more\u2014 within our world-class computing environment to rapidly scale solutions to the toughest problems in tech and trading. Our software engineers create and maintain technology and infrastructure that is integral to the success of our trading. Ideal candidates are smart programmers who love to code, are eager to learn, and can thrive in an entrepreneurial environment.&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;What to Expect&lt;/strong&gt;&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;A hands-on introduction to all technical facets of software engineering in the algorithmic trading industry&lt;/li&gt;\n&lt;li&gt;Independent programming projects in Python, C, or C++, depending on the needs of the projectStructured and hands-on trainings, with quick transition into real projects within the first week&lt;/li&gt;\n&lt;li&gt;Opportunities to learn all about HRT&#39;s research and trading infrastructure, even in areas you may not be working in directly&lt;/li&gt;\n&lt;li&gt;Technical project work and mentorship, with the opportunity to gain a deeper understanding of global financial markets&lt;/li&gt;\n&lt;li&gt;Plenty of opportunities to connect with fellow interns, participate in team events, and explore the unique culture, food, and experiences that make each HRT office location and cities special.&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;&lt;strong&gt;Qualifications&lt;/strong&gt;&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;You are a full-time undergraduate student studying computer science or a related field&lt;/li&gt;\n&lt;li&gt;Programming experience in Python, C or C++ is required&lt;/li&gt;\n&lt;li&gt;A passion for technology and writing code that is elegant, readable, and efficient&lt;/li&gt;\n&lt;li&gt;Exceptional problem solving skills&lt;/li&gt;\n&lt;li&gt;Strong communication skills&lt;/li&gt;\n&lt;li&gt;Knowledge of trading and/or financial markets is &lt;strong&gt;not required &lt;/strong&gt;for this position&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;We offer a weekly base salary offer in addition to a competitive signing bonus, company-paid housing, meals, and other perks.&lt;/p&gt;\n&lt;p&gt;New York: Weekly base salary of 5,800 USD&lt;br&gt;Singapore: Weekly base salary of 7,650 SGD&lt;br&gt;London: Weekly base salary of 4,350 GBP&lt;/p&gt;&lt;div class=&quot;content-conclusion&quot;&gt;&lt;p&gt;&lt;strong&gt;Culture&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;&lt;span data-sheets-value=&quot;{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. \\n\\nAt HRT we come from a variety of disciplines: mathematics and computer science, physics, and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization - from trading, to business operations, to recruiting and beyond.  Our culture celebrates great ideas whether they come from HRT veterans or new hires.  At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.\\n\\nFeel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&amp;quot;}&quot; data-sheets-userformat=&quot;{&amp;quot;2&amp;quot;:13185,&amp;quot;3&amp;quot;:{&amp;quot;1&amp;quot;:0},&amp;quot;10&amp;quot;:1,&amp;quot;11&amp;quot;:4,&amp;quot;12&amp;quot;:0,&amp;quot;15&amp;quot;:&amp;quot;IBM Plex Sans&amp;quot;,&amp;quot;16&amp;quot;:11}&quot; data-sheets-textstyleruns=&quot;{&amp;quot;1&amp;quot;:0}\uee10{&amp;quot;1&amp;quot;:328,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:402}\uee10{&amp;quot;1&amp;quot;:917,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:945}&quot;&gt;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. &lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;At HRT we welcome a variety of expertise: mathematics and computer science, physics and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization\u2014from trading, to business operations, to recruiting and beyond. We value openness and transparency, and celebrate great ideas from HRT veterans and new hires alike. At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.&lt;/span&gt;&lt;br&gt;&lt;br&gt;Feel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&lt;/span&gt;&lt;/p&gt;\n&lt;p&gt;&lt;em&gt;&lt;span data-sheets-value=&quot;{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Hudson River Trading (HRT) brings a scientific approach to trading financial products. We have built one of the world&#39;s most sophisticated computing environments for research and development. Our researchers are at the forefront of innovation in the world of algorithmic trading. \\n\\nAt HRT we come from a variety of disciplines: mathematics and computer science, physics, and engineering, media and tech. We\u2019re a community of self-starters who are motivated by the excitement of being at the cutting edge of automation in every part of our organization - from trading, to business operations, to recruiting and beyond.  Our culture celebrates great ideas whether they come from HRT veterans or new hires.  At HRT we\u2019re friends and colleagues \u2013 whether we are sharing a meal, playing the latest board game, or writing elegant code. We embrace a culture of togetherness that extends far beyond the walls of our office.\\n\\nFeel like you belong at HRT? Our goal is to find the best people and bring them together to do great work in a place where everyone is valued. HRT is proud of our diverse staff; we have offices all over the globe and benefit from our varied and unique perspectives. HRT is an equal opportunity employer; so whoever you are we\u2019d love to get to know you.&amp;quot;}&quot; data-sheets-userformat=&quot;{&amp;quot;2&amp;quot;:13185,&amp;quot;3&amp;quot;:{&amp;quot;1&amp;quot;:0},&amp;quot;10&amp;quot;:1,&amp;quot;11&amp;quot;:4,&amp;quot;12&amp;quot;:0,&amp;quot;15&amp;quot;:&amp;quot;IBM Plex Sans&amp;quot;,&amp;quot;16&amp;quot;:11}&quot; data-sheets-textstyleruns=&quot;{&amp;quot;1&amp;quot;:0}\uee10{&amp;quot;1&amp;quot;:328,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:402}\uee10{&amp;quot;1&amp;quot;:917,&amp;quot;2&amp;quot;:{&amp;quot;2&amp;quot;:{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:16711935}}}\uee10{&amp;quot;1&amp;quot;:945}&quot;&gt;Please be advised: Use of AI tools during interviews or assessments is strictly prohibited, unless otherwise instructed or agreed upon. We employ various methods to evaluate the authenticity of candidate responses. If we determine that AI assistance was used during any stage of the hiring process, we reserve the right to immediately disqualify your candidacy or rescind any job offers extended.&lt;/span&gt;&lt;/em&gt;&lt;/p&gt;&lt;/div&gt;",
+   "departments": [
+    {
+     "id": 229066,
+     "name": "Campus",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "offices": [
+    {
+     "id": 5225,
+     "name": "London",
+     "location": "London, United Kingdom",
+     "child_ids": [],
+     "parent_id": null
+    },
+    {
+     "id": 5217,
+     "name": "New York City",
+     "location": "New York, NY, United States",
+     "child_ids": [],
+     "parent_id": null
+    },
+    {
+     "id": 5226,
+     "name": "Singapore",
+     "location": "Singapore",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "ai_disclaimer": null,
+   "include_ai_disclaimer": null,
+   "ai_opt_out_request_url": "http://app.greenhouse.io/ai_opt_out_request/job_post/8052083/ai_opt_out"
+  }
+ ],
+ "meta": {
+  "total": 3
+ }
+}

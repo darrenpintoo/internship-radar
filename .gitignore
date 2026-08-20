@@ -1,0 +1,11 @@
+# SQLite sidecars must never be committed — jobs.db is committed as a single
+# self-contained file (SPEC §3: rollback journal, no WAL).
+data/jobs.db-journal
+data/jobs.db-wal
+
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+dist/
