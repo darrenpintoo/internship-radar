@@ -129,15 +129,15 @@ companies:
   - {name: Uber,                 tier: 1, ats: tracker-only}
   - {name: Netflix,              tier: 2, ats: eightfold, token: explore.jobs.netflix.net}  # M3
   # ---- still probe at M1 ----
-  - {name: Point72,              tier: 1, ats: probe}
-  - {name: PDT Partners,         tier: 1, ats: probe}
-  - {name: Squarepoint,          tier: 1, ats: probe}
-  - {name: Flow Traders,         tier: 1, ats: probe}
-  - {name: Wolverine Trading,    tier: 2, ats: probe}
-  - {name: Headlands,            tier: 1, ats: probe}
-  - {name: Aquatic Capital,      tier: 1, ats: probe}
-  - {name: DV Trading,           tier: 2, ats: probe}
-  - {name: Bridgewater,          tier: 2, ats: probe}
+  - {name: Point72,              tier: 1, ats: greenhouse, token: point72}   # probed 2026-08-20
+  - {name: PDT Partners,         tier: 1, ats: greenhouse, token: pdtpartners}   # probed 2026-08-20
+  - {name: Squarepoint,          tier: 1, ats: greenhouse, token: squarepointcapital}   # probed 2026-08-20 (90 jobs)
+  - {name: Flow Traders,         tier: 1, ats: greenhouse, token: flowtraders}   # probed 2026-08-20
+  - {name: Wolverine Trading,    tier: 2, ats: tracker-only}   # probed 2026-08-20: no public board found
+  - {name: Headlands,            tier: 1, ats: greenhouse, token: headlandstech}   # probed 2026-08-20: board valid but EMPTY — watch
+  - {name: Aquatic Capital,      tier: 1, ats: greenhouse, token: aquaticcapitalmanagement}   # probed 2026-08-20 (9 jobs, S27 interns)
+  - {name: DV Trading,           tier: 2, ats: greenhouse, token: dvtrading}   # probed 2026-08-20
+  - {name: Bridgewater,          tier: 2, ats: greenhouse, token: bridgewaterassociates}   # probed 2026-08-20: board valid but EMPTY — watch
 
 # Alias map: EXACT full-string match on the normalized name (dict lookup — never
 # substring/prefix logic; that's how Citadel and Citadel Securities stay distinct).
