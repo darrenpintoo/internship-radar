@@ -9,13 +9,28 @@ escaped: unescape before HTML→text.
 
 from __future__ import annotations
 
+import re
+
 from .. import http as http_mod
 from ..models import Posting
-from ..normalize import iso_norm, strip_html
+from ..normalize import INCLUDE_RE, iso_norm, strip_html
 from .base import RawItem
 
 # Boards that time out at the default 30s (verified: Anduril needed >20s).
 LARGE_BOARDS = {"spacex", "andurilindustries", "rocketlab"}
+
+# Some boards (Jane Street, verified live 2026-08-20: 50 campus roles) strip
+# 'Intern' from public titles and carry the campus flag only in the Greenhouse
+# 'Employment Type' metadata field ('Summer Internship', 'Winter Co-Op', ...).
+# Folding it into the title keeps the §6.2 prefilter and the digest honest.
+_EMP_INTERN_RE = re.compile(r"intern|co[-\s]?op", re.I)
+
+
+def _employment_type(job: dict) -> str | None:
+    for m in job.get("metadata") or []:
+        if (m.get("name") or "").strip().lower() == "employment type" and m.get("value"):
+            return str(m["value"])
+    return None
 
 
 class GreenhouseAdapter:
@@ -59,10 +74,14 @@ class GreenhouseAdapter:
         postings = []
         for job in raw.payload.get("jobs", []):
             content = job.get("content") or ""
+            title = job["title"]
+            emp_type = _employment_type(job)
+            if emp_type and _EMP_INTERN_RE.search(emp_type) and not INCLUDE_RE.search(title):
+                title = f"{title} — {emp_type}"
             postings.append(
                 Posting(
                     company_name=display,
-                    title=job["title"],
+                    title=title,
                     url=job["absolute_url"],
                     source=self.name,
                     source_ref=raw.source_ref,

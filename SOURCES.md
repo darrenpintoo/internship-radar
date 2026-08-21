@@ -22,6 +22,7 @@ Every candidate source for internship-radar, live-verified on 2026-08-20 (7 para
 |---|---|---|---|
 | Greenhouse / Lever / Ashby | (spec §5.2–5.4) | ~75 registry boards | v1 (already specced) |
 | **iCIMS** | `https://{host}/api/jobs?page=N&limit=100` — keyless JSON, datacenter-verified | **SIG (47 "Summer 2027" postings live TODAY)**, AMD; Arm later | **v1 (§5.9)** — was wrongly tracker-only |
+| **Jane Street via Greenhouse** (found 2026-08-20, post-research) | `boards-api.greenhouse.io/v1/boards/janestreet/jobs` — the public board WORKS; JS strips 'Intern' from titles, campus flag lives in `Employment Type` metadata ('Summer Internship' etc.) | **Jane Street: 50 campus roles live** (42 Summer Internship) — was wrongly 'custom, M3' | **v1** — greenhouse adapter folds the metadata into the title; this is also why title-keyword trackers (zshah101) show zero JS internships |
 
 ### New registry companies with live 2027/intern postings (tokens verified)
 

@@ -1,0 +1,367 @@
+{
+ "jobs": [
+  {
+   "absolute_url": "https://www.janestreet.com/join-jane-street/apply/8537797002?gh_jid=8537797002",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "internal_job_id": 6409809002,
+   "location": {
+    "name": "London, England, United Kingdom"
+   },
+   "metadata": [
+    {
+     "id": 4246316002,
+     "name": "Employment Type",
+     "value": "Summer Internship",
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453104002,
+     "name": "Event Date",
+     "value": null,
+     "value_type": "date"
+    },
+    {
+     "id": 4453107002,
+     "name": "Event Location",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 4453108002,
+     "name": "Event Time",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 4453114002,
+     "name": "Event Type",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453115002,
+     "name": "Event Continent",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453117002,
+     "name": "Event URL",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 19843245002,
+     "name": "Duration",
+     "value": "June-September",
+     "value_type": "single_select"
+    },
+    {
+     "id": 20495683002,
+     "name": "Event Registration Deadline",
+     "value": null,
+     "value_type": "date"
+    },
+    {
+     "id": 24844645002,
+     "name": "Min salary",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 24844702002,
+     "name": "Max salary",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 31769182002,
+     "name": "Workday Job Profile",
+     "value": "Institutional Intern",
+     "value_type": "single_select"
+    }
+   ],
+   "id": 8537797002,
+   "updated_at": "2026-08-03T05:58:32-04:00",
+   "requisition_id": "R-1508",
+   "title": "Sales and Trading",
+   "company_name": "Jane Street",
+   "first_published": "2026-08-03T03:59:10-04:00",
+   "language": "en",
+   "application_deadline": null,
+   "content": "&lt;h3&gt;About the Position&lt;/h3&gt;\n&lt;p&gt;As a Sales and Trading intern, you\u2019ll work alongside our experienced Sales people and&amp;nbsp;Sales-Traders, learning how we engage and cover institutional clients on their trading needs in&amp;nbsp;the different asset classes that we cover. They\u2019ll offer insight into the types of client inquiries we&amp;nbsp;handle daily, and you\u2019ll learn how we service our clients, issuers, and prospective clients. The&amp;nbsp;internship is a fast-paced, immersive experience, and you will attend internal classes on various&amp;nbsp;topics where we can teach you the broader fundamentals of finance and trading.&lt;/p&gt;\n&lt;h3&gt;About You&lt;/h3&gt;\n&lt;p&gt;We don\u2019t expect you to have a background in one specific field - we\u2019re looking for smart, driven people who would enjoy working with clients to solve interesting problems. We\u2019re more interested in how you think and learn than what you currently know. You should be:&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;Studying towards a Bachelor\u2019s or Master\u2019s degree, coming into or having completed your final year&lt;/li&gt;\n&lt;li&gt;Proactive, reliable, and courteous with strong interpersonal, team working and communication skills&lt;/li&gt;\n&lt;li&gt;A self-motivated and entrepreneurial problem-solver who is excited about building relationships with our clients and partners&lt;/li&gt;\n&lt;li&gt;A highly analytical and logical thinker, comfortable working with numbers&lt;/li&gt;\n&lt;li&gt;Extremely organised with excellent attention to detail&lt;/li&gt;\n&lt;li&gt;Interest in learning&amp;nbsp; SQL and/or Python&lt;/li&gt;\n&lt;li&gt;Fluent in English, with proficiency in Spanish, Italian, French, Portuguese or German is a plus&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;Please note: Jane Street will provide flights to and from London as well as accommodation throughout the entirety of the program.&lt;/p&gt;",
+   "departments": [
+    {
+     "id": 4078475002,
+     "name": "Sales & Trading",
+     "child_ids": [],
+     "parent_id": 4073086002
+    }
+   ],
+   "offices": [
+    {
+     "id": 4013332002,
+     "name": "London",
+     "location": "London, England, United Kingdom",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "ai_disclaimer": null,
+   "include_ai_disclaimer": null,
+   "ai_opt_out_request_url": null
+  },
+  {
+   "absolute_url": "https://www.janestreet.com/join-jane-street/apply/8632723002?gh_jid=8632723002",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "internal_job_id": 6447773002,
+   "location": {
+    "name": "New York, New York, United States"
+   },
+   "metadata": [
+    {
+     "id": 4246316002,
+     "name": "Employment Type",
+     "value": "Summer Internship",
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453104002,
+     "name": "Event Date",
+     "value": null,
+     "value_type": "date"
+    },
+    {
+     "id": 4453107002,
+     "name": "Event Location",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 4453108002,
+     "name": "Event Time",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 4453114002,
+     "name": "Event Type",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453115002,
+     "name": "Event Continent",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453117002,
+     "name": "Event URL",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 19843245002,
+     "name": "Duration",
+     "value": "May-August",
+     "value_type": "single_select"
+    },
+    {
+     "id": 20495683002,
+     "name": "Event Registration Deadline",
+     "value": null,
+     "value_type": "date"
+    },
+    {
+     "id": 24844645002,
+     "name": "Min salary",
+     "value": "300,000",
+     "value_type": "short_text"
+    },
+    {
+     "id": 24844702002,
+     "name": "Max salary",
+     "value": "300,000",
+     "value_type": "short_text"
+    },
+    {
+     "id": 31769182002,
+     "name": "Workday Job Profile",
+     "value": "Technology Intern",
+     "value_type": "single_select"
+    }
+   ],
+   "id": 8632723002,
+   "updated_at": "2026-07-30T11:44:38-04:00",
+   "requisition_id": "R-1616",
+   "title": "Cybersecurity Analyst",
+   "company_name": "Jane Street",
+   "first_published": "2026-07-15T07:16:20-04:00",
+   "language": "en",
+   "application_deadline": null,
+   "content": "&lt;h3&gt;About the Position&lt;/h3&gt;\n&lt;p&gt;Our goal is to give you a real sense of what it&#39;s like to work at Jane Street full time while also providing a truly unparalleled educational experience. As an intern, you&#39;ll be paired with full-time employees who act as mentors, collaborating with you on real-world projects we actually need done.&lt;/p&gt;\n&lt;p&gt;We\u2019re looking for passionate and inquisitive students interested in security and technology to join us in our New York office for a Cybersecurity Analyst internship. Our Cybersecurity Analysts are responsible for being on the front lines of guarding the firm from cyber threats through investigations and incident response, as well as building tools and automation to streamline, automate, and enhance workflows, and grow our capabilities.&lt;/p&gt;\n&lt;p&gt;Our Cybersecurity team is a skilled group of programmers and security experts who are dedicated to keeping the firm safe. We consider ourselves to be tapped into developments in the broader cybersecurity space, and we can tell the difference between the latest cool hack by security researchers and what actually matters in our day-to-day work.&amp;nbsp;&lt;/p&gt;\n&lt;p&gt;While wearing the hat of an investigator, you\u2019ll be investigating alerts, digging through activity chains, and hunting and responding to evil. You\u2019ll gain an understanding of a wide variety of log sources, systems, and tooling, primarily in-house developed or open source.&lt;/p&gt;\n&lt;p&gt;While wearing the hat of an engineer, you\u2019ll learn good development practices and solve real problems with code so that we can detect and respond better, faster, and at scale.&lt;/p&gt;\n&lt;p&gt;You will also learn how to act as an ambassador of best practices to the rest of the firm. A key part of our mission is to bring everyone at the firm along with us on the cybersecurity journey, and you should be excited to learn how we think about security, trade-offs, and sustainability, and to educate the firm about risk and best practices with that in mind.&lt;/p&gt;\n&lt;p&gt;&lt;em&gt;If you&#39;re a recruiting agency and want to partner with us, please reach out to agency-partnerships@janestreet.com.&lt;/em&gt;&lt;/p&gt;\n&lt;p&gt;Learn more about Jane Street&#39;s internship program&amp;nbsp;&lt;a href=&quot;https://www.janestreet.com/join-jane-street/internships/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;\n&lt;h3&gt;About You&lt;/h3&gt;\n&lt;p&gt;If you&#39;ve never thought about a career in finance, you&#39;re in good company. Many of us were in the same position before working here. If you have a curious mind, a collaborative spirit, and a passion for solving interesting problems, we have a feeling you&#39;ll fit right in. We&#39;re more interested in how you think and learn than what you currently know. You should be:&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;Currently majoring or planning to major in computer science or a similar field&lt;/li&gt;\n&lt;li&gt;Interested&amp;nbsp; in cybersecurity and technology in your personal life, through activities such as CTFs, home labbing, and/or personal development projects&lt;/li&gt;\n&lt;li&gt;A strong programmer who can demonstrate high potential and an aptitude for learning&lt;/li&gt;\n&lt;li&gt;Interested in your tools, including your editor, computer environment, version control, etc.&lt;/li&gt;\n&lt;li&gt;Familiar with threat modeling and able to clearly communicate your understanding of trade-offs when it comes to security, risk, and usability&amp;nbsp;&lt;/li&gt;\n&lt;li&gt;Able to explain the cybersecurity decisions you\u2019ve made in your own life, and how you\u2019ve approached thinking about those decisions&lt;/li&gt;\n&lt;li&gt;Able to adapt to changing scenarios and make challenging decisions under pressure&lt;/li&gt;\n&lt;li&gt;Humble about what you know and don\u2019t know; not afraid to ask questions and admit mistakes&lt;/li&gt;\n&lt;li&gt;A curious problem solver with a positive, collaborative attitude&lt;/li&gt;\n&lt;li&gt;Someone who demonstrates perseverance and grit when investigating and learning new things beyond just a surface-level understanding&lt;/li&gt;\n&lt;/ul&gt;",
+   "departments": [
+    {
+     "id": 4073096002,
+     "name": "Cybersecurity",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "offices": [
+    {
+     "id": 4013330002,
+     "name": "New York",
+     "location": "New York, New York, United States",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "ai_disclaimer": null,
+   "include_ai_disclaimer": null,
+   "ai_opt_out_request_url": null
+  },
+  {
+   "absolute_url": "https://www.janestreet.com/join-jane-street/apply/8631912002?gh_jid=8631912002",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "internal_job_id": 6447439002,
+   "location": {
+    "name": "New York, New York, United States"
+   },
+   "metadata": [
+    {
+     "id": 4246316002,
+     "name": "Employment Type",
+     "value": "Full-Time: Experienced",
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453104002,
+     "name": "Event Date",
+     "value": null,
+     "value_type": "date"
+    },
+    {
+     "id": 4453107002,
+     "name": "Event Location",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 4453108002,
+     "name": "Event Time",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 4453114002,
+     "name": "Event Type",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453115002,
+     "name": "Event Continent",
+     "value": null,
+     "value_type": "single_select"
+    },
+    {
+     "id": 4453117002,
+     "name": "Event URL",
+     "value": null,
+     "value_type": "short_text"
+    },
+    {
+     "id": 19843245002,
+     "name": "Duration",
+     "value": "Permanent",
+     "value_type": "single_select"
+    },
+    {
+     "id": 20495683002,
+     "name": "Event Registration Deadline",
+     "value": null,
+     "value_type": "date"
+    },
+    {
+     "id": 24844645002,
+     "name": "Min salary",
+     "value": "100,000",
+     "value_type": "short_text"
+    },
+    {
+     "id": 24844702002,
+     "name": "Max salary",
+     "value": "120,000",
+     "value_type": "short_text"
+    },
+    {
+     "id": 31769182002,
+     "name": "Workday Job Profile",
+     "value": "Accounting Specialist",
+     "value_type": "single_select"
+    }
+   ],
+   "id": 8631912002,
+   "updated_at": "2026-08-19T17:15:50-04:00",
+   "requisition_id": "6351",
+   "title": "Accounting Coordinator",
+   "company_name": "Jane Street",
+   "first_published": "2026-08-19T17:15:50-04:00",
+   "language": "en",
+   "application_deadline": null,
+   "content": "&lt;h3&gt;About the Position&lt;/h3&gt;\n&lt;p&gt;We are looking for an organized and discreet Accounting Coordinator to manage a variety of daily tasks and projects across our global Accounting team.&amp;nbsp;&lt;/p&gt;\n&lt;p&gt;You don\u2019t need to be an expert in accounting to thrive in this role\u2014we are happy to teach you what you need to know. You\u2019ll learn from seasoned colleagues how to manage the moving pieces that keep our systems and processes running smoothly.&lt;/p&gt;\n&lt;p&gt;Additional responsibilities of this role might include:&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;Coordinating document signatures and follow-ups&lt;/li&gt;\n&lt;li&gt;Assisting with calendar management, maintenance, and updating&lt;/li&gt;\n&lt;li&gt;Completing audit-related tasks, such as tracking requests, and coordinating with other Jane Street teams to ensure proper follow-up&lt;/li&gt;\n&lt;li&gt;Distributing monthly financials to counterparties, maintaining the distribution list, and updating it as relationships and requirements change&lt;/li&gt;\n&lt;li&gt;Coordinating financial statement deliverables with the AML team during onboarding&lt;/li&gt;\n&lt;li&gt;Assisting with credit card administration, including requesting new cards, managing limits, communicating with third-party vendors, and coordinating with banks in the event of fraudulent transactions&lt;/li&gt;\n&lt;li&gt;Coordinating various processes, including capital moves and wires&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;This role provides a great introduction to our accounting function and the larger operations of the firm. Getting the details right in accounting is an extremely important part of our business and we take pride in our ability to stay on schedule without sacrificing accuracy. Each member of our team is highly organized, proactive, and able to prioritize tasks effectively.&lt;/p&gt;\n&lt;h3&gt;About You&lt;/h3&gt;\n&lt;ul&gt;\n&lt;li&gt;Having 2+ years of corporate administrative experience is preferred&lt;/li&gt;\n&lt;li&gt;Able to produce timely and accurate records, especially work paper documentation&lt;/li&gt;\n&lt;li&gt;Supportive and reliable; a team player with a collaborative mindset&lt;/li&gt;\n&lt;li&gt;Highly organized with exceptional attention to detail&lt;/li&gt;\n&lt;li&gt;Discreet, trustworthy, and comfortable working in a deadline-driven environment&lt;/li&gt;\n&lt;li&gt;Motivated to improve processes where possible&lt;/li&gt;\n&lt;li&gt;A strong communicator with excellent people skills&lt;/li&gt;\n&lt;li&gt;Proficient with Microsoft Excel&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;&lt;em&gt;If you&#39;re a recruiting agency and want to partner with us, please reach out to &lt;/em&gt;&lt;a href=&quot;mailto:agency-partnerships@janestreet.com&quot;&gt;&lt;em&gt;agency-partnerships@janestreet.com&lt;/em&gt;&lt;/a&gt;&lt;em&gt;.&lt;/em&gt;&lt;/p&gt;",
+   "departments": [
+    {
+     "id": 4073105002,
+     "name": "Accounting",
+     "child_ids": [],
+     "parent_id": 4073088002
+    }
+   ],
+   "offices": [
+    {
+     "id": 4013330002,
+     "name": "New York",
+     "location": "New York, New York, United States",
+     "child_ids": [],
+     "parent_id": null
+    }
+   ],
+   "ai_disclaimer": null,
+   "include_ai_disclaimer": null,
+   "ai_opt_out_request_url": null
+  }
+ ],
+ "meta": {
+  "total": 3
+ }
+}

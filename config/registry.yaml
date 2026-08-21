@@ -112,7 +112,7 @@ companies:
   - {name: Boston Dynamics,      tier: 1, ats: workday}    # M3; bostondynamics.wd1
   - {name: Skild AI,             tier: 2, ats: tracker-only}
   # ---- custom stacks: tracker-only until/unless M3 adapter ----
-  - {name: Jane Street,          tier: S, ats: custom}     # own site — FIRST M3 adapter
+  - {name: Jane Street,          tier: S, ats: greenhouse, token: janestreet}  # probed 2026-08-20: public board WORKS; titles strip 'Intern' — campus flag lives in Employment Type metadata (adapter folds it into the title)
   - {name: Citadel,              tier: S, ats: tracker-only}   # bot-protected custom; NOT on Eightfold
   - {name: Citadel Securities,   tier: S, ats: tracker-only}   # separate firm — never alias-merge with Citadel
   - {name: Millennium,           tier: 1, ats: eightfold, token: career.mlp.com}  # M3, before Oct

@@ -44,3 +44,22 @@ def test_parse_anthropic_board():
     postings = _parse("greenhouse_anthropic.json", "Anthropic", "anthropic")
     assert len(postings) == 3
     assert all(p.company_name == "Anthropic" for p in postings)
+
+
+def test_jane_street_employment_type_folded_into_title():
+    """Jane Street strips 'Intern' from public titles; the campus flag lives in
+    the Employment Type metadata (fixture recorded 2026-08-20 — 50 campus roles
+    live on the board that way). The adapter must fold it into the title so the
+    prefilter and digest see it."""
+    from radar.normalize import keep
+
+    postings = _parse("greenhouse_janestreet.json", "Jane Street", "janestreet")
+    by_title = {p.title: p for p in postings}
+    assert "Sales and Trading — Summer Internship" in by_title
+    assert "Cybersecurity Analyst — Summer Internship" in by_title
+    # Non-intern roles keep their titles untouched...
+    assert "Accounting Coordinator" in by_title
+    # ...and the folded titles now survive the 'full' prefilter while the
+    # experienced role still drops.
+    assert keep("Sales and Trading — Summer Internship", "full") is True
+    assert keep("Accounting Coordinator", "full") is False
