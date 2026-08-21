@@ -23,6 +23,7 @@
       {% if r.closed %}{{ badge("already closed", "background:#7f1d1d;color:#fee2e2;") }}{% endif %}
       {% if r.alerted %}{{ badge("⚡ alerted", "background:#a16207;color:#fef9c3;") }}{% endif %}
       {% if r.applied %}{{ badge("applied" ~ (" · " ~ r.applied_status if r.applied_status else ""), "background:#065f46;color:#d1fae5;") }}{% endif %}
+      {% if r.tracked_status %}{{ badge("tracked · " ~ r.tracked_status, "background:#1e3a8a;color:#dbeafe;") }}{% endif %}
     </div>
     <div style="margin-top:2px;color:#4b5563;font-size:12px;">
       {% if r.locations %}{{ r.locations | join("; ") }} · {% endif %}

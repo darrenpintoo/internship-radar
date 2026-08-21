@@ -47,9 +47,26 @@ def _cluster_key(row: sqlite3.Row) -> int:
     return row["cluster_id"] if row["cluster_id"] is not None else row["id"]
 
 
+# Sheet Status vocabulary (Applied extension, expanded 2026-08-21). Only these
+# mean an application was actually submitted; Lead/Drafting are "tracked, not
+# applied" and Skipped means "decided against" (digest hides it like Rejected).
+SUBMITTED_STATUSES = {
+    "Applied",
+    "Phone screen",
+    "Interview",
+    "Offer",
+    "Rejected",
+    "Ghosted",
+    "Assessment",
+}
+TRACKED_STATUSES = {"Lead", "Drafting"}
+HIDDEN_STATUSES = {"Rejected", "Skipped"}
+
+
 def _apply(conn: sqlite3.Connection, cluster_key: int, applied_at: str, status: str) -> int:
     members = db.cluster_members(conn, cluster_key)
-    db.set_applied(conn, [m["id"] for m in members], applied_at)
+    if status in SUBMITTED_STATUSES or status not in TRACKED_STATUSES | {"Skipped"}:
+        db.set_applied(conn, [m["id"] for m in members], applied_at)
     db.kv_set(conn, f"applied_status:{cluster_key}", status)
     return len(members)
 
@@ -67,9 +84,12 @@ def _fetch_rows(url: str, token: str, transport: httpx.BaseTransport | None) -> 
     except ValueError as e:
         raise SyncError("sheet returned non-JSON body") from e
     if not isinstance(body, dict) or not body.get("ok"):
-        raise SyncError(
-            f"sheet returned ok=false: {body.get('error') if isinstance(body, dict) else body!r}"
-        )
+        err = body.get("error") if isinstance(body, dict) else repr(body)
+        hint = {
+            "no_token_configured": "the Apps Script has no SHARED_TOKEN in Script Properties",
+            "bad_token": "SHEET_TOKEN secret does not match the sheet's SHARED_TOKEN (rotated?)",
+        }.get(str(err), "")
+        raise SyncError(f"sheet returned ok=false: {err}" + (f" — {hint}" if hint else ""))
     return list(body.get("rows") or [])
 
 

@@ -18,6 +18,7 @@ from typing import Any
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from . import db, mail
+from .applied import HIDDEN_STATUSES
 from .settings import tier_for, tier_index, tier_rank
 
 log = logging.getLogger(__name__)
@@ -175,6 +176,10 @@ def _build_row(
         "alerted": any(m["alerted_at"] for m in members),
         "applied": any(m["applied_at"] for m in members),
         "applied_status": applied_status,
+        # Sheet row exists but nothing was submitted yet (Lead / Drafting).
+        "tracked_status": (
+            applied_status if applied_status and not any(m["applied_at"] for m in members) else None
+        ),
         "first_seen_at": min(m["first_seen_at"] for m in members),
     }
 
@@ -215,7 +220,7 @@ def build_digest(
     for members in select_clusters(conn):
         key = _cluster_key(members[0])
         status = db.kv_get(conn, f"applied_status:{key}")
-        if status == "Rejected":
+        if status in HIDDEN_STATUSES:
             continue
         row = _build_row(conn, members, registry, tiers, status)
         if row["first_seen_at"][:10] < stale_cutoff:
@@ -241,7 +246,7 @@ def build_digest(
     seen_closing: set[int] = set()
     for p in db.closing_soon(conn, today, horizon):
         key = _cluster_key(p)
-        if key in seen_closing or db.kv_get(conn, f"applied_status:{key}") == "Rejected":
+        if key in seen_closing or db.kv_get(conn, f"applied_status:{key}") in HIDDEN_STATUSES:
             continue
         seen_closing.add(key)
         members = db.cluster_members(conn, key)
@@ -380,6 +385,7 @@ def _row_text(r: dict[str, Any]) -> str:
             (r["closed"], "already closed"),
             (r["alerted"], "⚡ alerted"),
             (r["applied"], "applied"),
+            (bool(r.get("tracked_status")), f"tracked · {r.get('tracked_status')}"),
         )
         if flag
     ]
