@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import io
+import logging
 import re
 import sys
 import tarfile
@@ -336,6 +337,10 @@ def cmd_probe(_args) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    logging.basicConfig(
+        level=logging.INFO, stream=sys.stderr, format="%(asctime)s %(name)s: %(message)s"
+    )
+    logging.getLogger("httpx").setLevel(logging.WARNING)
     parser = argparse.ArgumentParser(prog="radar", description="internship-radar (SPEC.md)")
     sub = parser.add_subparsers(dest="command", required=True)
 

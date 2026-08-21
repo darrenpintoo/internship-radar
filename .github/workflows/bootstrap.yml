@@ -9,7 +9,7 @@ concurrency: {group: radar, cancel-in-progress: false}   # SAME literal group as
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v4
@@ -17,6 +17,8 @@ jobs:
       - run: uv sync --frozen
       - run: uv run radar bootstrap
         env:
+          PYTHONUNBUFFERED: '1'
+          RADAR_LLM_WORKERS: ${{ vars.RADAR_LLM_WORKERS }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RADAR_LLM_PROVIDER: ${{ vars.RADAR_LLM_PROVIDER }}
@@ -27,8 +29,11 @@ jobs:
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
           GITHUB_TOKEN: ${{ github.token }}
       - name: persist state
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}          # a timeout/cancel must never discard finished work
         run: |
+          # replay any hot journal left by a killed process before committing the file
+          uv run python -c "import sqlite3; sqlite3.connect('data/jobs.db').execute('PRAGMA integrity_check')" || true
+          rm -f data/jobs.db-journal
           git config user.name radar-bot
           git config user.email bot@users.noreply.github.com
           git add data/jobs.db

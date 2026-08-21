@@ -21,9 +21,11 @@ jobs:
         run: uv run radar poll
         continue-on-error: true        # a crashed poll must not suppress the morning email
         env:
+          PYTHONUNBUFFERED: '1'
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RADAR_LLM_PROVIDER: ${{ vars.RADAR_LLM_PROVIDER }}
+          RADAR_LLM_WORKERS: ${{ vars.RADAR_LLM_WORKERS }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_TO: ${{ vars.DIGEST_TO }}
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
@@ -33,14 +35,18 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RADAR_LLM_PROVIDER: ${{ vars.RADAR_LLM_PROVIDER }}
+          RADAR_LLM_WORKERS: ${{ vars.RADAR_LLM_WORKERS }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_TO: ${{ vars.DIGEST_TO }}
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
           SHEET_WEBAPP_URL: ${{ secrets.SHEET_WEBAPP_URL }}
           SHEET_TOKEN: ${{ secrets.SHEET_TOKEN }}
       - name: persist state
-        if: ${{ !cancelled() }}
+        if: ${{ always() }}          # a timeout/cancel must never discard finished work
         run: |
+          # replay any hot journal left by a killed process before committing the file
+          uv run python -c "import sqlite3; sqlite3.connect('data/jobs.db').execute('PRAGMA integrity_check')" || true
+          rm -f data/jobs.db-journal
           git config user.name radar-bot
           git config user.email bot@users.noreply.github.com
           git add data/jobs.db

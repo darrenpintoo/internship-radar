@@ -48,6 +48,7 @@ class Settings:
     resend_api_key: str
     sheet_webapp_url: str
     sheet_token: str
+    llm_workers: int = 1  # concurrent LLM calls (I/O-bound; RADAR_LLM_WORKERS)
 
 
 def _resolve_provider(env) -> str:
@@ -77,6 +78,7 @@ def load_settings() -> Settings:
         openai_api_key=env.get("OPENAI_API_KEY", ""),
         openai_model=env.get("RADAR_OPENAI_MODEL", "").strip() or "gpt-4.1-mini",
         llm_provider=_resolve_provider(env),
+        llm_workers=max(1, _env_int("RADAR_LLM_WORKERS", 6)),
         resend_api_key=env.get("RESEND_API_KEY", ""),
         sheet_webapp_url=env.get("SHEET_WEBAPP_URL", ""),
         sheet_token=env.get("SHEET_TOKEN", ""),

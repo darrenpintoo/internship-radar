@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import logging
 import sqlite3
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Protocol
 
@@ -196,51 +197,79 @@ def enrich_postings(
     if not queue or cap <= 0:
         return stats
 
-    client = client or build_client(settings)
-    system = build_system_prompt(load_profile())
-    done_clusters: set[int] = set()
-    consecutive_failures = 0
-
+    # One representative per cluster (SPEC §7), chosen up-front so the
+    # selection is independent of call ordering.
+    selected: list[sqlite3.Row] = []
+    seen_clusters: set[int] = set()
     for row in queue:
-        if stats.calls >= cap:
+        if len(selected) >= cap:
             break
-        pid = int(row["id"])
         ckey = _cluster_key(row)
-        if ckey in done_clusters or db.cluster_has_enrichment(conn, ckey):
+        if ckey in seen_clusters or db.cluster_has_enrichment(conn, ckey):
             stats.skipped_cluster += 1
             continue
+        seen_clusters.add(ckey)
+        selected.append(row)
+    if not selected:
+        return stats
 
-        stamp = now or db.now_utc()
-        stats.calls += 1
-        try:
-            out = client.parse(system, build_user_prompt(row))
-        except Exception as exc:
-            consecutive_failures += 1
-            if stats.enriched == 0 and consecutive_failures >= ABORT_AFTER:
-                # Bad key / unknown model / hard rate limit: stop before marking the
-                # whole queue as attempted. Nothing was bumped for this posting yet.
-                raise RuntimeError(
-                    f"enrichment aborted after {ABORT_AFTER} consecutive failures "
-                    f"with no success ({type(exc).__name__}: {str(exc)[:200]})"
-                ) from exc
-            db.bump_enrich_attempts(conn, pid)
-            attempts = int(row["enrich_attempts"]) + 1
-            if attempts >= MAX_ATTEMPTS:
-                db.insert_enrichment(conn, pid, None, client.model_name, stamp)
-                stats.failed_final += 1
-                done_clusters.add(ckey)
-                log.warning("enrichment failed for good: posting=%s %s", pid, type(exc).__name__)
-            else:
-                stats.deferred += 1
-                log.info("enrichment deferred: posting=%s %s", pid, type(exc).__name__)
-            conn.commit()
-            continue
+    client = client or build_client(settings)
+    system = build_system_prompt(load_profile())
+    workers = max(1, int(getattr(settings, "llm_workers", 1) or 1))
+    consecutive_failures = 0
+    total = len(selected)
+    log.info(
+        "enrich: %d posting(s) queued, %d worker(s), model=%s", total, workers, client.model_name
+    )
 
-        consecutive_failures = 0
-        db.insert_enrichment(conn, pid, out, client.model_name, stamp)
-        conn.commit()
-        stats.enriched += 1
-        done_clusters.add(ckey)
+    # LLM calls are I/O-bound: run each chunk concurrently, then persist results
+    # on this thread (the sqlite connection never crosses threads).
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for offset in range(0, total, workers):
+            chunk = selected[offset : offset + workers]
+            futures = [pool.submit(client.parse, system, build_user_prompt(r)) for r in chunk]
+            for row, fut in zip(chunk, futures, strict=True):
+                pid = int(row["id"])
+                stamp = now or db.now_utc()
+                stats.calls += 1
+                try:
+                    out = fut.result()
+                except Exception as exc:
+                    consecutive_failures += 1
+                    if stats.enriched == 0 and consecutive_failures >= ABORT_AFTER:
+                        # Bad key / unknown model / hard rate limit: stop before marking
+                        # the whole queue as attempted.
+                        raise RuntimeError(
+                            f"enrichment aborted after {ABORT_AFTER} consecutive failures "
+                            f"with no success ({type(exc).__name__}: {str(exc)[:200]})"
+                        ) from exc
+                    db.bump_enrich_attempts(conn, pid)
+                    attempts = int(row["enrich_attempts"]) + 1
+                    if attempts >= MAX_ATTEMPTS:
+                        db.insert_enrichment(conn, pid, None, client.model_name, stamp)
+                        stats.failed_final += 1
+                        log.warning(
+                            "enrichment failed for good: posting=%s %s", pid, type(exc).__name__
+                        )
+                    else:
+                        stats.deferred += 1
+                        log.info("enrichment deferred: posting=%s %s", pid, type(exc).__name__)
+                    conn.commit()
+                    continue
+                consecutive_failures = 0
+                db.insert_enrichment(conn, pid, out, client.model_name, stamp)
+                conn.commit()
+                stats.enriched += 1
+            done = min(offset + workers, total)
+            if done % 50 < workers or done == total:
+                log.info(
+                    "enrich: %d/%d done (%d ok, %d deferred, %d failed)",
+                    done,
+                    total,
+                    stats.enriched,
+                    stats.deferred,
+                    stats.failed_final,
+                )
 
     return stats
 
