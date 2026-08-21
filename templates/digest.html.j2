@@ -1,7 +1,88 @@
-{# Digest email template — real implementation lands in M2 (SPEC §8).
-   Inline CSS, table layout, no images, no JS, dark-mode-safe colors. #}
+{#- Digest email (SPEC §8.3/§8.5): inline CSS, tables, no images/JS.
+    Dark-mode-safe: no pure #fff/#000; chips use mid-tone backgrounds with
+    explicit text colors so Gmail iOS dark mode cannot invert them away. -#}
+{%- set chip = "display:inline-block;padding:1px 6px;border-radius:9px;font-size:11px;line-height:16px;margin-right:4px;white-space:nowrap;" -%}
+{%- set cat_colors = {
+  "quant": "background:#b45309;color:#fef3c7;",
+  "ai_infra": "background:#6d28d9;color:#ede9fe;",
+  "swe": "background:#1d4ed8;color:#dbeafe;",
+  "robotics": "background:#047857;color:#d1fae5;",
+  "other": "background:#6b7280;color:#f3f4f6;"
+} -%}
+{%- macro badge(text, style) -%}
+<span style="{{ chip }}{{ style }}">{{ text }}</span>
+{%- endmacro -%}
+{%- macro row(r, compact=False) -%}
+<tr>
+  <td style="padding:{{ '4px 8px' if compact else '8px' }};border-bottom:1px solid #d4d4d8;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:{{ '12px' if compact else '13px' }};color:#1f2937;vertical-align:top;">
+    <div>
+      {% if r.enriched %}<span style="display:inline-block;min-width:26px;font-weight:700;color:{{ '#b45309' if r.max_fit >= 75 else ('#1d4ed8' if r.max_fit >= 50 else '#6b7280') }};">{{ r.max_fit }}</span>{% else %}<span style="display:inline-block;min-width:26px;color:#9ca3af;">—</span>{% endif %}
+      <strong>{{ r.company }}</strong> — <a href="{{ r.url }}" style="color:#1d4ed8;text-decoration:underline;">{{ r.title }}</a>
+      {% if r.tier %}{{ badge("tier " ~ r.tier, "background:#374151;color:#e5e7eb;") }}{% endif %}
+      {% if r.reposted %}{{ badge("reposted", "background:#92400e;color:#fef3c7;") }}{% endif %}
+      {% if r.closed %}{{ badge("already closed", "background:#7f1d1d;color:#fee2e2;") }}{% endif %}
+      {% if r.alerted %}{{ badge("⚡ alerted", "background:#a16207;color:#fef9c3;") }}{% endif %}
+      {% if r.applied %}{{ badge("applied" ~ (" · " ~ r.applied_status if r.applied_status else ""), "background:#065f46;color:#d1fae5;") }}{% endif %}
+    </div>
+    <div style="margin-top:2px;color:#4b5563;font-size:12px;">
+      {% if r.locations %}{{ r.locations | join("; ") }} · {% endif %}
+      {% if r.category %}{{ badge(r.category, cat_colors.get(r.category, cat_colors["other"])) }}{% endif %}
+      {% if r.season_chip %}{{ badge(r.season_chip, "background:#9a3412;color:#ffedd5;" if r.season_chip == "off-season" else "background:#6b7280;color:#f3f4f6;") }}{% endif %}
+      {% if r.grad_flag %}<span style="margin-right:6px;">{{ r.grad_flag }}</span>{% endif %}
+      {% if r.workauth %}{{ badge(r.workauth | replace("_", " "), "background:#7f1d1d;color:#fee2e2;" if r.workauth != "sponsors_ok" else "background:#065f46;color:#d1fae5;") }}{% endif %}
+      {% if r.deadline %}<span style="margin-right:6px;color:#b91c1c;">deadline {{ r.deadline }}</span>{% endif %}
+      {% for s in r.source_badges %}{{ badge(s, "background:#e5e7eb;color:#374151;border:1px solid #9ca3af;") }}{% endfor %}
+    </div>
+    {% if not compact %}
+    <div style="margin-top:2px;font-size:11px;color:{{ '#6b7280' if r.enriched else '#9ca3af' }};{{ '' if r.enriched else 'font-style:italic;' }}">
+      {{ r.rationale if r.enriched else "pending scoring" }}{% if r.red_flags %} · <span style="color:#b91c1c;">{{ r.red_flags | join(", ") }}</span>{% endif %}
+    </div>
+    {% endif %}
+  </td>
+</tr>
+{%- endmacro -%}
+{%- macro section(title, rows, compact=False) -%}
+{% if rows %}
+<tr><td style="padding:14px 8px 4px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#111827;border-bottom:2px solid #9ca3af;">{{ title }} <span style="font-weight:400;color:#6b7280;">({{ rows | length }})</span></td></tr>
+{% for r in rows %}{{ row(r, compact) }}{% endfor %}
+{% endif %}
+{%- endmacro -%}
 <html>
-  <body style="font-family: -apple-system, Segoe UI, sans-serif; color: #1f2937; background: #f9fafb;">
-    <p>internship-radar digest placeholder — built out in M2.</p>
-  </body>
+<head><meta charset="utf-8"><title>{{ subject }}</title></head>
+<body style="margin:0;padding:0;background:#f3f4f6;color:#1f2937;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4f6;">
+<tr><td align="center" style="padding:12px;">
+<table role="presentation" width="680" cellpadding="0" cellspacing="0" style="max-width:680px;width:100%;background:#fafafa;border:1px solid #d4d4d8;border-radius:6px;">
+  <tr><td style="padding:12px 8px 4px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;">
+    <div style="font-size:18px;font-weight:700;color:#111827;">{{ subject }}</div>
+    <div style="font-size:12px;color:#6b7280;margin-top:2px;">
+      {{ counts.new }} new cluster{{ '' if counts.new == 1 else 's' }}
+      · {{ counts.strong }} strong · {{ counts.worth }} worth a look · {{ counts.other }} other
+      {% if counts.closing %}· {{ counts.closing }} closing soon{% endif %}
+    </div>
+  </td></tr>
+  {{ section("Strong fits", strong) }}
+  {{ section("Worth a look", worth) }}
+  {{ section("Closing soon", closing) }}
+  {{ section("Everything else new", other, compact=True) }}
+  {% if omitted_count %}
+  <tr><td style="padding:6px 8px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:12px;color:#6b7280;font-style:italic;">… and {{ omitted_count }} more — they roll into tomorrow</td></tr>
+  {% endif %}
+  {% if counts.new == 0 and not closing %}
+  <tr><td style="padding:20px 8px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:13px;color:#6b7280;">Nothing new today — radar is alive and polling.</td></tr>
+  {% endif %}
+  <tr><td style="padding:14px 8px 12px;border-top:1px solid #d4d4d8;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:11px;color:#6b7280;">
+    {% if run %}
+    Last poll {{ run.finished_at }}: {{ run.sources_ok }} sources ok,
+    {% if run.sources_failed %}<span style="color:#b91c1c;">{{ run.sources_failed | length }} failed ({{ run.sources_failed.keys() | join(", ") }})</span>{% else %}0 failed{% endif %}
+    · {{ run.new_postings }} new postings · {{ run.llm_calls }} LLM calls · {{ run.flash_alerts }} flash alerts<br>
+    {% else %}
+    No poll run recorded yet.<br>
+    {% endif %}
+    Digest generated {{ generated_at }} · internship-radar
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body>
 </html>

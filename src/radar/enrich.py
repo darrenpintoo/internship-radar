@@ -1,19 +1,253 @@
-"""LLM enrichment via structured outputs (SPEC §7). Lands in M2.
+"""LLM enrichment via structured outputs (SPEC §7).
 
 Design notes locked at spec time:
-- client.messages.parse(..., output_format=EnrichmentOut) — no JSON prompting,
-  no fence-stripping, no invalid-JSON retry path.
+- Structured outputs (Anthropic messages.parse / OpenAI responses.parse) with
+  the EnrichmentOut Pydantic model — no JSON prompting, no fence-stripping,
+  no invalid-JSON retry path.
 - NO prompt caching: Haiku 4.5's minimum cacheable prefix is 4096 tokens and
   our stable system prefix is ~600, so cache_control would silently no-op
-  (cache_creation_input_tokens: 0). Do not "optimize" it in.
+  (cache_creation_input_tokens: 0) and save <$0.10/day even if it worked.
+  Do not "optimize" it in.
 - Queue = ALL active postings lacking an enrichments row with
-  enrich_attempts < 3, tier-first; transport errors write NO row (retry next
+  enrich_attempts < 3, tier-first; any client failure writes NO row (retry next
   run); a null row with red_flags=["enrichment_failed"] only after 3 attempts.
 """
 
 from __future__ import annotations
 
+import json
+import logging
+import sqlite3
+from dataclasses import dataclass
+from typing import Protocol
 
-def enrich_new(conn, settings, posting_ids: list[int]) -> int:
-    """Returns number of LLM calls made. M2."""
-    raise NotImplementedError("enrichment ships in M2 (SPEC §11)")
+from . import db
+from .models import EnrichmentOut
+from .settings import Settings, load_profile, tier_for, tier_index, tier_rank
+
+log = logging.getLogger(__name__)
+
+MAX_ATTEMPTS = 3
+MAX_TOKENS = 500
+
+SYSTEM_TEMPLATE = """You extract structured recruiting data from job postings for one specific
+candidate, and score fit for that candidate only.
+
+CANDIDATE PROFILE:
+{profile}
+
+Score each track independently against this specific candidate:
+  90-100 bullseye: squarely in-track AND the posting asks for the candidate's
+         strengths (C++/systems, HPC, RL/game AI, robotics, backend+agents)
+  75-89  strong: clearly in-track; candidate is a credible, competitive applicant
+  50-74  plausible: adjacent or generalist; worth a look, not a priority
+  25-49  weak: mostly off-track, or emphasizes skills the candidate lacks
+  0-24   wrong direction: different discipline, seniority, or field
+Most postings should score below 50 on at least two of the four tracks.
+Use the full range; do not cluster scores in the 60-85 band.
+
+deadline: only if the posting states an explicit application deadline date;
+never infer one from start dates, posting dates, or season language; if the
+stated deadline is relative or ambiguous, use null.
+
+grad_window = graduation dates the posting accepts (e.g. "graduating Dec 2027
+– Jun 2028" → earliest 2027-12, latest 2028-06). Null side = unbounded.
+"""
+
+
+def build_system_prompt(profile: str) -> str:
+    return SYSTEM_TEMPLATE.replace("{profile}", profile.strip())
+
+
+def build_user_prompt(row: sqlite3.Row) -> str:
+    lines = [
+        f"company: {row['company_name']}",
+        f"title: {row['title']}",
+        f"location: {row['location_raw'] or 'unspecified'}",
+        f"posted_at: {row['posted_at'] or 'unknown'}",
+    ]
+    hints = row["tracker_hints"]
+    if hints:
+        for k, v in json.loads(hints).items():
+            lines.append(f"tracker_{k}: {v}")
+    lines.append("")
+    lines.append("description:")
+    lines.append(row["description"] or "(no description provided)")
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------- clients
+
+
+class Truncated(Exception):
+    """Model hit max_tokens before completing the structured output (SPEC §7 guard)."""
+
+
+class LLMClient(Protocol):
+    model_name: str
+
+    def parse(self, system: str, user: str) -> EnrichmentOut: ...
+
+
+class AnthropicClient:
+    def __init__(self, api_key: str, model: str) -> None:
+        import anthropic
+
+        self._client = anthropic.Anthropic(api_key=api_key)
+        self.model_name = model
+
+    def parse(self, system: str, user: str) -> EnrichmentOut:
+        kwargs: dict = {}
+        # Claude 4.6+/5 reject sampling params; only Haiku 4.5 accepts temperature.
+        if self.model_name.startswith("claude-haiku-4-5"):
+            kwargs["temperature"] = 0
+        resp = self._client.messages.parse(
+            model=self.model_name,
+            max_tokens=MAX_TOKENS,
+            system=system,
+            messages=[{"role": "user", "content": user}],
+            output_format=EnrichmentOut,
+            **kwargs,
+        )
+        if resp.stop_reason == "max_tokens":
+            raise Truncated(self.model_name)
+        out = resp.parsed_output
+        if out is None:
+            raise Truncated(self.model_name)
+        return out
+
+
+class OpenAIClient:
+    def __init__(self, api_key: str, model: str) -> None:
+        import openai
+
+        self._client = openai.OpenAI(api_key=api_key)
+        self.model_name = model
+
+    def parse(self, system: str, user: str) -> EnrichmentOut:
+        resp = self._client.responses.parse(
+            model=self.model_name,
+            input=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            text_format=EnrichmentOut,
+        )
+        out = resp.output_parsed
+        if out is None:
+            raise Truncated(self.model_name)
+        return out
+
+
+def build_client(settings: Settings) -> LLMClient:
+    if settings.llm_provider == "openai":
+        if not settings.openai_api_key:
+            raise RuntimeError("RADAR_LLM_PROVIDER=openai but OPENAI_API_KEY is empty")
+        return OpenAIClient(settings.openai_api_key, settings.openai_model)
+    if settings.llm_provider == "anthropic":
+        if not settings.anthropic_api_key:
+            raise RuntimeError("RADAR_LLM_PROVIDER=anthropic but ANTHROPIC_API_KEY is empty")
+        return AnthropicClient(settings.anthropic_api_key, settings.model)
+    raise RuntimeError(f"unknown RADAR_LLM_PROVIDER {settings.llm_provider!r}")
+
+
+# ---------------------------------------------------------------- driver
+
+
+@dataclass
+class EnrichStats:
+    calls: int = 0
+    enriched: int = 0
+    deferred: int = 0
+    failed_final: int = 0
+    skipped_cluster: int = 0
+
+
+def _cluster_key(row: sqlite3.Row) -> int:
+    return int(row["cluster_id"] if row["cluster_id"] is not None else row["id"])
+
+
+def _ordered_queue(
+    conn: sqlite3.Connection, registry: dict, posting_ids: list[int] | None
+) -> list[sqlite3.Row]:
+    rows = db.enrichment_queue(conn)
+    if posting_ids is not None:
+        wanted = set(posting_ids)
+        rows = [r for r in rows if r["id"] in wanted]
+    index = tier_index(registry)
+    # enrichment_queue already yields first_seen_at desc; the sort is stable.
+    return sorted(rows, key=lambda r: tier_rank(tier_for(r["company_name"], registry, index)))
+
+
+def enrich_postings(
+    conn: sqlite3.Connection,
+    settings: Settings,
+    registry: dict,
+    posting_ids: list[int] | None = None,
+    cap: int | None = None,
+    client: LLMClient | None = None,
+    now: str | None = None,
+) -> EnrichStats:
+    """Enrich queued postings up to `cap` LLM calls, tier-first (SPEC §7)."""
+    stats = EnrichStats()
+    cap = settings.max_llm_calls_per_run if cap is None else cap
+    queue = _ordered_queue(conn, registry, posting_ids)
+    if not queue or cap <= 0:
+        return stats
+
+    client = client or build_client(settings)
+    system = build_system_prompt(load_profile())
+    done_clusters: set[int] = set()
+
+    for row in queue:
+        if stats.calls >= cap:
+            break
+        pid = int(row["id"])
+        ckey = _cluster_key(row)
+        if ckey in done_clusters or db.cluster_has_enrichment(conn, ckey):
+            stats.skipped_cluster += 1
+            continue
+
+        stamp = now or db.now_utc()
+        stats.calls += 1
+        try:
+            out = client.parse(system, build_user_prompt(row))
+        except Exception as exc:
+            db.bump_enrich_attempts(conn, pid)
+            attempts = int(row["enrich_attempts"]) + 1
+            if attempts >= MAX_ATTEMPTS:
+                db.insert_enrichment(conn, pid, None, client.model_name, stamp)
+                stats.failed_final += 1
+                done_clusters.add(ckey)
+                log.warning("enrichment failed for good: posting=%s %s", pid, type(exc).__name__)
+            else:
+                stats.deferred += 1
+                log.info("enrichment deferred: posting=%s %s", pid, type(exc).__name__)
+            conn.commit()
+            continue
+
+        db.insert_enrichment(conn, pid, out, client.model_name, stamp)
+        conn.commit()
+        stats.enriched += 1
+        done_clusters.add(ckey)
+
+    return stats
+
+
+def re_enrich(
+    conn: sqlite3.Connection,
+    settings: Settings,
+    registry: dict,
+    posting_ids: list[int],
+    client: LLMClient | None = None,
+) -> EnrichStats:
+    """Drop and redo enrichment for specific postings (repost / pre-digest edit, SPEC §7)."""
+    if not posting_ids:
+        return EnrichStats()
+    for pid in posting_ids:
+        db.delete_enrichment(conn, pid)
+        db.reset_enrich_attempts(conn, pid)
+    conn.commit()
+    return enrich_postings(
+        conn, settings, registry, posting_ids=posting_ids, cap=len(posting_ids), client=client
+    )

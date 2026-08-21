@@ -1,0 +1,32 @@
+{# Flash alert (SPEC §8.6): one posting, compact. Inline CSS, no images, no JS,
+   dark-mode-safe mid-tone colors. #}
+<html>
+  <body style="margin:0;padding:16px;font-family:-apple-system,Segoe UI,sans-serif;color:#1f2937;background:#f3f4f6;">
+    <table role="presentation" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fafafa;border:1px solid #d1d5db;border-radius:6px;">
+      <tr><td style="padding:16px;">
+        <div style="font-size:12px;color:#6b7280;margin-bottom:6px;">⚡ flash alert · {{ reason_label }}</div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:4px;">
+          <a href="{{ url }}" style="color:#1d4ed8;text-decoration:none;">{{ title }}</a>
+        </div>
+        <div style="font-size:14px;margin-bottom:10px;">
+          <strong>{{ company }}</strong>
+          {% if tier %}<span style="display:inline-block;margin-left:6px;padding:1px 6px;border-radius:3px;background:#fde68a;color:#78350f;font-size:11px;">tier {{ tier }}</span>{% endif %}
+          {% for s in sources %}<span style="display:inline-block;margin-left:4px;padding:1px 6px;border-radius:3px;background:#e5e7eb;color:#374151;font-size:11px;">{{ s }}</span>{% endfor %}
+        </div>
+        <div style="font-size:13px;color:#4b5563;margin-bottom:10px;">{{ location or "location n/a" }}</div>
+        {% if enrichment %}
+        <div style="font-size:13px;margin-bottom:6px;">
+          fit — quant {{ enrichment.fit_quant }} · ai_infra {{ enrichment.fit_ai_infra }} · swe {{ enrichment.fit_swe }} · robotics {{ enrichment.fit_robotics }}
+          {% if enrichment.category %}<span style="margin-left:6px;padding:1px 6px;border-radius:3px;background:#bfdbfe;color:#1e3a8a;font-size:11px;">{{ enrichment.category }}</span>{% endif %}
+        </div>
+        {% if enrichment.rationale %}<div style="font-size:12px;color:#6b7280;">{{ enrichment.rationale }}</div>{% endif %}
+        {% else %}
+        <div style="font-size:12px;color:#6b7280;">not yet scored</div>
+        {% endif %}
+        <div style="margin-top:14px;">
+          <a href="{{ url }}" style="display:inline-block;padding:8px 14px;background:#1d4ed8;color:#f9fafb;border-radius:4px;text-decoration:none;font-size:13px;">Apply</a>
+        </div>
+      </td></tr>
+    </table>
+  </body>
+</html>

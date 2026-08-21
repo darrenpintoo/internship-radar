@@ -14,8 +14,8 @@ def run_poll(
     adapters: list[SourceAdapter],
     aliases: dict[str, str],
     mode: str = "poll",
-) -> tuple[RunReport, list[int]]:
-    """Poll all adapters. Returns (report, new_posting_ids).
+) -> tuple[RunReport, list[int], list[int]]:
+    """Poll all adapters. Returns (report, new_posting_ids, repost_posting_ids).
 
     Per-adapter/per-board failures are caught and recorded — one failure never
     kills the run (SPEC §5.1), and a failed or 304 board skips closed detection
@@ -23,6 +23,7 @@ def run_poll(
     """
     report = RunReport(mode=mode, started_at=db.now_utc())
     all_new: list[int] = []
+    all_reposts: list[int] = []
 
     for adapter in adapters:
         try:
@@ -52,7 +53,7 @@ def run_poll(
                 report.sources_failed[f"{board} (closure-guard)"] = stats.closure_skipped
             report.new_postings += len(stats.new_ids)
             all_new.extend(stats.new_ids)
-            all_new.extend(stats.repost_ids)
+            all_reposts.extend(stats.repost_ids)
 
         if adapter_ok:
             report.sources_ok += 1
@@ -60,4 +61,4 @@ def run_poll(
     report.finished_at = db.now_utc()
     report.run_id = db.record_run(conn, report)
     conn.commit()
-    return report, all_new
+    return report, all_new, all_reposts

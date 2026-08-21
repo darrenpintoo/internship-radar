@@ -20,5 +20,5 @@ def test_dry_run_prints_parsed_postings(capsys):
 
 
 def test_unimplemented_commands_exit_2(capsys):
-    assert main(["digest"]) == 2
-    assert "M2" in capsys.readouterr().err
+    assert main(["backfill"]) == 2
+    assert "M4" in capsys.readouterr().err

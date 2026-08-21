@@ -287,6 +287,11 @@ def bump_enrich_attempts(conn: sqlite3.Connection, posting_id: int) -> None:
     )
 
 
+def reset_enrich_attempts(conn: sqlite3.Connection, posting_id: int) -> None:
+    """Re-queue a posting (repost / pre-digest edit) even if attempts were exhausted."""
+    conn.execute("UPDATE postings SET enrich_attempts = 0 WHERE id = ?", (posting_id,))
+
+
 def insert_enrichment(
     conn: sqlite3.Connection,
     posting_id: int,
