@@ -30,6 +30,7 @@ GRAD_CANDIDATES = ("2027-12", "2028-05", "2028-12")
 HTML_BYTE_BUDGET = 95_000  # Gmail clips at ~102 KB
 CLOSING_MIN_FIT = 50  # closing-soon rows must be worth applying to
 CLOSING_CAP = 12
+CLOSING_KEEP = 5  # never trimmed below this while strong/worth rows remain
 TRIM_STEP = 5
 OTHER_CAP = 40
 CLOSING_HORIZON_DAYS = 14
@@ -313,8 +314,8 @@ def build_digest(
             break
         if other:
             other, omitted = other[:-TRIM_STEP], omitted + len(other[-TRIM_STEP:])
-        elif closing:
-            closing = closing[:-TRIM_STEP]  # closing-soon repeats tomorrow anyway
+        elif len(closing) > CLOSING_KEEP:
+            closing = closing[:-TRIM_STEP]  # repeats tomorrow; keep a few even on backlog days
         elif worth:
             worth, omitted = worth[:-TRIM_STEP], omitted + len(worth[-TRIM_STEP:])
         elif len(strong) > TRIM_STEP:
