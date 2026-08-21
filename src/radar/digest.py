@@ -315,7 +315,7 @@ def build_digest(
         if other:
             other, omitted = other[:-TRIM_STEP], omitted + len(other[-TRIM_STEP:])
         elif len(closing) > CLOSING_KEEP:
-            closing = closing[:-TRIM_STEP]  # repeats tomorrow; keep a few even on backlog days
+            closing = closing[: max(CLOSING_KEEP, len(closing) - TRIM_STEP)]  # repeats tomorrow
         elif worth:
             worth, omitted = worth[:-TRIM_STEP], omitted + len(worth[-TRIM_STEP:])
         elif len(strong) > TRIM_STEP:
