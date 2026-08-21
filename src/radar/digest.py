@@ -26,6 +26,8 @@ TEMPLATES_DIR = Path(__file__).resolve().parents[2] / "templates"
 DIRECT_ATS = ("greenhouse", "lever", "ashby", "icims")
 TRACK_CATEGORIES = frozenset({"quant", "ai_infra", "swe", "robotics"})
 GRAD_CANDIDATES = ("2027-12", "2028-05", "2028-12")
+HTML_BYTE_BUDGET = 95_000  # Gmail clips at ~102 KB
+TRIM_STEP = 5
 OTHER_CAP = 40
 CLOSING_HORIZON_DAYS = 14
 STALE_DAYS = 14  # SPEC §3 safety window: warn if undigested rows age past it
@@ -248,10 +250,6 @@ def build_digest(
         closing.append(crow)
     closing.sort(key=lambda r: (r["deadline"], _sort_key(r)))
 
-    rendered_ids: list[int] = []
-    for r in strong + worth + other:
-        rendered_ids.extend(r["member_ids"])
-
     run = db.latest_run(conn, "poll")
     sources_failed: dict[str, str] = {}
     run_info: dict[str, Any] | None = None
@@ -268,34 +266,58 @@ def build_digest(
             "llm_calls": int(run["llm_calls"] or 0),
             "flash_alerts": int(run["flash_alerts"] or 0),
         }
-
-    n_new = len(strong) + len(worth) + len(other)
-    counts = {
-        "new": n_new,
-        "strong": len(strong),
-        "worth": len(worth),
-        "other": len(other),
-        "closing": len(closing),
-        "omitted": omitted,
-    }
-    subject = _subject(n_new, len(strong), today_d, len(sources_failed))
     generated_at = db.now_utc()
-    ctx = {
-        "subject": subject,
-        "today": today,
-        "strong": strong,
-        "worth": worth,
-        "closing": closing,
-        "other": other,
-        "omitted_count": omitted,
-        "counts": counts,
-        "run": run_info,
-        "generated_at": generated_at,
-    }
+
+    def render(strong_r, worth_r, other_r, omitted_n):
+        n_new = len(strong_r) + len(worth_r) + len(other_r)
+        counts = {
+            "new": n_new,
+            "strong": len(strong_r),
+            "worth": len(worth_r),
+            "other": len(other_r),
+            "closing": len(closing),
+            "omitted": omitted_n,
+        }
+        subject = _subject(n_new, len(strong_r), today_d, len(sources_failed))
+        ctx = {
+            "subject": subject,
+            "today": today,
+            "strong": strong_r,
+            "worth": worth_r,
+            "closing": closing,
+            "other": other_r,
+            "omitted_count": omitted_n,
+            "counts": counts,
+            "run": run_info,
+            "generated_at": generated_at,
+        }
+        html = _env().get_template("digest.html.j2").render(**ctx)
+        return subject, html, _render_plain(ctx), counts
+
+    # Gmail clips messages over ~102 KB and hides the footer (where the failure
+    # signals live). Trim from the least valuable tail until the HTML fits; the
+    # trimmed clusters stay undigested and roll into tomorrow (SPEC §8.1).
+    while True:
+        subject, html, text, counts = render(strong, worth, other, omitted)
+        if len(html.encode("utf-8")) <= HTML_BYTE_BUDGET:
+            break
+        if other:
+            other, omitted = other[:-TRIM_STEP], omitted + len(other[-TRIM_STEP:])
+        elif worth:
+            worth, omitted = worth[:-TRIM_STEP], omitted + len(worth[-TRIM_STEP:])
+        elif len(strong) > TRIM_STEP:
+            strong, omitted = strong[:-TRIM_STEP], omitted + len(strong[-TRIM_STEP:])
+        else:
+            break  # a handful of rows can't exceed the budget; never render nothing
+
+    rendered_ids: list[int] = []
+    for r in strong + worth + other:
+        rendered_ids.extend(r["member_ids"])
+
     return Digest(
         subject=subject,
-        html=_env().get_template("digest.html.j2").render(**ctx),
-        text=_render_plain(ctx),
+        html=html,
+        text=text,
         rendered_member_ids=rendered_ids,
         strong=strong,
         worth=worth,

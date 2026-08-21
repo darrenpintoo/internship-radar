@@ -382,3 +382,29 @@ class TestSubjectAndHtml:
         out = digest.render_text(conn, registry=REGISTRY)
         assert out.startswith("would-be digest: 1 cluster(s)")
         assert "Hudson River Trading" in out and "greenhouse" in out
+
+
+def test_html_never_exceeds_gmail_budget(conn):
+    """A backlog-sized digest trims its tail until the HTML fits under the
+    Gmail clip budget; trimmed clusters stay undigested (roll to tomorrow)."""
+    from radar import dedup
+    from radar.models import Posting
+
+    postings = [
+        Posting(
+            company_name=f"Company {i:03d} Holdings",
+            title=f"Software Engineering Intern - Summer 2027 - Team {i:03d} (Platform Infrastructure)",
+            url=f"https://example.com/jobs/{i}",
+            source="greenhouse",
+            source_ref=f"board{i}",
+            source_key=str(i),
+            location_raw="New York, NY; San Francisco, CA; Austin, TX",
+            description="x",
+        )
+        for i in range(400)
+    ]
+    dedup.process_board(conn, postings, "full", REGISTRY["aliases"])
+    d = digest.build_digest(conn, settings(), REGISTRY, today="2026-08-21")
+    assert len(d.html.encode("utf-8")) <= digest.HTML_BYTE_BUDGET
+    assert d.omitted_count > 0
+    assert len(d.rendered_member_ids) + d.omitted_count == 400
