@@ -134,10 +134,10 @@ companies:
   - {name: Squarepoint,          tier: 1, ats: greenhouse, token: squarepointcapital}   # probed 2026-08-20 (90 jobs)
   - {name: Flow Traders,         tier: 1, ats: greenhouse, token: flowtraders}   # probed 2026-08-20
   - {name: Wolverine Trading,    tier: 2, ats: tracker-only}   # probed 2026-08-20: no public board found
-  - {name: Headlands,            tier: 1, ats: greenhouse, token: headlandstech}   # probed 2026-08-20: board valid but EMPTY — watch
+  - {name: Headlands,            tier: 1, ats: tracker-only}   # probed 2026-08-21: greenhouse headlandstech 404s in CI; no public board
   - {name: Aquatic Capital,      tier: 1, ats: greenhouse, token: aquaticcapitalmanagement}   # probed 2026-08-20 (9 jobs, S27 interns)
   - {name: DV Trading,           tier: 2, ats: greenhouse, token: dvtrading}   # probed 2026-08-20
-  - {name: Bridgewater,          tier: 2, ats: greenhouse, token: bridgewaterassociates}   # probed 2026-08-20: board valid but EMPTY — watch
+  - {name: Bridgewater,          tier: 2, ats: tracker-only}   # probed 2026-08-21: greenhouse bridgewaterassociates 404s in CI; custom portal
 
 # Alias map: EXACT full-string match on the normalized name (dict lookup — never
 # substring/prefix logic; that's how Citadel and Citadel Securities stay distinct).
