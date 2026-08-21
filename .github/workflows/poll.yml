@@ -19,6 +19,8 @@ jobs:
       - run: uv run radar poll
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RADAR_LLM_PROVIDER: ${{ vars.RADAR_LLM_PROVIDER }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}    # flash alerts send from poll runs
           DIGEST_TO: ${{ vars.DIGEST_TO }}
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}

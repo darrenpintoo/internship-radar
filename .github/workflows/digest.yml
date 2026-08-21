@@ -22,6 +22,8 @@ jobs:
         continue-on-error: true        # a crashed poll must not suppress the morning email
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RADAR_LLM_PROVIDER: ${{ vars.RADAR_LLM_PROVIDER }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_TO: ${{ vars.DIGEST_TO }}
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
@@ -29,6 +31,8 @@ jobs:
       - run: uv run radar digest       # nonzero iff the Resend send fails
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RADAR_LLM_PROVIDER: ${{ vars.RADAR_LLM_PROVIDER }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_TO: ${{ vars.DIGEST_TO }}
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
