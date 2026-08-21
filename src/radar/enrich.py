@@ -29,6 +29,7 @@ log = logging.getLogger(__name__)
 
 MAX_ATTEMPTS = 3
 MAX_TOKENS = 500
+ABORT_AFTER = 3  # consecutive failures with zero successes => abort the run
 
 SYSTEM_TEMPLATE = """You extract structured recruiting data from job postings for one specific
 candidate, and score fit for that candidate only.
@@ -198,6 +199,7 @@ def enrich_postings(
     client = client or build_client(settings)
     system = build_system_prompt(load_profile())
     done_clusters: set[int] = set()
+    consecutive_failures = 0
 
     for row in queue:
         if stats.calls >= cap:
@@ -213,6 +215,14 @@ def enrich_postings(
         try:
             out = client.parse(system, build_user_prompt(row))
         except Exception as exc:
+            consecutive_failures += 1
+            if stats.enriched == 0 and consecutive_failures >= ABORT_AFTER:
+                # Bad key / unknown model / hard rate limit: stop before marking the
+                # whole queue as attempted. Nothing was bumped for this posting yet.
+                raise RuntimeError(
+                    f"enrichment aborted after {ABORT_AFTER} consecutive failures "
+                    f"with no success ({type(exc).__name__}: {str(exc)[:200]})"
+                ) from exc
             db.bump_enrich_attempts(conn, pid)
             attempts = int(row["enrich_attempts"]) + 1
             if attempts >= MAX_ATTEMPTS:
@@ -226,6 +236,7 @@ def enrich_postings(
             conn.commit()
             continue
 
+        consecutive_failures = 0
         db.insert_enrichment(conn, pid, out, client.model_name, stamp)
         conn.commit()
         stats.enriched += 1

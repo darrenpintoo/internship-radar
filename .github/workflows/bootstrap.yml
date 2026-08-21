@@ -1,0 +1,42 @@
+name: bootstrap
+# One-time (or re-runnable) backlog enrichment at the bootstrap cap, flash
+# alerts suppressed (SPEC §11 M2). Manual trigger only.
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: {group: radar, cancel-in-progress: false}   # SAME literal group as poll/digest — load-bearing
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with: {enable-cache: true}
+      - run: uv sync --frozen
+      - run: uv run radar bootstrap
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RADAR_LLM_PROVIDER: ${{ vars.RADAR_LLM_PROVIDER }}
+          RADAR_OPENAI_MODEL: ${{ vars.RADAR_OPENAI_MODEL }}
+          BOOTSTRAP_MAX_LLM_CALLS: ${{ vars.BOOTSTRAP_MAX_LLM_CALLS }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_TO: ${{ vars.DIGEST_TO }}
+          OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: persist state
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name radar-bot
+          git config user.email bot@users.noreply.github.com
+          git add data/jobs.db
+          git diff --cached --quiet && exit 0
+          git commit -m "state: bootstrap $(date -u +%FT%TZ) [skip ci]"
+          for i in 1 2 3; do
+            git push && exit 0
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase -X theirs "origin/$GITHUB_REF_NAME" || { git rebase --abort; exit 1; }
+          done
+          exit 1

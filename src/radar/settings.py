@@ -17,6 +17,11 @@ _ROOT = Path(__file__).resolve().parents[2]
 CONFIG_DIR = Path(os.environ.get("RADAR_CONFIG_DIR", _ROOT / "config"))
 
 
+def _env_int(name: str, default: int) -> int:
+    raw = os.environ.get(name, "").strip()
+    return int(raw) if raw else default
+
+
 def _env_bool(name: str, default: bool) -> bool:
     raw = os.environ.get(name)
     if raw is None:
@@ -59,18 +64,18 @@ def load_settings() -> Settings:
     env = os.environ
     return Settings(
         db_path=env.get("RADAR_DB", "data/jobs.db"),
-        model=env.get("RADAR_MODEL", "claude-haiku-4-5-20251001"),
-        max_llm_calls_per_run=int(env.get("MAX_LLM_CALLS_PER_RUN", "300")),
-        bootstrap_max_llm_calls=int(env.get("BOOTSTRAP_MAX_LLM_CALLS", "2000")),
+        model=env.get("RADAR_MODEL", "").strip() or "claude-haiku-4-5-20251001",
+        max_llm_calls_per_run=_env_int("MAX_LLM_CALLS_PER_RUN", 300),
+        bootstrap_max_llm_calls=_env_int("BOOTSTRAP_MAX_LLM_CALLS", 2000),
         send_empty=_env_bool("SEND_EMPTY", True),
         send_flash=_env_bool("SEND_FLASH", True),
-        flash_max_per_day=int(env.get("FLASH_MAX_PER_DAY", "3")),
-        digest_max_rows=int(env.get("DIGEST_MAX_ROWS", "150")),
+        flash_max_per_day=_env_int("FLASH_MAX_PER_DAY", 3),
+        digest_max_rows=_env_int("DIGEST_MAX_ROWS", 150),
         digest_to=env.get("DIGEST_TO", ""),
         owner_email=env.get("OWNER_EMAIL", ""),
         anthropic_api_key=env.get("ANTHROPIC_API_KEY", ""),
         openai_api_key=env.get("OPENAI_API_KEY", ""),
-        openai_model=env.get("RADAR_OPENAI_MODEL", "gpt-4.1-mini"),
+        openai_model=env.get("RADAR_OPENAI_MODEL", "").strip() or "gpt-4.1-mini",
         llm_provider=_resolve_provider(env),
         resend_api_key=env.get("RESEND_API_KEY", ""),
         sheet_webapp_url=env.get("SHEET_WEBAPP_URL", ""),
