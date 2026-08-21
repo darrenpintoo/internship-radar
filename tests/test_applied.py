@@ -189,27 +189,20 @@ def test_lead_status_is_tracked_not_applied(conn):
     from radar import dedup
     from radar.applied import _apply
 
-    p = make_posting() if "make_posting" in globals() else None
-    if p is None:
-        from radar.models import Posting
-
-        p = Posting(
-            company_name="Millennium",
-            title="Quant Intern (Summer 2027)",
-            url="https://example.com/m/1",
-            source="greenhouse",
-            source_ref="m",
-            source_key="1",
-        )
-    stats = dedup.process_board(conn, [p], "full", {})
+    p = make_posting(
+        company_name="Millennium",
+        title="Quant Intern (Summer 2027)",
+        url="https://example.com/millennium/lead-1",
+        source_ref="mlp",
+        source_key="lead-1",
+    )
+    stats = dedup.process_board(conn, [p], "excludes_only", {})
     [pid] = stats.new_ids
     _apply(conn, pid, "2026-08-01", "Lead")
     row = conn.execute("SELECT applied_at FROM postings WHERE id = ?", (pid,)).fetchone()
     assert row["applied_at"] is None
-    assert (
-        conn.execute("SELECT v FROM kv WHERE k = ?", (f"applied_status:{pid}",)).fetchone()["v"]
-        == "Lead"
-    )
+    status = conn.execute("SELECT v FROM kv WHERE k = ?", (f"applied_status:{pid}",)).fetchone()
+    assert status["v"] == "Lead"
     _apply(conn, pid, "2026-08-02", "Assessment")
     row = conn.execute("SELECT applied_at FROM postings WHERE id = ?", (pid,)).fetchone()
     assert row["applied_at"] == "2026-08-02"
