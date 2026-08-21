@@ -57,3 +57,4 @@ class RunReport(BaseModel):
     new_postings: int = 0
     llm_calls: int = 0
     flash_alerts: int = 0
+    run_id: int | None = None

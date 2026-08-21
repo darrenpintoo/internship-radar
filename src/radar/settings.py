@@ -37,9 +37,22 @@ class Settings:
     digest_to: str
     owner_email: str
     anthropic_api_key: str
+    openai_api_key: str
+    openai_model: str
+    llm_provider: str  # 'anthropic' | 'openai' (resolved, SPEC §7)
     resend_api_key: str
     sheet_webapp_url: str
     sheet_token: str
+
+
+def _resolve_provider(env) -> str:
+    """RADAR_LLM_PROVIDER wins; else auto-select from whichever key exists (SPEC §7)."""
+    explicit = env.get("RADAR_LLM_PROVIDER", "").strip().lower()
+    if explicit in ("anthropic", "openai"):
+        return explicit
+    if not env.get("ANTHROPIC_API_KEY") and env.get("OPENAI_API_KEY"):
+        return "openai"
+    return "anthropic"
 
 
 def load_settings() -> Settings:
@@ -56,6 +69,9 @@ def load_settings() -> Settings:
         digest_to=env.get("DIGEST_TO", ""),
         owner_email=env.get("OWNER_EMAIL", ""),
         anthropic_api_key=env.get("ANTHROPIC_API_KEY", ""),
+        openai_api_key=env.get("OPENAI_API_KEY", ""),
+        openai_model=env.get("RADAR_OPENAI_MODEL", "gpt-4.1-mini"),
+        llm_provider=_resolve_provider(env),
         resend_api_key=env.get("RESEND_API_KEY", ""),
         sheet_webapp_url=env.get("SHEET_WEBAPP_URL", ""),
         sheet_token=env.get("SHEET_TOKEN", ""),
@@ -86,3 +102,31 @@ def companies_for(registry: dict, ats: str) -> list[tuple[str, str]]:
         if row.get("ats") == ats and row.get("token"):
             out.append((str(row["name"]), str(row["token"])))
     return out
+
+
+# ---------------------------------------------------------------- tiers
+
+TIER_ORDER = {"S": 0, "1": 1, "2": 2}  # None (unregistered) sorts after all of these
+
+
+def tier_index(registry: dict) -> dict[str, str]:
+    """company_norm(name) -> tier for every registry row. Tracker/HN rows inherit
+    their tier through the alias map — that wiring is load-bearing (SPEC §4.1)."""
+    from .normalize import company_norm
+
+    aliases = registry.get("aliases", {})
+    return {
+        company_norm(str(row["name"]), aliases): str(row.get("tier", ""))
+        for row in registry["companies"]
+    }
+
+
+def tier_for(company_name: str, registry: dict, index: dict[str, str] | None = None) -> str | None:
+    from .normalize import company_norm
+
+    index = index if index is not None else tier_index(registry)
+    return index.get(company_norm(company_name, registry.get("aliases", {})))
+
+
+def tier_rank(tier: str | None) -> int:
+    return TIER_ORDER.get(tier or "", 3)

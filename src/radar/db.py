@@ -14,7 +14,7 @@ import json
 import sqlite3
 from datetime import UTC, datetime
 
-from .models import Posting, RunReport
+from .models import EnrichmentOut, Posting, RunReport
 
 _DDL_V1 = """
 CREATE TABLE postings (
@@ -266,3 +266,193 @@ def undigested_postings(conn: sqlite3.Connection) -> list[sqlite3.Row]:
         "     COALESCE(p.cluster_id, p.id) AND m.digested_at IS NOT NULL)"
         " ORDER BY p.first_seen_at DESC"
     ).fetchall()
+
+
+# ---------------------------------------------------------------- enrichment (M2)
+
+
+def enrichment_queue(conn: sqlite3.Connection) -> list[sqlite3.Row]:
+    """Active postings lacking an enrichments row with enrich_attempts < 3 (SPEC §7).
+    Tier ordering is applied by the caller (it needs the registry)."""
+    return conn.execute(
+        "SELECT p.* FROM postings p LEFT JOIN enrichments e ON e.posting_id = p.id"
+        " WHERE e.posting_id IS NULL AND p.active = 1 AND p.enrich_attempts < 3"
+        " ORDER BY p.first_seen_at DESC"
+    ).fetchall()
+
+
+def bump_enrich_attempts(conn: sqlite3.Connection, posting_id: int) -> None:
+    conn.execute(
+        "UPDATE postings SET enrich_attempts = enrich_attempts + 1 WHERE id = ?", (posting_id,)
+    )
+
+
+def insert_enrichment(
+    conn: sqlite3.Connection,
+    posting_id: int,
+    out: EnrichmentOut | None,
+    model: str,
+    now: str,
+) -> None:
+    """Store a parsed enrichment; out=None writes the null 'enrichment_failed' row
+    (only after attempts are exhausted, SPEC §7). Replaces on re-enrich."""
+    if out is None:
+        conn.execute(
+            "INSERT OR REPLACE INTO enrichments (posting_id, red_flags, model, enriched_at)"
+            " VALUES (?, ?, ?, ?)",
+            (posting_id, json.dumps(["enrichment_failed"]), model, now),
+        )
+        return
+    conn.execute(
+        "INSERT OR REPLACE INTO enrichments (posting_id, category, season, grad_earliest,"
+        " grad_latest, workauth, deadline, fit_quant, fit_ai_infra, fit_swe, fit_robotics,"
+        " rationale, red_flags, model, enriched_at)"
+        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (
+            posting_id,
+            out.category,
+            out.season,
+            out.grad_window.earliest,
+            out.grad_window.latest,
+            out.workauth,
+            out.deadline,
+            out.fit.quant,
+            out.fit.ai_infra,
+            out.fit.swe,
+            out.fit.robotics,
+            out.rationale,
+            json.dumps(out.red_flags),
+            model,
+            now,
+        ),
+    )
+
+
+def delete_enrichment(conn: sqlite3.Connection, posting_id: int) -> None:
+    conn.execute("DELETE FROM enrichments WHERE posting_id = ?", (posting_id,))
+
+
+def enrichments_for(conn: sqlite3.Connection, posting_ids: list[int]) -> dict[int, sqlite3.Row]:
+    if not posting_ids:
+        return {}
+    marks = ",".join("?" * len(posting_ids))
+    rows = conn.execute(
+        f"SELECT * FROM enrichments WHERE posting_id IN ({marks})", posting_ids
+    ).fetchall()
+    return {int(r["posting_id"]): r for r in rows}
+
+
+def cluster_has_enrichment(conn: sqlite3.Connection, cluster_key: int) -> bool:
+    row = conn.execute(
+        "SELECT 1 FROM postings p JOIN enrichments e ON e.posting_id = p.id"
+        " WHERE COALESCE(p.cluster_id, p.id) = ? LIMIT 1",
+        (cluster_key,),
+    ).fetchone()
+    return row is not None
+
+
+# ---------------------------------------------------------------- digest (M2)
+
+
+def cluster_members(conn: sqlite3.Connection, cluster_key: int) -> list[sqlite3.Row]:
+    return conn.execute(
+        "SELECT * FROM postings WHERE COALESCE(cluster_id, id) = ? ORDER BY first_seen_at",
+        (cluster_key,),
+    ).fetchall()
+
+
+def mark_digested(conn: sqlite3.Connection, posting_ids: list[int], now: str) -> None:
+    conn.executemany(
+        "UPDATE postings SET digested_at = ? WHERE id = ?", [(now, i) for i in posting_ids]
+    )
+
+
+def insert_digest_log(
+    conn: sqlite3.Connection,
+    sent_at: str,
+    posting_ids: list[int],
+    subject: str,
+    resend_id: str | None,
+) -> int:
+    cur = conn.execute(
+        "INSERT INTO digest_log (sent_at, posting_ids, subject, resend_id) VALUES (?, ?, ?, ?)",
+        (sent_at, json.dumps(posting_ids), subject, resend_id),
+    )
+    return int(cur.lastrowid)
+
+
+def closing_soon(conn: sqlite3.Connection, today: str, horizon: str) -> list[sqlite3.Row]:
+    """Active, not-applied postings with an explicit deadline in [today, horizon]
+    ('YYYY-MM-DD' strings compare lexicographically). Exempt from never-resend (SPEC §8.2)."""
+    return conn.execute(
+        "SELECT p.*, e.deadline FROM postings p JOIN enrichments e ON e.posting_id = p.id"
+        " WHERE p.active = 1 AND p.applied_at IS NULL AND e.deadline IS NOT NULL"
+        " AND e.deadline >= ? AND e.deadline <= ? ORDER BY e.deadline",
+        (today, horizon),
+    ).fetchall()
+
+
+def latest_run(conn: sqlite3.Connection, mode: str = "poll") -> sqlite3.Row | None:
+    return conn.execute(
+        "SELECT * FROM runs WHERE mode = ? ORDER BY id DESC LIMIT 1", (mode,)
+    ).fetchone()
+
+
+def update_run_counts(
+    conn: sqlite3.Connection, run_id: int, llm_calls: int, flash_alerts: int
+) -> None:
+    conn.execute(
+        "UPDATE runs SET llm_calls = ?, flash_alerts = ? WHERE id = ?",
+        (llm_calls, flash_alerts, run_id),
+    )
+
+
+# ---------------------------------------------------------------- alerts (M2)
+
+
+def alert_candidates(conn: sqlite3.Connection, posting_ids: list[int]) -> list[sqlite3.Row]:
+    """Given posting ids, return those whose whole cluster is still un-alerted."""
+    if not posting_ids:
+        return []
+    marks = ",".join("?" * len(posting_ids))
+    return conn.execute(
+        f"SELECT p.* FROM postings p WHERE p.id IN ({marks}) AND NOT EXISTS ("
+        "  SELECT 1 FROM postings m WHERE COALESCE(m.cluster_id, m.id) ="
+        "    COALESCE(p.cluster_id, p.id) AND m.alerted_at IS NOT NULL)",
+        posting_ids,
+    ).fetchall()
+
+
+def mark_alerted(conn: sqlite3.Connection, posting_ids: list[int], now: str) -> None:
+    conn.executemany(
+        "UPDATE postings SET alerted_at = ? WHERE id = ?", [(now, i) for i in posting_ids]
+    )
+
+
+def insert_alert_log(conn: sqlite3.Connection, posting_id: int, now: str, reason: str) -> None:
+    conn.execute(
+        "INSERT INTO alert_log (posting_id, sent_at, reason) VALUES (?, ?, ?)",
+        (posting_id, now, reason),
+    )
+
+
+def alerts_sent_on(conn: sqlite3.Connection, day: str) -> int:
+    """Count of alerts whose sent_at starts with the UTC day 'YYYY-MM-DD'."""
+    return int(
+        conn.execute(
+            "SELECT COUNT(*) FROM alert_log WHERE sent_at LIKE ?", (f"{day}%",)
+        ).fetchone()[0]
+    )
+
+
+# ---------------------------------------------------------------- applied (M2)
+
+
+def postings_for_matching(conn: sqlite3.Connection) -> list[sqlite3.Row]:
+    return conn.execute("SELECT id, url, company_name, title, cluster_id FROM postings").fetchall()
+
+
+def set_applied(conn: sqlite3.Connection, posting_ids: list[int], applied_at: str) -> None:
+    conn.executemany(
+        "UPDATE postings SET applied_at = ? WHERE id = ?", [(applied_at, i) for i in posting_ids]
+    )

@@ -58,6 +58,6 @@ def run_poll(
             report.sources_ok += 1
 
     report.finished_at = db.now_utc()
-    db.record_run(conn, report)
+    report.run_id = db.record_run(conn, report)
     conn.commit()
     return report, all_new
