@@ -48,6 +48,8 @@ Score each track independently against this specific candidate:
 Most postings should score below 50 on at least two of the four tracks.
 Use the full range; do not cluster scores in the 60-85 band.
 
+rationale: at most 25 words — one sentence naming the decisive factor.
+
 deadline: only if the posting states an explicit application deadline date;
 never infer one from start dates, posting dates, or season language; if the
 stated deadline is relative or ambiguous, use null.

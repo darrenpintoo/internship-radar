@@ -289,7 +289,7 @@ class TestGrouping:
         d = digest.build_digest(conn, settings(), REGISTRY, today=TODAY)
         [row] = d.other
         assert row["applied"] and row["closed"]
-        assert "applied · Interview" in d.html and "already closed" in d.html
+        assert "applied · Interview" in d.html and ">closed<" in d.html
 
 
 # ---------------------------------------------------------------- closing soon
@@ -299,9 +299,9 @@ class TestClosingSoon:
     def test_repeats_across_runs_without_marking(self, conn):
         s = store(conn, [make_posting()])
         pid = s.new_ids[0]
-        enrich(conn, pid, fit=30, deadline="2026-08-30")
+        enrich(conn, pid, fit=60, deadline="2026-08-30")  # >= CLOSING_MIN_FIT
         d1 = digest.build_digest(conn, settings(), REGISTRY, today=TODAY)
-        assert len(d1.closing) == 1 and len(d1.other) == 1
+        assert len(d1.closing) == 1 and d1.counts["new"] == 1
         rc = digest.run_digest(conn, settings(), REGISTRY, transport=mock_transport(), today=TODAY)
         assert rc == 0
         d2 = digest.build_digest(conn, settings(), REGISTRY, today=TODAY)

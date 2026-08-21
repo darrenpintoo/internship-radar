@@ -28,6 +28,8 @@ DIRECT_ATS = ("greenhouse", "lever", "ashby", "icims")
 TRACK_CATEGORIES = frozenset({"quant", "ai_infra", "swe", "robotics"})
 GRAD_CANDIDATES = ("2027-12", "2028-05", "2028-12")
 HTML_BYTE_BUDGET = 95_000  # Gmail clips at ~102 KB
+CLOSING_MIN_FIT = 50  # closing-soon rows must be worth applying to
+CLOSING_CAP = 12
 TRIM_STEP = 5
 OTHER_CAP = 40
 CLOSING_HORIZON_DAYS = 14
@@ -251,9 +253,12 @@ def build_digest(
         seen_closing.add(key)
         members = db.cluster_members(conn, key)
         crow = _build_row(conn, members, registry, tiers, None)
+        if crow["max_fit"] < CLOSING_MIN_FIT:
+            continue  # DECISION: closing-soon only for roles worth applying to
         crow["deadline"] = p["deadline"]
         closing.append(crow)
     closing.sort(key=lambda r: (r["deadline"], _sort_key(r)))
+    closing = closing[:CLOSING_CAP]
 
     run = db.latest_run(conn, "poll")
     sources_failed: dict[str, str] = {}
@@ -308,6 +313,8 @@ def build_digest(
             break
         if other:
             other, omitted = other[:-TRIM_STEP], omitted + len(other[-TRIM_STEP:])
+        elif closing:
+            closing = closing[:-TRIM_STEP]  # closing-soon repeats tomorrow anyway
         elif worth:
             worth, omitted = worth[:-TRIM_STEP], omitted + len(worth[-TRIM_STEP:])
         elif len(strong) > TRIM_STEP:

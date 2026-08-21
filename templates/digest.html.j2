@@ -1,89 +1,55 @@
-{#- Digest email (SPEC §8.3/§8.5): inline CSS, tables, no images/JS.
-    Dark-mode-safe: no pure #fff/#000; chips use mid-tone backgrounds with
-    explicit text colors so Gmail iOS dark mode cannot invert them away. -#}
-{%- set chip = "display:inline-block;padding:1px 6px;border-radius:9px;font-size:11px;line-height:16px;margin-right:4px;white-space:nowrap;" -%}
-{%- set cat_colors = {
-  "quant": "background:#b45309;color:#fef3c7;",
-  "ai_infra": "background:#6d28d9;color:#ede9fe;",
-  "swe": "background:#1d4ed8;color:#dbeafe;",
-  "robotics": "background:#047857;color:#d1fae5;",
-  "other": "background:#6b7280;color:#f3f4f6;"
-} -%}
-{%- macro badge(text, style) -%}
-<span style="{{ chip }}{{ style }}">{{ text }}</span>
-{%- endmacro -%}
+{#- Digest email (SPEC §8.3/§8.5): inline CSS, tables, no images/JS, dark-mode-safe
+    (no pure #fff/#000). Kept LEAN on purpose: real rows carry rationales and many
+    locations, and Gmail clips at ~102 KB — every byte per row costs a posting. -#}
+{%- set F = "font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;" -%}
+{%- set CHIP = "display:inline-block;padding:0 5px;border-radius:8px;font-size:11px;line-height:15px;margin-right:3px;" -%}
+{%- set CAT = {"quant":"#b45309","ai_infra":"#6d28d9","swe":"#1d4ed8","robotics":"#047857","other":"#6b7280"} -%}
+{%- macro chip(text, bg) -%}<span style="{{ CHIP }}background:{{ bg }};color:#f5f5f4;">{{ text }}</span>{%- endmacro -%}
 {%- macro row(r, compact=False) -%}
-<tr>
-  <td style="padding:{{ '4px 8px' if compact else '8px' }};border-bottom:1px solid #d4d4d8;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:{{ '12px' if compact else '13px' }};color:#1f2937;vertical-align:top;">
-    <div>
-      {% if r.enriched %}<span style="display:inline-block;min-width:26px;font-weight:700;color:{{ '#b45309' if r.max_fit >= 75 else ('#1d4ed8' if r.max_fit >= 50 else '#6b7280') }};">{{ r.max_fit }}</span>{% else %}<span style="display:inline-block;min-width:26px;color:#9ca3af;">—</span>{% endif %}
-      <strong>{{ r.company }}</strong> — <a href="{{ r.url }}" style="color:#1d4ed8;text-decoration:underline;">{{ r.title }}</a>
-      {% if r.tier %}{{ badge("tier " ~ r.tier, "background:#374151;color:#e5e7eb;") }}{% endif %}
-      {% if r.reposted %}{{ badge("reposted", "background:#92400e;color:#fef3c7;") }}{% endif %}
-      {% if r.closed %}{{ badge("already closed", "background:#7f1d1d;color:#fee2e2;") }}{% endif %}
-      {% if r.alerted %}{{ badge("⚡ alerted", "background:#a16207;color:#fef9c3;") }}{% endif %}
-      {% if r.applied %}{{ badge("applied" ~ (" · " ~ r.applied_status if r.applied_status else ""), "background:#065f46;color:#d1fae5;") }}{% endif %}
-      {% if r.tracked_status %}{{ badge("tracked · " ~ r.tracked_status, "background:#1e3a8a;color:#dbeafe;") }}{% endif %}
-    </div>
-    <div style="margin-top:2px;color:#4b5563;font-size:12px;">
-      {% if r.locations %}{{ r.locations | join("; ") }} · {% endif %}
-      {% if r.category %}{{ badge(r.category, cat_colors.get(r.category, cat_colors["other"])) }}{% endif %}
-      {% if r.season_chip %}{{ badge(r.season_chip, "background:#9a3412;color:#ffedd5;" if r.season_chip == "off-season" else "background:#6b7280;color:#f3f4f6;") }}{% endif %}
-      {% if r.grad_flag %}<span style="margin-right:6px;">{{ r.grad_flag }}</span>{% endif %}
-      {% if r.workauth %}{{ badge(r.workauth | replace("_", " "), "background:#7f1d1d;color:#fee2e2;" if r.workauth != "sponsors_ok" else "background:#065f46;color:#d1fae5;") }}{% endif %}
-      {% if r.deadline %}<span style="margin-right:6px;color:#b91c1c;">deadline {{ r.deadline }}</span>{% endif %}
-      {% for s in r.source_badges %}{{ badge(s, "background:#e5e7eb;color:#374151;border:1px solid #9ca3af;") }}{% endfor %}
-    </div>
-    {% if not compact %}
-    <div style="margin-top:2px;font-size:11px;color:{{ '#6b7280' if r.enriched else '#9ca3af' }};{{ '' if r.enriched else 'font-style:italic;' }}">
-      {{ r.rationale if r.enriched else "pending scoring" }}{% if r.red_flags %} · <span style="color:#b91c1c;">{{ r.red_flags | join(", ") }}</span>{% endif %}
-    </div>
-    {% endif %}
-  </td>
-</tr>
+<tr><td style="padding:{{ '3px 8px' if compact else '7px 8px' }};border-bottom:1px solid #d4d4d8;{{ F }}font-size:{{ '12px' if compact else '13px' }};color:#1f2937;">
+<span style="display:inline-block;min-width:24px;font-weight:700;color:{{ '#b45309' if r.enriched and r.max_fit >= 75 else ('#1d4ed8' if r.enriched and r.max_fit >= 50 else '#9ca3af') }};">{{ r.max_fit if r.enriched else '—' }}</span>
+<b>{{ r.company }}</b> — <a href="{{ r.url }}" style="color:#1d4ed8;">{{ r.title | truncate(90) }}</a>
+{%- if r.tier == 'S' %} {{ chip('S', '#374151') }}{% endif -%}
+{%- if r.reposted %} {{ chip('reposted', '#92400e') }}{% endif -%}
+{%- if r.closed %} {{ chip('closed', '#7f1d1d') }}{% endif -%}
+{%- if r.alerted %} {{ chip('⚡', '#a16207') }}{% endif -%}
+{%- if r.applied %} {{ chip('applied' ~ (' · ' ~ r.applied_status if r.applied_status else ''), '#065f46') }}{% endif -%}
+{%- if r.tracked_status %} {{ chip('tracked · ' ~ r.tracked_status, '#1e3a8a') }}{% endif %}
+<div style="color:#4b5563;font-size:11px;margin-top:1px;">
+{%- if r.locations %}{{ r.locations[:3] | join('; ') }}{% if r.locations | length > 3 %} +{{ r.locations | length - 3 }}{% endif %} · {% endif -%}
+{%- if r.category %}{{ chip(r.category, CAT.get(r.category, CAT['other'])) }}{% endif -%}
+{%- if r.season_chip %}{{ chip(r.season_chip, '#9a3412' if r.season_chip == 'off-season' else '#6b7280') }}{% endif -%}
+{%- if r.grad_flag %} {{ r.grad_flag }}{% endif -%}
+{%- if r.workauth %} {{ chip(r.workauth | replace('_', ' '), '#065f46' if r.workauth == 'sponsors_ok' else '#7f1d1d') }}{% endif -%}
+{%- if r.deadline %} <span style="color:#b91c1c;">due {{ r.deadline }}</span>{% endif -%}
+{%- for s in r.source_badges %} <span style="{{ CHIP }}background:#e5e7eb;color:#374151;">{{ s }}</span>{% endfor -%}
+{%- if not compact %}<br><span style="color:{{ '#6b7280' if r.enriched else '#9ca3af' }};{{ '' if r.enriched else 'font-style:italic;' }}">{{ (r.rationale if r.enriched else 'pending scoring') | truncate(160) }}</span>{% if r.red_flags %} <span style="color:#b91c1c;">{{ r.red_flags | join(', ') | truncate(80) }}</span>{% endif %}{% endif -%}
+</div></td></tr>
 {%- endmacro -%}
 {%- macro section(title, rows, compact=False) -%}
-{% if rows %}
-<tr><td style="padding:14px 8px 4px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#111827;border-bottom:2px solid #9ca3af;">{{ title }} <span style="font-weight:400;color:#6b7280;">({{ rows | length }})</span></td></tr>
-{% for r in rows %}{{ row(r, compact) }}{% endfor %}
-{% endif %}
+{%- if rows %}
+<tr><td style="padding:12px 8px 3px;{{ F }}font-size:14px;font-weight:700;color:#111827;border-bottom:2px solid #9ca3af;">{{ title }} <span style="font-weight:400;color:#6b7280;">({{ rows | length }})</span></td></tr>
+{%- for r in rows %}{{ row(r, compact) }}{% endfor %}
+{%- endif -%}
 {%- endmacro -%}
-<html>
-<head><meta charset="utf-8"><title>{{ subject }}</title></head>
+<html><head><meta charset="utf-8"><title>{{ subject }}</title></head>
 <body style="margin:0;padding:0;background:#f3f4f6;color:#1f2937;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4f6;">
-<tr><td align="center" style="padding:12px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4f6;"><tr><td align="center" style="padding:10px;">
 <table role="presentation" width="680" cellpadding="0" cellspacing="0" style="max-width:680px;width:100%;background:#fafafa;border:1px solid #d4d4d8;border-radius:6px;">
-  <tr><td style="padding:12px 8px 4px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;">
-    <div style="font-size:18px;font-weight:700;color:#111827;">{{ subject }}</div>
-    <div style="font-size:12px;color:#6b7280;margin-top:2px;">
-      {{ counts.new }} new cluster{{ '' if counts.new == 1 else 's' }}
-      · {{ counts.strong }} strong · {{ counts.worth }} worth a look · {{ counts.other }} other
-      {% if counts.closing %}· {{ counts.closing }} closing soon{% endif %}
-    </div>
-  </td></tr>
-  {{ section("Strong fits", strong) }}
-  {{ section("Worth a look", worth) }}
-  {{ section("Closing soon", closing) }}
-  {{ section("Everything else new", other, compact=True) }}
-  {% if omitted_count %}
-  <tr><td style="padding:6px 8px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:12px;color:#6b7280;font-style:italic;">… and {{ omitted_count }} more — they roll into tomorrow</td></tr>
-  {% endif %}
-  {% if counts.new == 0 and not closing %}
-  <tr><td style="padding:20px 8px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:13px;color:#6b7280;">Nothing new today — radar is alive and polling.</td></tr>
-  {% endif %}
-  <tr><td style="padding:14px 8px 12px;border-top:1px solid #d4d4d8;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:11px;color:#6b7280;">
-    {% if run %}
-    Last poll {{ run.finished_at }}: {{ run.sources_ok }} sources ok,
-    {% if run.sources_failed %}<span style="color:#b91c1c;">{{ run.sources_failed | length }} failed ({{ run.sources_failed.keys() | join(", ") }})</span>{% else %}0 failed{% endif %}
-    · {{ run.new_postings }} new postings · {{ run.llm_calls }} LLM calls · {{ run.flash_alerts }} flash alerts<br>
-    {% else %}
-    No poll run recorded yet.<br>
-    {% endif %}
-    Digest generated {{ generated_at }} · internship-radar
-  </td></tr>
-</table>
-</td></tr>
-</table>
-</body>
-</html>
+<tr><td style="padding:10px 8px 2px;{{ F }}"><div style="font-size:17px;font-weight:700;color:#111827;">{{ subject }}</div>
+<div style="font-size:12px;color:#6b7280;">{{ counts.new }} new · {{ counts.strong }} strong · {{ counts.worth }} worth a look · {{ counts.other }} other{% if counts.closing %} · {{ counts.closing }} closing soon{% endif %}</div></td></tr>
+{{ section("Strong fits", strong) }}
+{{ section("Worth a look", worth) }}
+{{ section("Closing soon", closing, compact=True) }}
+{{ section("Everything else new", other, compact=True) }}
+{%- if omitted_count %}
+<tr><td style="padding:5px 8px;{{ F }}font-size:12px;color:#6b7280;font-style:italic;">… and {{ omitted_count }} more — they roll into tomorrow</td></tr>
+{%- endif %}
+{%- if counts.new == 0 and not closing %}
+<tr><td style="padding:18px 8px;{{ F }}font-size:13px;color:#6b7280;">Nothing new today — radar is alive and polling.</td></tr>
+{%- endif %}
+<tr><td style="padding:12px 8px 10px;border-top:1px solid #d4d4d8;{{ F }}font-size:11px;color:#6b7280;">
+{%- if run %}Last poll {{ run.finished_at }}: {{ run.sources_ok }} sources ok, {% if run.sources_failed %}<span style="color:#b91c1c;">{{ run.sources_failed | length }} failed ({{ run.sources_failed.keys() | join(', ') }})</span>{% else %}0 failed{% endif %} · {{ run.new_postings }} new postings · {{ run.llm_calls }} LLM calls · {{ run.flash_alerts }} flash alerts<br>{% else %}No poll run recorded yet.<br>{% endif -%}
+Digest generated {{ generated_at }} · internship-radar</td></tr>
+</table></td></tr></table>
+</body></html>
