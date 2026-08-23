@@ -408,3 +408,19 @@ def test_html_never_exceeds_gmail_budget(conn):
     assert len(d.html.encode("utf-8")) <= digest.HTML_BYTE_BUDGET
     assert d.omitted_count > 0
     assert len(d.rendered_member_ids) + d.omitted_count == 400
+
+
+def test_best_effort_source_failures_do_not_prefix_subject(conn):
+    from radar.models import RunReport
+
+    report = RunReport(
+        mode="poll",
+        started_at="2026-08-23T12:00:00Z",
+        finished_at="2026-08-23T12:01:00Z",
+        sources_ok=6,
+        sources_failed={"best-effort:reddit:feed": "403 Blocked"},
+    )
+    db.record_run(conn, report)
+    d = digest.build_digest(conn, settings(), REGISTRY, today="2026-08-23")
+    assert not d.subject.startswith("Radar [")
+    assert "reddit" in d.html  # still visible in the footer

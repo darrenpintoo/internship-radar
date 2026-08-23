@@ -29,12 +29,14 @@ def run_poll(
         try:
             raws = adapter.fetch()
         except Exception as exc:
-            report.sources_failed[adapter.name] = f"{type(exc).__name__}: {exc}"
+            tag = "best-effort:" if getattr(adapter, "best_effort", False) else ""
+            report.sources_failed[tag + adapter.name] = f"{type(exc).__name__}: {exc}"
             continue
 
         adapter_ok = False
+        tag = "best-effort:" if getattr(adapter, "best_effort", False) else ""
         for raw in raws:
-            board = f"{adapter.name}:{raw.source_ref}" if raw.source_ref else adapter.name
+            board = tag + (f"{adapter.name}:{raw.source_ref}" if raw.source_ref else adapter.name)
             if raw.error:
                 report.sources_failed[board] = raw.error
                 continue

@@ -289,7 +289,8 @@ def build_digest(
             "closing": len(closing),
             "omitted": omitted_n,
         }
-        subject = _subject(n_new, len(strong_r), today_d, len(sources_failed))
+        hard_failures = [k for k in sources_failed if not k.startswith("best-effort:")]
+        subject = _subject(n_new, len(strong_r), today_d, len(hard_failures))
         ctx = {
             "subject": subject,
             "today": today,

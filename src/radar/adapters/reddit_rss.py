@@ -27,6 +27,9 @@ _SUBREDDIT_RE = re.compile(r"/r/([^/]+)/")
 class RedditRssAdapter:
     name = "reddit"
     prefilter_policy = "excludes_only"
+    # Reddit 403s datacenter IPs intermittently (SPEC §5.7): failures are
+    # recorded for the footer but never trip the digest's "[k sources down]" prefix.
+    best_effort = True
 
     def __init__(self, http, feeds: list[str] | None = None):
         self._http = http
