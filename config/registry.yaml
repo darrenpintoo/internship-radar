@@ -188,6 +188,106 @@ companies:
   - {name: Goldman Sachs,        tier: 2, ats: tracker-only}   # custom
   - {name: Morgan Stanley,       tier: 2, ats: tracker-only}   # custom
 
+  # ---- discovery sweep 2026-08-23: high-growth companies with intern programs (live-verified) ----
+  - {name: Sierra, tier: 1, ats: ashby, token: sierra}   # discovered 2026-08-23 (0 intern live)
+  - {name: Decagon, tier: 1, ats: ashby, token: decagon}   # discovered 2026-08-23 (0 intern live)
+  - {name: Replit, tier: 1, ats: ashby, token: replit}   # discovered 2026-08-23 (1 intern live)
+  - {name: Abridge, tier: 1, ats: ashby, token: abridge}   # discovered 2026-08-23 (1 intern live)
+  - {name: Suno, tier: 2, ats: ashby, token: suno}   # discovered 2026-08-23 (0 intern live)
+  - {name: Cresta, tier: 2, ats: greenhouse, token: cresta}   # discovered 2026-08-23 (6 intern live)
+  - {name: Mercor, tier: 2, ats: ashby, token: mercor}   # discovered 2026-08-23 (0 intern live)
+  - {name: Exa, tier: 2, ats: ashby, token: exa}   # discovered 2026-08-23 (1 intern live)
+  - {name: Cartesia, tier: 2, ats: ashby, token: cartesia}   # discovered 2026-08-23 (0 intern live)
+  - {name: Pika, tier: 2, ats: ashby, token: pika}   # discovered 2026-08-23 (1 intern live)
+  - {name: Chai Discovery, tier: 2, ats: ashby, token: chaidiscovery}   # discovered 2026-08-23 (1 intern live)
+  - {name: Prime Intellect, tier: 2, ats: ashby, token: primeintellect}   # discovered 2026-08-23 (1 intern live)
+  - {name: Lila Sciences, tier: 2, ats: greenhouse, token: lilasciences}   # discovered 2026-08-23 (6 intern live)
+  - {name: Composio, tier: 2, ats: ashby, token: composio}   # discovered 2026-08-23 (3 intern live)
+  - {name: Haize Labs, tier: 2, ats: greenhouse, token: haizelabs}   # discovered 2026-08-23 (2 intern live)
+  - {name: Mechanize, tier: 2, ats: ashby, token: mechanize}   # discovered 2026-08-23 (1 intern live)
+  - {name: General Intuition, tier: 2, ats: ashby, token: generalintuition-medal}   # discovered 2026-08-23 (1 intern live)
+  - {name: Periodic Labs, tier: 2, ats: ashby, token: periodic-labs}   # discovered 2026-08-23 (1 intern live)
+  - {name: Luma AI, tier: 2, ats: ashby, token: lumaai}   # discovered 2026-08-23 (0 intern live)
+  - {name: Duolingo, tier: 1, ats: greenhouse, token: duolingounirecruitment}   # discovered 2026-08-23 (0 intern live)
+  - {name: Epic Games, tier: 1, ats: greenhouse, token: epicgames}   # discovered 2026-08-23 (7 intern live)
+  - {name: Reddit, tier: 1, ats: greenhouse, token: reddit}   # discovered 2026-08-23 (0 intern live)
+  - {name: Rubrik, tier: 1, ats: greenhouse, token: rubrik}   # discovered 2026-08-23 (0 intern live)
+  - {name: Whatnot, tier: 1, ats: tracker-only}   # discovered 2026-08-23: Ashby board exists (jobs.ashbyhq.com/whatnot, 131 jobs via internal Gr
+  - {name: Palo Alto Networks, tier: 1, ats: tracker-only}   # discovered 2026-08-23: Workday: jobs.paloaltonetworks.com embeds paloaltonetworks.wd5.myworkd
+  - {name: Cockroach Labs, tier: 2, ats: greenhouse, token: cockroachlabs}   # discovered 2026-08-23 (0 intern live)
+  - {name: Sentry, tier: 2, ats: ashby, token: sentry}   # discovered 2026-08-23 (0 intern live)
+  - {name: Wealthfront, tier: 2, ats: lever, token: wealthfront}   # discovered 2026-08-23 (0 intern live)
+  - {name: Addepar, tier: 2, ats: greenhouse, token: addepar1}   # discovered 2026-08-23 (0 intern live)
+  - {name: Mercury, tier: 2, ats: greenhouse, token: mercury}   # discovered 2026-08-23 (0 intern live)
+  - {name: Gemini, tier: 2, ats: greenhouse, token: gemini}   # discovered 2026-08-23 (0 intern live)
+  - {name: Sigma Computing, tier: 2, ats: greenhouse, token: sigmacomputing}   # discovered 2026-08-23 (0 intern live)
+  - {name: Okta, tier: 2, ats: greenhouse, token: okta}   # discovered 2026-08-23 (0 intern live)
+  - {name: Nutanix, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Custom careers site (careers.nutanix.com; no GH/Lever/Ashby/Eightfold 
+  - {name: Zscaler, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Custom careers site (zscaler.com/careers, JS-rendered; SmartRecruiters
+  - {name: CrowdStrike, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Workday: crowdstrike.wd5.myworkdayjobs.com (16 refs on careers page). 
+  - {name: Pure Storage, tier: 2, ats: greenhouse, token: purestorage}   # discovered 2026-08-23 (1 intern live)
+  - {name: Riot Games, tier: 2, ats: greenhouse, token: riotgames}   # discovered 2026-08-23 (1 intern live)
+  - {name: Unity, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Workday: unity.com/careers/positions links 133 jobs to unitytech.wd1.m
+  - {name: Squarespace, tier: 2, ats: greenhouse, token: squarespace}   # discovered 2026-08-23 (0 intern live)
+  - {name: Klaviyo, tier: 2, ats: greenhouse, token: klaviyo}   # discovered 2026-08-23 (0 intern live)
+  - {name: Toast, tier: 2, ats: greenhouse, token: toast}   # discovered 2026-08-23 (0 intern live)
+  - {name: Abnormal Security, tier: 2, ats: greenhouse, token: abnormalsecurity}   # discovered 2026-08-23 (0 intern live)
+  - {name: Fivetran, tier: 2, ats: greenhouse, token: fivetran}   # discovered 2026-08-23 (0 intern live)
+  - {name: Flexport, tier: 2, ats: greenhouse, token: flexport}   # discovered 2026-08-23 (0 intern live)
+  - {name: Faire, tier: 2, ats: greenhouse, token: faire}   # discovered 2026-08-23 (1 intern live)
+  - {name: Hex, tier: 2, ats: ashby, token: hex}   # discovered 2026-08-23 (0 intern live)
+  - {name: Postman, tier: 2, ats: greenhouse, token: postman}   # discovered 2026-08-23 (1 intern live)
+  - {name: Spotify, tier: 2, ats: lever, token: spotify}   # discovered 2026-08-23 (0 intern live)
+  - {name: Quadrature Capital, tier: 1, ats: greenhouse, token: quadraturecapital}   # discovered 2026-08-23 (1 intern live)
+  - {name: Verition Fund Management, tier: 2, ats: greenhouse, token: veritiongroupllc}   # discovered 2026-08-23 (3 intern live)
+  - {name: Quantbot Technologies, tier: 2, ats: greenhouse, token: quantbot-technologies}   # discovered 2026-08-23 (8 intern live)
+  - {name: Engineers Gate, tier: 2, ats: greenhouse, token: engineersgate}   # discovered 2026-08-23 (1 intern live)
+  - {name: ExodusPoint, tier: 2, ats: greenhouse, token: xpcampus}   # discovered 2026-08-23 (1 intern live)
+  - {name: Graham Capital Management, tier: 2, ats: greenhouse, token: grahamcapitalmanagement}   # discovered 2026-08-23 (0 intern live)
+  - {name: Capstone Investment Advisors, tier: 2, ats: greenhouse, token: capstoneinvestmentadvisors}   # discovered 2026-08-23 (0 intern live)
+  - {name: Weiss Asset Management, tier: 2, ats: greenhouse, token: weissassetmanagement}   # discovered 2026-08-23 (0 intern live)
+  - {name: Man Group, tier: 2, ats: greenhouse, token: mangroup}   # discovered 2026-08-23 (0 intern live)
+  - {name: Acadian Asset Management, tier: 2, ats: greenhouse, token: acadianassetmanagementllc}   # discovered 2026-08-23 (0 intern live)
+  - {name: Brevan Howard, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Workday: wd3.myworkdaysite.com/recruiting/brevanhoward/BH_ExternalCare
+  - {name: Trexquant, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Workable account 'trexquant' (apply.workable.com/api/v1/widget/account
+  - {name: Quantlab, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Jobvite careersite 'quantlab' (jobs.jobvite.com/quantlab, iframe on qu
+  - {name: Renaissance Technologies, tier: 1, ats: tracker-only}   # discovered 2026-08-23: Custom site rentec.com/Careers.action: 12 roles (Research Engineer, Re
+  - {name: Group One Trading, tier: 2, ats: tracker-only}   # discovered 2026-08-23: ApplicantPro (group1.applicantpro.com): 3 jobs — 'Trading Analyst Inte
+  - {name: Neuralink, tier: 1, ats: greenhouse, token: neuralink}   # discovered 2026-08-23 (20 intern live)
+  - {name: Tesla, tier: 1, ats: tracker-only}   # discovered 2026-08-23: custom careers stack (tesla.com/careers); no greenhouse/lever/ashby bo
+  - {name: MatX, tier: 2, ats: ashby, token: matx}   # discovered 2026-08-23 (1 intern live)
+  - {name: Ayar Labs, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Newton Software/Paycor iframe (newton.newtonsoftware.com clientId 8a78
+  - {name: SiFive, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Workday: sifive.wd1.myworkdayjobs.com/en-US/sifivecareers (embedded on
+  - {name: Samsung Semiconductor (US), tier: 2, ats: greenhouse, token: samsungsemiconductor}   # discovered 2026-08-23 (0 intern live)
+  - {name: Relativity Space, tier: 2, ats: greenhouse, token: relativity}   # discovered 2026-08-23 (0 intern live)
+  - {name: Stoke Space, tier: 2, ats: greenhouse, token: stokespacetechnologies}   # discovered 2026-08-23 (0 intern live)
+  - {name: Firefly Aerospace, tier: 2, ats: tracker-only}   # discovered 2026-08-23: ClearCompany/hrmdirect (firefly.hrmdirect.com) plus ADP; 'Internship -
+  - {name: True Anomaly, tier: 2, ats: greenhouse, token: trueanomalyinc}   # discovered 2026-08-23 (2 intern live)
+  - {name: Hermeus, tier: 2, ats: lever, token: hermeus}   # discovered 2026-08-23 (6 intern live)
+  - {name: Impulse Space, tier: 2, ats: tracker-only}   # discovered 2026-08-23: PinpointHQ (impulsespace.pinpointhq.com); 'Propulsion Engineering Inte
+  - {name: K2 Space, tier: 2, ats: greenhouse, token: k2spacecorporation}   # discovered 2026-08-23 (0 intern live)
+  - {name: Apex Space, tier: 2, ats: ashby, token: apex-technology-inc}   # discovered 2026-08-23 (0 intern live)
+  - {name: Vast, tier: 2, ats: greenhouse, token: vast}   # discovered 2026-08-23 (1 intern live)
+  - {name: Blue Origin, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Workday: blueorigin.wd5.myworkdayjobs.com/BlueOrigin; lever 'blueorigi
+  - {name: Albedo, tier: 2, ats: greenhouse, token: albedo}   # discovered 2026-08-23 (2 intern live)
+  - {name: Ursa Major, tier: 2, ats: greenhouse, token: ursamajor}   # discovered 2026-08-23 (0 intern live)
+  - {name: Muon Space, tier: 2, ats: greenhouse, token: muonspace}   # discovered 2026-08-23 (0 intern live)
+  - {name: Mach Industries, tier: 2, ats: ashby, token: mach}   # discovered 2026-08-23 (1 intern live)
+  - {name: Vannevar Labs, tier: 2, ats: greenhouse, token: vannevarlabs}   # discovered 2026-08-23 (1 intern live)
+  - {name: Castelion, tier: 2, ats: tracker-only}   # discovered 2026-08-23: UKG careers page (castelion.com/careers); 'Electrical Engineer Intern 
+  - {name: Rivian, tier: 2, ats: tracker-only}   # discovered 2026-08-23: iCIMS: us-careers-rivian.icims.com (careers.rivian.com)
+  - {name: Lucid Motors, tier: 2, ats: greenhouse, token: lucidmotors}   # discovered 2026-08-23 (3 intern live)
+  - {name: Joby Aviation, tier: 2, ats: tracker-only}   # discovered 2026-08-23: iCIMS: careers-jobyaviation.icims.com (embedded on jobyaviation.com/ca
+  - {name: Wisk Aero, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Workday: wisk.wd108.myworkdayjobs.com/Wisk_Careers; wisk.aero/internsh
+  - {name: BETA Technologies, tier: 2, ats: tracker-only}   # discovered 2026-08-23: HubSpot careers page with no ATS embed found (greenhouse/lever/ashby t
+  - {name: Commonwealth Fusion Systems, tier: 2, ats: lever, token: cfsenergy}   # discovered 2026-08-23 (0 intern live)
+  - {name: Helion Energy, tier: 2, ats: ashby, token: helion}   # discovered 2026-08-23 (0 intern live)
+  - {name: Electric Hydrogen, tier: 2, ats: greenhouse, token: eh2}   # discovered 2026-08-23 (0 intern live)
+  - {name: Redwood Materials, tier: 2, ats: greenhouse, token: redwoodmaterials}   # discovered 2026-08-23 (1 intern live)
+  - {name: Toyota Research Institute, tier: 2, ats: lever, token: tri}   # discovered 2026-08-23 (2 intern live)
+  - {name: Dyna Robotics, tier: 2, ats: ashby, token: dyna-robotics}   # discovered 2026-08-23 (1 intern live)
+  - {name: Boom Supersonic, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Rippling ATS (ats.rippling.com/boom-supersonic); 'Summer 2027 Engineer
+
 # Alias map: EXACT full-string match on the normalized name (dict lookup — never
 # substring/prefix logic; that's how Citadel and Citadel Securities stay distinct).
 # Keys and values are company_norm forms (SPEC §6.1).
