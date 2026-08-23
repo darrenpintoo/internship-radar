@@ -139,6 +139,55 @@ companies:
   - {name: DV Trading,           tier: 2, ats: greenhouse, token: dvtrading}   # probed 2026-08-20
   - {name: Bridgewater,          tier: 2, ats: tracker-only}   # probed 2026-08-21: greenhouse bridgewaterassociates 404s in CI; custom portal
 
+  # ---- owner list additions 2026-08-21 (Claude's "better than IBM" tiers) ----
+  - {name: Qube RT,              tier: 1, ats: greenhouse, token: quberesearchandtechnologies}   # probed 2026-08-21 (187 jobs)
+  - {name: Runway,               tier: 2, ats: ashby, token: runway}   # probed 2026-08-23
+  - {name: ElevenLabs,           tier: 2, ats: ashby, token: elevenlabs}   # probed 2026-08-23
+  - {name: Codeium,              tier: 2, ats: tracker-only}   # Windsurf; no public board found 2026-08-21
+  - {name: Harvey,               tier: 2, ats: ashby, token: harvey}   # probed 2026-08-23
+  - {name: Glean,                tier: 2, ats: greenhouse, token: gleanwork}   # probed 2026-08-21 (110 jobs)
+  - {name: Lightmatter,          tier: 2, ats: greenhouse, token: lightmatter}   # probed 2026-08-23
+  - {name: Broadcom,             tier: 2, ats: tracker-only}   # custom careers site
+  - {name: TSMC,                 tier: 2, ats: tracker-only}   # custom/Taleo
+  - {name: Synopsys,             tier: 2, ats: tracker-only}   # Workday-class; M3 candidate
+  - {name: Cadence,              tier: 2, ats: tracker-only}   # Workday-class; M3 candidate
+  - {name: Apple,                tier: 1, ats: tracker-only}   # custom (jobs.apple.com)
+  - {name: Amazon,               tier: 1, ats: tracker-only}   # custom (amazon.jobs)
+  - {name: Microsoft,            tier: 1, ats: tracker-only}   # custom
+  - {name: Airbnb,               tier: 1, ats: greenhouse, token: airbnb}   # probed 2026-08-23
+  - {name: Lyft,                 tier: 2, ats: greenhouse, token: lyft}   # probed 2026-08-23
+  - {name: DoorDash,             tier: 2, ats: greenhouse, token: doordashusa}   # probed 2026-08-21 (463 jobs)
+  - {name: Coinbase,             tier: 2, ats: greenhouse, token: coinbase}   # probed 2026-08-23
+  - {name: Robinhood,            tier: 2, ats: greenhouse, token: robinhood}   # probed 2026-08-23
+  - {name: Plaid,                tier: 2, ats: ashby, token: plaid}   # probed 2026-08-23
+  - {name: Ramp,                 tier: 1, ats: ashby, token: ramp}   # probed 2026-08-23
+  - {name: Brex,                 tier: 2, ats: greenhouse, token: brex}   # probed 2026-08-23
+  - {name: Figma,                tier: 1, ats: greenhouse, token: figma}   # probed 2026-08-23
+  - {name: Snowflake,            tier: 1, ats: ashby, token: snowflake}   # probed 2026-08-23
+  - {name: MongoDB,              tier: 2, ats: greenhouse, token: mongodb}   # probed 2026-08-23
+  - {name: Confluent,            tier: 2, ats: ashby, token: confluent}   # probed 2026-08-23
+  - {name: Cloudflare,           tier: 1, ats: greenhouse, token: cloudflare}   # probed 2026-08-23
+  - {name: Snap,                 tier: 2, ats: workday}   # M3; snap.wd1 tenant
+  - {name: Pinterest,            tier: 2, ats: greenhouse, token: pinterest}   # probed 2026-08-23
+  - {name: Discord,              tier: 2, ats: greenhouse, token: discord}   # probed 2026-08-23
+  - {name: Block,                tier: 2, ats: greenhouse, token: block}   # probed 2026-08-23
+  - {name: Affirm,               tier: 2, ats: greenhouse, token: affirm}   # probed 2026-08-23
+  - {name: Chime,                tier: 2, ats: greenhouse, token: chime}   # probed 2026-08-23
+  - {name: Instacart,            tier: 2, ats: greenhouse, token: instacart}   # probed 2026-08-23
+  - {name: Airtable,             tier: 2, ats: greenhouse, token: airtable}   # probed 2026-08-23
+  - {name: Retool,               tier: 2, ats: tracker-only}   # no public board found 2026-08-21
+  - {name: Linear,               tier: 2, ats: ashby, token: linear}   # probed 2026-08-23
+  - {name: Rippling,             tier: 2, ats: tracker-only}   # own ATS: api.rippling.com/platform/api/ats/v1/board/rippling/jobs (734 rows) — M3 adapter candidate
+  - {name: Gusto,                tier: 2, ats: greenhouse, token: gusto}   # probed 2026-08-23
+  - {name: Samsara,              tier: 2, ats: greenhouse, token: samsara}   # probed 2026-08-23
+  - {name: Verkada,              tier: 2, ats: greenhouse, token: verkada}   # probed 2026-08-23
+  - {name: Benchling,            tier: 2, ats: ashby, token: benchling}   # probed 2026-08-23
+  - {name: Epirus,               tier: 2, ats: greenhouse, token: epirus}   # probed 2026-08-23
+  - {name: Varda,                tier: 2, ats: greenhouse, token: vardaspace}   # probed 2026-08-21 (96 jobs)
+  - {name: Bloomberg,            tier: 2, ats: avature, token: bloomberg.avature.net}  # M3 (SearchJobs route works)
+  - {name: Goldman Sachs,        tier: 2, ats: tracker-only}   # custom
+  - {name: Morgan Stanley,       tier: 2, ats: tracker-only}   # custom
+
 # Alias map: EXACT full-string match on the normalized name (dict lookup — never
 # substring/prefix logic; that's how Citadel and Citadel Securities stay distinct).
 # Keys and values are company_norm forms (SPEC §6.1).
@@ -170,3 +219,9 @@ aliases:
   balyasny asset management: balyasny
   bam: balyasny
   arrowstreet: arrowstreet capital
+  de shaw co: de shaw
+  windsurf: codeium
+  anysphere: cursor
+  qube research technologies: qube rt
+  qube research and technologies: qube rt
+  square: block
