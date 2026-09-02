@@ -30,7 +30,7 @@ import tarfile
 from pathlib import Path
 
 from radar.adapters.base import RawItem
-from radar.adapters.github_trackers import GithubTrackersAdapter
+from radar.adapters.github_trackers import DEFAULT_REPOS, GithubTrackersAdapter
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -203,13 +203,14 @@ def test_fetch_isolates_per_repo_failures():
             raise RuntimeError("boom")
 
     items = GithubTrackersAdapter(http=BoomHttp()).fetch()
-    assert len(items) == len(DEFAULT_REPOS)  # six DEFAULT_REPOS configs, none lost
+    assert len(items) == len(DEFAULT_REPOS)  # one RawItem per repo config, none lost
     assert all(item.error for item in items)
     assert {item.meta["mode"] for item in items} == {
         "simplify",
         "zshah",
         "nuft_yaml",
         "speedyapply",
+        "zapply_md",
     }
 
 
