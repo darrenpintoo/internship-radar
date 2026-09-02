@@ -203,7 +203,7 @@ def test_fetch_isolates_per_repo_failures():
             raise RuntimeError("boom")
 
     items = GithubTrackersAdapter(http=BoomHttp()).fetch()
-    assert len(items) == 6  # six DEFAULT_REPOS configs, none lost
+    assert len(items) == len(DEFAULT_REPOS)  # six DEFAULT_REPOS configs, none lost
     assert all(item.error for item in items)
     assert {item.meta["mode"] for item in items} == {
         "simplify",
@@ -227,3 +227,24 @@ def test_every_mode_emits_nonempty_source_keys():
     assert all_postings
     assert all(p.source_key for p in all_postings)
     assert all(p.source == "github_trackers" for p in all_postings)
+
+
+def test_zapply_underclassmen_markdown_links():
+    """Recorded 2026-08-23: | [Name](url) | Status | Year | Note | rows."""
+    from radar.adapters.base import RawItem
+    from radar.adapters.github_trackers import GithubTrackersAdapter
+
+    payload = (FIXTURES / "github_zapply_underclass.md").read_text()
+    raw = RawItem(
+        "github_trackers",
+        "zapplyjobs/underclassmen-internships",
+        payload=payload,
+        meta={"mode": "zapply_md", "repo": "zapplyjobs/underclassmen-internships"},
+    )
+    postings = GithubTrackersAdapter(http=None).parse(raw)
+    assert len(postings) >= 5
+    by_title = {p.title: p for p in postings}
+    ms = next(p for t, p in by_title.items() if "Microsoft Explore" in t)
+    assert ms.url.startswith("https://careers.microsoft.com")
+    assert "Freshman" in (ms.tracker_hints.get("eligibility") or "") or "Freshman" in ms.description
+    assert all(p.source_key for p in postings)

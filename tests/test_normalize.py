@@ -108,3 +108,12 @@ class TestTimestamps:
     def test_epoch_conversions(self):
         assert normalize.iso_from_epoch_ms(1711403416463).startswith("2024-03-25T")
         assert normalize.iso_from_epoch_s(1711403416).startswith("2024-03-25T")
+
+    def test_early_talent_program_titles_kept(self):
+        # Sophomore programs aren't titled "Intern" (Citadel Launch, MS Explore...).
+        assert normalize.keep("Launch Program - Sophomore Software Engineering", "full")
+        assert normalize.keep("Optiver FutureFocus 2027", "full")
+        assert normalize.keep("First-Year Explore Program", "full")
+        assert normalize.keep("Women in Trading Tech Winternship", "full")
+        assert normalize.keep("Rising Fellows Fellowship", "full")
+        assert not normalize.keep("Senior Launch Manager", "full")

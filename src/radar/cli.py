@@ -267,6 +267,8 @@ def _dry_run_fixtures() -> dict:
             "url"
         ]: _FIXTURES / "github_zshah_jobs.json",
         repos["northwesternfintech/2027QuantInternships"]["url"]: _nuft_fixture_tarball(),
+        repos["zapplyjobs/underclassmen-internships"]["url"]: _FIXTURES
+        / "github_zapply_underclass.md",
         repos["speedyapply/2027-SWE-College-Jobs"]["url"]: _FIXTURES
         / "github_speedyapply_readme.md",
         repos["speedyapply/2027-AI-College-Jobs"]["url"]: _FIXTURES

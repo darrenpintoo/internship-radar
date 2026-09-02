@@ -59,8 +59,15 @@ def content_hash(company_normed: str, title_normed: str) -> str:
 
 # ---------------------------------------------------------------- prefilter
 
+# Early-talent programs are titled "Launch"/"Explore"/"FutureFocus", not
+# "Intern" — the class-year tokens catch them on direct boards (a false
+# positive costs one cheap LLM call; a false negative costs the posting).
 INCLUDE_RE = re.compile(
-    r"\bintern(s|ship|ships)?\b|\bco[-\s]?ops?\b|\bsummer\s+(analyst|associate)\b", re.I
+    r"\bintern(s|ship|ships)?\b|\bco[-\s]?ops?\b|\bsummer\s+(analyst|associate)\b"
+    r"|\bsophomores?\b|\bfreshm[ae]n\b|\bfirst[-\s]?year\b|\bsecond[-\s]?year\b"
+    r"|\bunderclass\w*|\bearly\s+insights?\b|\bemerging\s+talent\b|\bdiscovery\s+day\b"
+    r"|\bfellowship\b|\bfuturefocus\b|\blaunchpad\b|\bwinternship\b",
+    re.I,
 )
 SEASON_2026_TITLE_RE = re.compile(
     rf"\b{_SEASON}\s*(of\s*)?['’]?\s*2026\b|\b2026\s*['’]?\s*{_SEASON}\b",

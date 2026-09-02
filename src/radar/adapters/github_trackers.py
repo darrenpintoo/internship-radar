@@ -58,6 +58,13 @@ DEFAULT_REPOS: list[dict] = [
         "/tar.gz/refs/heads/main",
     },
     {
+        # Early-talent/sophomore programs (Launch/Explore/FutureFocus...) —
+        # markdown-link pipe tables: | [Name](url) | Status | Year | Note |
+        "repo": "zapplyjobs/underclassmen-internships",
+        "mode": "zapply_md",
+        "url": f"{_RAW}/zapplyjobs/underclassmen-internships/main/README.md",
+    },
+    {
         "repo": "speedyapply/2027-SWE-College-Jobs",
         "mode": "speedyapply",
         "url": f"{_RAW}/speedyapply/2027-SWE-College-Jobs/main/README.md",
@@ -70,6 +77,7 @@ DEFAULT_REPOS: list[dict] = [
 ]
 
 # Sentinel spelling verified live 2026-08-20 in both speedyapply READMEs.
+_MD_LINK_RE = re.compile(r"\[([^\]]+)\]\((https?://[^)\s]+)\)")
 _SPEEDY_TABLES = ("TABLE_FAANG", "TABLE_QUANT", "TABLE")
 _STRONG_RE = re.compile(r"<strong>(.*?)</strong>")
 _HREF_RE = re.compile(r'href="([^"]+)"')
@@ -141,6 +149,8 @@ class GithubTrackersAdapter:
             return self._parse_nuft(raw)
         if mode == "speedyapply":
             return self._parse_speedyapply(raw)
+        if mode == "zapply_md":
+            return self._parse_zapply_md(raw)
         raise ValueError(f"unknown github_trackers mode {mode!r}")
 
     def _parse_simplify(self, raw: RawItem) -> list[Posting]:
@@ -270,4 +280,40 @@ class GithubTrackersAdapter:
                         # Age column is relative ("36d") — first_seen_at carries.
                     )
                 )
+        return postings
+
+    def _parse_zapply_md(self, raw: RawItem) -> list[Posting]:
+        """underclassmen-internships: | [Name](url) | Status | Year | Note | rows
+        (one section drops the Status column — map cells by count)."""
+        postings = []
+        for line in raw.payload.splitlines():
+            if not line.startswith("|") or "](" not in line:
+                continue
+            m = _MD_LINK_RE.search(line)
+            if not m:
+                continue
+            name, url = m.group(1).strip(), m.group(2).strip()
+            cells = [c.strip() for c in line.strip("|").split("|")]
+            rest = cells[1:]
+            status, year, note = "", "", ""
+            if len(rest) >= 3:
+                status, year, note = rest[0], rest[1], " ".join(rest[2:])
+            elif len(rest) == 2:
+                year, note = rest[0], rest[1]
+            hints = {"program": "underclassmen"}
+            if year:
+                hints["eligibility"] = year
+            postings.append(
+                Posting(
+                    company_name=name,
+                    title=name,
+                    url=url,
+                    source=self.name,
+                    source_ref=raw.source_ref,
+                    source_key=_sha256(url),
+                    description=f"Early-talent program. Eligibility: {year or 'unknown'}. "
+                    f"Status: {status or 'unknown'}. {note}".strip(),
+                    tracker_hints=hints,
+                )
+            )
         return postings

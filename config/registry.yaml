@@ -9,28 +9,28 @@ companies:
   # ---- verified live 2026-08-20 (probed) ----
   - {name: Anthropic,            tier: S, ats: greenhouse, token: anthropic}
   - {name: Datadog,              tier: 1, ats: greenhouse, token: datadog}
-  - {name: Stripe,               tier: 1, ats: greenhouse, token: stripe}
+  - {name: Stripe,               tier: S, ats: greenhouse, token: stripe}
   - {name: Jump Trading,         tier: S, ats: greenhouse, token: jumptrading}
   - {name: Hudson River Trading, tier: S, ats: greenhouse, token: wehrtyou}
   - {name: Five Rings,           tier: S, ats: greenhouse, token: fiveringsllc}
   - {name: Radix Trading,        tier: S, ats: greenhouse, token: radixuniversity}
-  - {name: Optiver,              tier: 1, ats: greenhouse, token: optiverus}
-  - {name: IMC Trading,          tier: 1, ats: greenhouse, token: imc}
-  - {name: DRW,                  tier: 1, ats: greenhouse, token: drweng}
-  - {name: Akuna Capital,        tier: 1, ats: greenhouse, token: akunacapital}
+  - {name: Optiver,              tier: S, ats: greenhouse, token: optiverus}
+  - {name: IMC Trading,          tier: S, ats: greenhouse, token: imc}
+  - {name: DRW,                  tier: S, ats: greenhouse, token: drweng}
+  - {name: Akuna Capital,        tier: S, ats: greenhouse, token: akunacapital}
   - {name: Old Mission,          tier: 1, ats: greenhouse, token: oldmissioncapital}
-  - {name: CTC,                  tier: 1, ats: greenhouse, token: chicagotradingcampus}
-  - {name: Tower Research,       tier: 1, ats: greenhouse, token: towerresearchcapital}
+  - {name: CTC,                  tier: S, ats: greenhouse, token: chicagotradingcampus}
+  - {name: Tower Research,       tier: S, ats: greenhouse, token: towerresearchcapital}
   - {name: Belvedere Trading,    tier: 1, ats: lever,      token: belvederetrading}
   - {name: Virtu Financial,      tier: 2, ats: greenhouse, token: virtu}
-  - {name: XTX Markets,          tier: 1, ats: greenhouse, token: xtxmarketstechnologies}
+  - {name: XTX Markets,          tier: S, ats: greenhouse, token: xtxmarketstechnologies}
   - {name: OpenAI,               tier: S, ats: ashby,      token: openai}   # ~12MB payload
   - {name: Cerebras,             tier: 1, ats: ashby,      token: cerebras}
   - {name: Groq,                 tier: 1, ats: tracker-only}   # Gem ATS; M3 (§5.10)
   - {name: Together AI,          tier: 1, ats: greenhouse, token: togetherai}
   - {name: Modal,                tier: 1, ats: ashby,      token: modal}
   - {name: Anyscale,             tier: 2, ats: ashby,      token: anyscale}
-  - {name: Databricks,           tier: 1, ats: greenhouse, token: databricks}
+  - {name: Databricks,           tier: S, ats: greenhouse, token: databricks}
   - {name: Scale AI,             tier: 2, ats: greenhouse, token: scaleai}
   - {name: SpaceX,               tier: 1, ats: greenhouse, token: spacex}          # 60s timeout tier
   - {name: Anduril,              tier: 1, ats: greenhouse, token: andurilindustries}  # 60s timeout tier
@@ -38,12 +38,12 @@ companies:
   - {name: Notion,               tier: 1, ats: ashby,      token: notion}
   - {name: Roblox,               tier: 2, ats: greenhouse, token: roblox}
   # ---- quant additions, verified live 2026-08-20 ----
-  - {name: SIG,                  tier: 1, ats: icims, token: careers.sig.com}
-  - {name: AQR,                  tier: 1, ats: greenhouse, token: aqr}
+  - {name: SIG,                  tier: S, ats: icims, token: careers.sig.com}
+  - {name: AQR,                  tier: S, ats: greenhouse, token: aqr}
   - {name: Walleye Capital,      tier: 1, ats: greenhouse, token: walleyecapital-external-students}
   - {name: TransMarket Group,    tier: 1, ats: greenhouse, token: transmarketgroup}
   - {name: Arrowstreet Capital,  tier: 1, ats: workday}   # M3; arrowstreetcapital.wd5 / Campus_Careers
-  - {name: Two Sigma,            tier: 1, ats: avature, token: careers.twosigma.com}  # M3
+  - {name: Two Sigma,            tier: S, ats: avature, token: careers.twosigma.com}  # M3
   - {name: Maven Securities,     tier: 2, ats: greenhouse, token: mavensecuritiesholdingltd}
   - {name: Stevens Capital,      tier: 2, ats: greenhouse, token: scm}
   - {name: Xantium,              tier: 2, ats: greenhouse, token: xantium}
@@ -65,7 +65,7 @@ companies:
   - {name: PEAK6,                tier: 2, ats: custom}     # M3 sitemap-diff (careers.peak6.com)
   - {name: Balyasny,             tier: 2, ats: tracker-only}
   # ---- ai-infra additions, tokens verified live 2026-08-20 ----
-  - {name: xAI,                  tier: 1, ats: greenhouse, token: xai}
+  - {name: xAI,                  tier: S, ats: greenhouse, token: xai}
   - {name: CoreWeave,            tier: 1, ats: greenhouse, token: coreweave}  # includes W&B roles
   - {name: Lambda,               tier: 1, ats: ashby,      token: lambda}
   - {name: Tenstorrent,          tier: 1, ats: greenhouse, token: tenstorrent}
@@ -115,7 +115,7 @@ companies:
   - {name: Jane Street,          tier: S, ats: greenhouse, token: janestreet}  # probed 2026-08-20: public board WORKS; titles strip 'Intern' — campus flag lives in Employment Type metadata (adapter folds it into the title)
   - {name: Citadel,              tier: S, ats: tracker-only}   # bot-protected custom; NOT on Eightfold
   - {name: Citadel Securities,   tier: S, ats: tracker-only}   # separate firm — never alias-merge with Citadel
-  - {name: Millennium,           tier: 1, ats: eightfold, token: career.mlp.com}  # M3, before Oct
+  - {name: Millennium,           tier: S, ats: eightfold, token: career.mlp.com}  # M3, before Oct
   - {name: DE Shaw,              tier: S, ats: tracker-only}
   - {name: NVIDIA,               tier: S, ats: workday}    # M3 tenant #1
   - {name: AMD,                  tier: 1, ats: icims, token: careers.amd.com}
@@ -124,14 +124,14 @@ companies:
   - {name: Micron,               tier: 2, ats: tracker-only}   # Eightfold (tenant 403s)
   - {name: Marvell,              tier: 2, ats: tracker-only}   # Workday; M3 candidate
   - {name: Waymo,                tier: 1, ats: tracker-only}
-  - {name: Google,               tier: 1, ats: tracker-only}
-  - {name: Meta,                 tier: 1, ats: tracker-only}
+  - {name: Google,               tier: S, ats: tracker-only}
+  - {name: Meta,                 tier: S, ats: tracker-only}
   - {name: Uber,                 tier: 1, ats: tracker-only}
   - {name: Netflix,              tier: 2, ats: eightfold, token: explore.jobs.netflix.net}  # M3
   # ---- still probe at M1 ----
-  - {name: Point72,              tier: 1, ats: greenhouse, token: point72}   # probed 2026-08-20
+  - {name: Point72,              tier: S, ats: greenhouse, token: point72}   # probed 2026-08-20
   - {name: PDT Partners,         tier: 1, ats: greenhouse, token: pdtpartners}   # probed 2026-08-20
-  - {name: Squarepoint,          tier: 1, ats: greenhouse, token: squarepointcapital}   # probed 2026-08-20 (90 jobs)
+  - {name: Squarepoint,          tier: S, ats: greenhouse, token: squarepointcapital}   # probed 2026-08-20 (90 jobs)
   - {name: Flow Traders,         tier: 1, ats: greenhouse, token: flowtraders}   # probed 2026-08-20
   - {name: Wolverine Trading,    tier: 2, ats: tracker-only}   # probed 2026-08-20: no public board found
   - {name: Headlands,            tier: 1, ats: tracker-only}   # probed 2026-08-21: greenhouse headlandstech 404s in CI; no public board
@@ -140,7 +140,7 @@ companies:
   - {name: Bridgewater,          tier: 2, ats: tracker-only}   # probed 2026-08-21: greenhouse bridgewaterassociates 404s in CI; custom portal
 
   # ---- owner list additions 2026-08-21 (Claude's "better than IBM" tiers) ----
-  - {name: Qube RT,              tier: 1, ats: greenhouse, token: quberesearchandtechnologies}   # probed 2026-08-21 (187 jobs)
+  - {name: Qube RT,              tier: S, ats: greenhouse, token: quberesearchandtechnologies}   # probed 2026-08-21 (187 jobs)
   - {name: Runway,               tier: 2, ats: ashby, token: runway}   # probed 2026-08-23
   - {name: ElevenLabs,           tier: 2, ats: ashby, token: elevenlabs}   # probed 2026-08-23
   - {name: Codeium,              tier: 2, ats: tracker-only}   # Windsurf; no public board found 2026-08-21
@@ -151,9 +151,9 @@ companies:
   - {name: TSMC,                 tier: 2, ats: tracker-only}   # custom/Taleo
   - {name: Synopsys,             tier: 2, ats: tracker-only}   # Workday-class; M3 candidate
   - {name: Cadence,              tier: 2, ats: tracker-only}   # Workday-class; M3 candidate
-  - {name: Apple,                tier: 1, ats: tracker-only}   # custom (jobs.apple.com)
-  - {name: Amazon,               tier: 1, ats: tracker-only}   # custom (amazon.jobs)
-  - {name: Microsoft,            tier: 1, ats: tracker-only}   # custom
+  - {name: Apple,                tier: S, ats: tracker-only}   # custom (jobs.apple.com)
+  - {name: Amazon,               tier: S, ats: tracker-only}   # custom (amazon.jobs)
+  - {name: Microsoft,            tier: S, ats: tracker-only}   # custom
   - {name: Airbnb,               tier: 1, ats: greenhouse, token: airbnb}   # probed 2026-08-23
   - {name: Lyft,                 tier: 2, ats: greenhouse, token: lyft}   # probed 2026-08-23
   - {name: DoorDash,             tier: 2, ats: greenhouse, token: doordashusa}   # probed 2026-08-21 (463 jobs)
@@ -288,6 +288,17 @@ companies:
   - {name: Dyna Robotics, tier: 2, ats: ashby, token: dyna-robotics}   # discovered 2026-08-23 (1 intern live)
   - {name: Boom Supersonic, tier: 2, ats: tracker-only}   # discovered 2026-08-23: Rippling ATS (ats.rippling.com/boom-supersonic); 'Summer 2027 Engineer
 
+  # ---- early-talent program companies 2026-08-23 (sophomore-lane memo) ----
+  - {name: Duolingo,             tier: 1, ats: greenhouse, token: duolingo}   # probed 2026-08-23 (86 jobs); Thrive is Pittsburgh
+  - {name: Dropbox,              tier: 2, ats: greenhouse, token: dropbox}    # probed 2026-08-23 (42 jobs)
+  - {name: LinkedIn,             tier: 1, ats: tracker-only}   # First Play; custom careers site
+  - {name: Capital One,          tier: 2, ats: tracker-only}   # TEIP; custom
+  - {name: JPMorgan,             tier: 2, ats: tracker-only}   # Sophomore Fellowship; custom
+  - {name: Bank of America,      tier: 2, ats: tracker-only}   # Sophomore Analyst; custom
+  - {name: Wells Fargo,          tier: 2, ats: tracker-only}   # Discovery; custom
+  - {name: Salesforce,           tier: 2, ats: tracker-only}   # Futureforce Launchpad via CodePath
+  - {name: EA,                   tier: 2, ats: tracker-only}   # Pathfinder; gr8people ATS
+
 # Alias map: EXACT full-string match on the normalized name (dict lookup — never
 # substring/prefix logic; that's how Citadel and Citadel Securities stay distinct).
 # Keys and values are company_norm forms (SPEC §6.1).
@@ -325,3 +336,9 @@ aliases:
   qube research technologies: qube rt
   qube research and technologies: qube rt
   square: block
+  google deepmind: google
+  deepmind: google
+  jpmorgan chase: jpmorgan
+  jp morgan: jpmorgan
+  electronic arts: ea
+  capital one financial: capital one
