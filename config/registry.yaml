@@ -299,6 +299,21 @@ companies:
   - {name: Salesforce,           tier: 2, ats: tracker-only}   # Futureforce Launchpad via CodePath
   - {name: EA,                   tier: 2, ats: tracker-only}   # Pathfinder; gr8people ATS
 
+  # ---- small-quant verification 2026-08-23: board + intern-evidence gate passed ----
+  - {name: GTS, tier: 1, ats: tracker-only}   # verified 2026-08-23: Recurring multi-track NYC summer internship: LinkedIn postings for 2022 cohort, 
+  - {name: Tradebot, tier: 2, ats: tracker-only}   # verified 2026-08-23: Actively recruiting Summer 2027 internship per tradebot.com (apply with resume +
+  - {name: Volant Trading, tier: 2, ats: tracker-only}   # verified 2026-08-23: Recurring NYC summer trading internship: Indeed 'Summer Intern' salary pages for
+  - {name: TGS Management, tier: 2, ats: tracker-only}   # verified 2026-08-23: Real domain is tgsmc.com (tgsmanagement.com is a parked HugeDomains page — do no
+  - {name: Clear Street, tier: 2, ats: greenhouse, token: clearstreet}   # verified 2026-08-23 (0 intern live): GH board live (24 jobs via ?content=true; bare /jo
+  - {name: Crabel Capital Management, tier: 2, ats: greenhouse, token: crabel}   # verified 2026-08-23 (0 intern live): GH board live (2 jobs, company_name 'Crabel Capita
+  - {name: Eclipse Trading, tier: 2, ats: greenhouse, token: eclipsetrading}   # verified 2026-08-23 (0 intern live): GH board live (19 jobs). US office exists (Chicago
+  - {name: Tanius Technology, tier: 2, ats: greenhouse, token: tanius}   # verified 2026-08-23 (0 intern live): GH board live (8 jobs, company_name 'Tanius Techno
+  - {name: PanAgora Asset Management, tier: 2, ats: tracker-only}   # verified 2026-08-23: Workday ATS (myworkdayjobs.com/PanAgora embedded on panagora.com careers page) —
+  - {name: Spark Investment Management, tier: 2, ats: tracker-only}   # verified 2026-08-23: No ATS board (WordPress site, sparkim.com/careers + /internships/ pages; GH/Leve
+  - {name: Aigen Investment Management, tier: 2, ats: tracker-only}   # verified 2026-08-23: Real domain is aigen-im.com (NYC ML fund); dedicated intern page aigen-im.com/jo
+  - {name: Scientech Research, tier: 2, ats: ashby, token: scientech-research}   # verified 2026-08-23 (6 intern live): api.ashbyhq.com/posting-api/job-board/scientech-re
+  - {name: DL Trading, tier: 2, ats: greenhouse, token: confidentialsportstradingfirm}   # verified 2026-08-23 (2 intern live): dltrading.io/careers embeds boards.greenhouse.io/e
+
 # Alias map: EXACT full-string match on the normalized name (dict lookup — never
 # substring/prefix logic; that's how Citadel and Citadel Securities stay distinct).
 # Keys and values are company_norm forms (SPEC §6.1).
