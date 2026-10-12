@@ -73,6 +73,35 @@ Paste this with the repo:
 > verify; (5) walk me through step 3 above (secrets) — never ask me to paste
 > key values into chat.
 
+## Targeting new-grad roles instead of internships
+
+Set the repo variable `RADAR_TARGET=newgrad`. The prefilter switches to
+entry-level titles (new grad / graduate engineer / entry-level...) and the
+tracker sources switch to the new-grad repos (SimplifyJobs/New-Grad-Positions,
+vanshb03/New-Grad-2027, speedyapply NEW_GRAD_USA). Rewrite config/profile.md
+accordingly ("seeking full-time new-grad roles").
+
+## Filtering knobs (repo variables)
+
+- `RADAR_WORKAUTH_OK` — comma list of work-auth statuses that are FINE for you;
+  the digest warns only about the rest. US citizen:
+  `citizen_only,no_sponsorship,sponsors_ok`. Needs sponsorship: leave the
+  default (`sponsors_ok`). Also state your status in config/profile.md so the
+  scorer stops flagging it.
+- `DIGEST_MIN_FIT` — hide scored postings below this fit (e.g. `40`).
+- `DIGEST_HIDE_CATEGORIES` — e.g. `other` to drop off-track roles entirely.
+
+## No OpenAI/Anthropic key? OpenRouter works
+
+Set `RADAR_LLM_PROVIDER=openrouter`, secret `OPENROUTER_API_KEY`, and variable
+`RADAR_OPENROUTER_MODEL`. Caveats: pick a model that supports structured
+outputs (json_schema); OpenRouter's *free*-tier models are capped around
+50 requests/day — fine for daily upkeep (~10-50 scorings/day) but the one-time
+~1,500-posting bootstrap would take weeks, so either buy ~$5 of OpenRouter
+credits for the bootstrap or accept a slow ramp-up. A paid mini-tier model
+(e.g. `openai/gpt-4.1-mini` via OpenRouter) costs the same ~$5-15/month as
+going direct.
+
 ## Honest limitations
 
 Citadel, DE Shaw and a few other firms bot-wall their sites — they arrive via
