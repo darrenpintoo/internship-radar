@@ -23,6 +23,12 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RADAR_LLM_PROVIDER: ${{ vars.RADAR_LLM_PROVIDER }}
           RADAR_LLM_WORKERS: ${{ vars.RADAR_LLM_WORKERS }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          RADAR_OPENROUTER_MODEL: ${{ vars.RADAR_OPENROUTER_MODEL }}
+          RADAR_TARGET: ${{ vars.RADAR_TARGET }}
+          RADAR_WORKAUTH_OK: ${{ vars.RADAR_WORKAUTH_OK }}
+          DIGEST_MIN_FIT: ${{ vars.DIGEST_MIN_FIT }}
+          DIGEST_HIDE_CATEGORIES: ${{ vars.DIGEST_HIDE_CATEGORIES }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}    # flash alerts send from poll runs
           DIGEST_TO: ${{ vars.DIGEST_TO }}
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}

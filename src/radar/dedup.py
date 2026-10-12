@@ -32,6 +32,7 @@ def process_board(
     prefilter_policy: str,
     aliases: dict[str, str],
     now: str | None = None,
+    target: str = "internship",
 ) -> BoardStats:
     """Store one board's post-parse snapshot.
 
@@ -72,7 +73,7 @@ def process_board(
                 stats.repost_ids.append(row["id"])
             continue
 
-        if not normalize.keep(p.title, prefilter_policy):
+        if not normalize.keep(p.title, prefilter_policy, target):
             stats.dropped_prefilter += 1
             continue
 

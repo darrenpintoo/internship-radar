@@ -117,3 +117,10 @@ class TestTimestamps:
         assert normalize.keep("Women in Trading Tech Winternship", "full")
         assert normalize.keep("Rising Fellows Fellowship", "full")
         assert not normalize.keep("Senior Launch Manager", "full")
+
+    def test_newgrad_target_swaps_include_regex(self):
+        assert normalize.keep("Software Engineer, New Grad (2027)", "full", target="newgrad")
+        assert normalize.keep("Graduate Software Engineer", "full", target="newgrad")
+        assert normalize.keep("Entry-Level Backend Engineer", "full", target="newgrad")
+        assert not normalize.keep("Software Engineering Intern", "full", target="newgrad")
+        assert not normalize.keep("Senior Software Engineer", "full", target="newgrad")

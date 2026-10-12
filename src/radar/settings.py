@@ -49,15 +49,36 @@ class Settings:
     sheet_webapp_url: str
     sheet_token: str
     llm_workers: int = 1  # concurrent LLM calls (I/O-bound; RADAR_LLM_WORKERS)
+    # 'internship' (default) or 'newgrad' — swaps the prefilter include-regex
+    # and the tracker repo set so a new-grad user polls new-grad sources.
+    target: str = "internship"
+    # Work-auth statuses that are FINE for this user: the digest flags anything
+    # else. A US citizen sets all three; a visa-needing user keeps the default.
+    workauth_ok: frozenset = frozenset({"sponsors_ok"})
+    digest_min_fit: int = 0  # hide (and silently consume) enriched clusters below this
+    digest_hide_categories: frozenset = frozenset()  # e.g. {'other'}
+    openrouter_api_key: str = ""
+    openrouter_model: str = "openai/gpt-4.1-mini"
+
+
+def _env_csv(env, name: str, default: frozenset) -> frozenset:
+    raw = env.get(name, "").strip()
+    if not raw:
+        return default
+    return frozenset(x.strip() for x in raw.split(",") if x.strip())
 
 
 def _resolve_provider(env) -> str:
     """RADAR_LLM_PROVIDER wins; else auto-select from whichever key exists (SPEC §7)."""
     explicit = env.get("RADAR_LLM_PROVIDER", "").strip().lower()
-    if explicit in ("anthropic", "openai"):
+    if explicit in ("anthropic", "openai", "openrouter"):
         return explicit
-    if not env.get("ANTHROPIC_API_KEY") and env.get("OPENAI_API_KEY"):
+    if env.get("ANTHROPIC_API_KEY"):
+        return "anthropic"
+    if env.get("OPENAI_API_KEY"):
         return "openai"
+    if env.get("OPENROUTER_API_KEY"):
+        return "openrouter"
     return "anthropic"
 
 
@@ -79,6 +100,12 @@ def load_settings() -> Settings:
         openai_model=env.get("RADAR_OPENAI_MODEL", "").strip() or "gpt-4.1-mini",
         llm_provider=_resolve_provider(env),
         llm_workers=max(1, _env_int("RADAR_LLM_WORKERS", 6)),
+        target=(env.get("RADAR_TARGET", "").strip().lower() or "internship"),
+        workauth_ok=_env_csv(env, "RADAR_WORKAUTH_OK", frozenset({"sponsors_ok"})),
+        digest_min_fit=_env_int("DIGEST_MIN_FIT", 0),
+        digest_hide_categories=_env_csv(env, "DIGEST_HIDE_CATEGORIES", frozenset()),
+        openrouter_api_key=env.get("OPENROUTER_API_KEY", ""),
+        openrouter_model=env.get("RADAR_OPENROUTER_MODEL", "").strip() or "openai/gpt-4.1-mini",
         resend_api_key=env.get("RESEND_API_KEY", ""),
         sheet_webapp_url=env.get("SHEET_WEBAPP_URL", ""),
         sheet_token=env.get("SHEET_TOKEN", ""),

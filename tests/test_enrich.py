@@ -272,3 +272,19 @@ class TestAnthropicParse:
         resp = type("R", (), {"stop_reason": "max_tokens", "parsed_output": None})()
         with pytest.raises(enrich.Truncated):
             self._client("claude-haiku-4-5-20251001", resp).parse("s", "u")
+
+
+def test_openrouter_provider_builds_openai_compatible_client(monkeypatch):
+    import openai
+
+    captured = {}
+
+    class FakeOpenAI:
+        def __init__(self, api_key=None, base_url=None):
+            captured["base_url"] = base_url
+
+    monkeypatch.setattr(openai, "OpenAI", FakeOpenAI)
+    s = make_settings(llm_provider="openrouter", openrouter_api_key="or_test")
+    client = enrich.build_client(s)
+    assert captured["base_url"] == "https://openrouter.ai/api/v1"
+    assert client.model_name == s.openrouter_model

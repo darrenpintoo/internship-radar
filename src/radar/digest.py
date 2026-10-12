@@ -130,6 +130,7 @@ def _build_row(
     registry: dict,
     tiers: dict[str, str],
     applied_status: str | None,
+    workauth_ok: frozenset = frozenset({"sponsors_ok"}),
 ) -> dict[str, Any]:
     rep = representative(members)
     enr = _pick_enrichment(conn, members)
@@ -170,7 +171,11 @@ def _build_row(
             else ("off-season" if season == "other" else "season?")
         ),
         "grad_flag": grad_flag(enr["grad_earliest"], enr["grad_latest"]) if enriched else None,
-        "workauth": (enr["workauth"] if enriched and enr["workauth"] != "unspecified" else None),
+        "workauth": (
+            enr["workauth"]
+            if enriched and enr["workauth"] != "unspecified" and enr["workauth"] not in workauth_ok
+            else None
+        ),
         "deadline": enr["deadline"] if enriched else None,
         "rationale": enr["rationale"] if enriched else None,
         "red_flags": red_flags,
@@ -218,6 +223,9 @@ def build_digest(
     max_rows = int(getattr(settings, "digest_max_rows", 150) or 150)
     tiers = tier_index(registry)
 
+    wa_ok = frozenset(getattr(settings, "workauth_ok", frozenset({"sponsors_ok"})))
+    min_fit = int(getattr(settings, "digest_min_fit", 0) or 0)
+    hide_cats = frozenset(getattr(settings, "digest_hide_categories", frozenset()))
     stale_cutoff = (today_d - timedelta(days=STALE_DAYS)).isoformat()
     rows: list[dict[str, Any]] = []
     for members in select_clusters(conn):
@@ -225,7 +233,7 @@ def build_digest(
         status = db.kv_get(conn, f"applied_status:{key}")
         if status in HIDDEN_STATUSES:
             continue
-        row = _build_row(conn, members, registry, tiers, status)
+        row = _build_row(conn, members, registry, tiers, status, workauth_ok=wa_ok)
         if row["first_seen_at"][:10] < stale_cutoff:
             log.warning(
                 "undigested cluster %s (%s — %s) older than %d days",
@@ -236,6 +244,18 @@ def build_digest(
             )
         rows.append(row)
     rows.sort(key=_sort_key)
+
+    # Owner floor: scored clusters below DIGEST_MIN_FIT or in a hidden category
+    # are consumed silently — marked digested without ever rendering.
+    suppressed_ids: list[int] = []
+    if min_fit or hide_cats:
+        kept_rows = []
+        for r in rows:
+            if r["enriched"] and (r["max_fit"] < min_fit or (r["category"] or "") in hide_cats):
+                suppressed_ids.extend(r["member_ids"])
+            else:
+                kept_rows.append(r)
+        rows = kept_rows
 
     strong = [r for r in rows if _group_of(r) == "strong"]
     worth = [r for r in rows if _group_of(r) == "worth"]
@@ -253,7 +273,7 @@ def build_digest(
             continue
         seen_closing.add(key)
         members = db.cluster_members(conn, key)
-        crow = _build_row(conn, members, registry, tiers, None)
+        crow = _build_row(conn, members, registry, tiers, None, workauth_ok=wa_ok)
         if crow["max_fit"] < CLOSING_MIN_FIT:
             continue  # DECISION: closing-soon only for roles worth applying to
         crow["deadline"] = p["deadline"]
@@ -327,6 +347,7 @@ def build_digest(
     rendered_ids: list[int] = []
     for r in strong + worth + other:
         rendered_ids.extend(r["member_ids"])
+    rendered_ids.extend(suppressed_ids)
 
     return Digest(
         subject=subject,

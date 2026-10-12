@@ -14,6 +14,7 @@ def run_poll(
     adapters: list[SourceAdapter],
     aliases: dict[str, str],
     mode: str = "poll",
+    target: str = "internship",
 ) -> tuple[RunReport, list[int], list[int]]:
     """Poll all adapters. Returns (report, new_posting_ids, repost_posting_ids).
 
@@ -49,7 +50,9 @@ def run_poll(
                 report.sources_failed[board] = f"parse: {type(exc).__name__}: {exc}"
                 continue
             adapter_ok = True
-            stats = dedup.process_board(conn, postings, adapter.prefilter_policy, aliases)
+            stats = dedup.process_board(
+                conn, postings, adapter.prefilter_policy, aliases, target=target
+            )
             dedup.detect_closed(conn, adapter.name, raw.source_ref, stats.seen_keys, stats)
             if stats.closure_skipped:
                 report.sources_failed[f"{board} (closure-guard)"] = stats.closure_skipped

@@ -249,3 +249,26 @@ def test_zapply_underclassmen_markdown_links():
     assert ms.url.startswith("https://careers.microsoft.com")
     assert "Freshman" in (ms.tracker_hints.get("eligibility") or "") or "Freshman" in ms.description
     assert all(p.source_key for p in postings)
+
+
+def test_newgrad_target_uses_newgrad_repos_and_skips_season_filter():
+    from radar.adapters.github_trackers import NEWGRAD_REPOS
+
+    a = GithubTrackersAdapter(http=None, target="newgrad")
+    assert a._repos is NEWGRAD_REPOS
+    assert all("New-Grad" in c["repo"] or "NEW_GRAD" in c["url"] for c in NEWGRAD_REPOS)
+    # season_filter False keeps items with no Summer-2027 term.
+    item = {
+        "company_name": "Acme",
+        "title": "Software Engineer, New Grad",
+        "url": "https://x.co/1",
+        "id": "u1",
+        "locations": ["NYC"],
+        "active": True,
+        "is_visible": True,
+    }
+    raw = _raw("simplify", "SimplifyJobs/New-Grad-Positions", [item])
+    raw.meta["season_filter"] = False
+    assert len(a.parse(raw)) == 1
+    raw.meta["season_filter"] = True
+    assert len(a.parse(raw)) == 0  # internship mode would drop it

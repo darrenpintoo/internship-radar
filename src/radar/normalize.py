@@ -75,16 +75,26 @@ SEASON_2026_TITLE_RE = re.compile(
 )
 _2027_RE = re.compile(r"\b2027\b")
 
+# RADAR_TARGET=newgrad swaps the include check: full-time entry-level titles.
+NEWGRAD_INCLUDE_RE = re.compile(
+    r"\bnew[-\s]?grad(uate)?s?\b|\bentry[-\s]?level\b|\buniversity grad(uate)?\b"
+    r"|\bearly[-\s]?career\b|\bgraduate\s+(software|engineer|developer|program|scheme|analyst)"
+    r"|\bcampus\s+hire\b",
+    re.I,
+)
 
-def keep(title: str, policy: str) -> bool:
+
+def keep(title: str, policy: str, target: str = "internship") -> bool:
     """Prefilter in keep-form (SPEC §6.2). Gates INSERTION of new rows only.
 
     policy 'full'          — title must match the include regex (ATS boards)
     policy 'excludes_only' — trackers/HN/Reddit rows skip the include check
+    target 'newgrad' swaps the include regex for entry-level titles.
     Never scans descriptions for years: nearly every live Summer-2027 posting
     mentions a 2026 date (deadlines, company history).
     """
-    if policy == "full" and not INCLUDE_RE.search(title):
+    include = NEWGRAD_INCLUDE_RE if target == "newgrad" else INCLUDE_RE
+    if policy == "full" and not include.search(title):
         return False
     if SEASON_2026_TITLE_RE.search(title) and not _2027_RE.search(title):
         return False

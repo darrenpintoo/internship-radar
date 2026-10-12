@@ -76,6 +76,28 @@ DEFAULT_REPOS: list[dict] = [
     },
 ]
 
+# New-grad sources (verified live 2026-10-11): same schemas as the internship
+# repos, but no Summer-2027 season concept — season_filter: False bypasses it.
+NEWGRAD_REPOS: list[dict] = [
+    {
+        "repo": "SimplifyJobs/New-Grad-Positions",
+        "mode": "simplify",
+        "season_filter": False,
+        "url": f"{_RAW}/SimplifyJobs/New-Grad-Positions/dev/.github/scripts/listings.json",
+    },
+    {
+        "repo": "vanshb03/New-Grad-2027",
+        "mode": "simplify",
+        "season_filter": False,
+        "url": f"{_RAW}/vanshb03/New-Grad-2027/dev/.github/scripts/listings.json",
+    },
+    {
+        "repo": "speedyapply/2027-SWE-College-Jobs#newgrad",
+        "mode": "speedyapply",
+        "url": f"{_RAW}/speedyapply/2027-SWE-College-Jobs/main/NEW_GRAD_USA.md",
+    },
+]
+
 # Sentinel spelling verified live 2026-08-20 in both speedyapply READMEs.
 _MD_LINK_RE = re.compile(r"\[([^\]]+)\]\((https?://[^)\s]+)\)")
 _SPEEDY_TABLES = ("TABLE_FAANG", "TABLE_QUANT", "TABLE")
@@ -102,14 +124,20 @@ class GithubTrackersAdapter:
     name = "github_trackers"
     prefilter_policy = "excludes_only"
 
-    def __init__(self, http, repos: list[dict] | None = None):
+    def __init__(self, http, repos: list[dict] | None = None, target: str = "internship"):
         self._http = http
-        self._repos = DEFAULT_REPOS if repos is None else repos
+        if repos is None:
+            repos = NEWGRAD_REPOS if target == "newgrad" else DEFAULT_REPOS
+        self._repos = repos
 
     def fetch(self) -> list[RawItem]:
         items: list[RawItem] = []
         for cfg in self._repos:
-            meta = {"mode": cfg["mode"], "repo": cfg["repo"]}
+            meta = {
+                "mode": cfg["mode"],
+                "repo": cfg["repo"],
+                "season_filter": cfg.get("season_filter", True),
+            }
             try:
                 payload = self._fetch_one(cfg)
                 items.append(RawItem(self.name, cfg["repo"], payload=payload, meta=meta))
@@ -155,16 +183,18 @@ class GithubTrackersAdapter:
 
     def _parse_simplify(self, raw: RawItem) -> list[Posting]:
         postings = []
+        season_filter = raw.meta.get("season_filter", True)
         for item in raw.payload:
-            terms = item.get("terms")
-            if terms is not None:
-                if "Summer 2027" not in terms:
+            if season_filter:
+                terms = item.get("terms")
+                if terms is not None:
+                    if "Summer 2027" not in terms:
+                        continue
+                # DECISION: vanshb03's `season` is a bare season word live
+                # ('Summer', 'Fall', ...) in a Summer-2027-scoped repo — accept
+                # both the spec's 'Summer 2027' and the observed 'Summer'.
+                elif item.get("season") not in ("Summer 2027", "Summer"):
                     continue
-            # DECISION: vanshb03's `season` is a bare season word live
-            # ('Summer', 'Fall', ...) in a Summer-2027-scoped repo — accept
-            # both the spec's 'Summer 2027' and the observed 'Summer'.
-            elif item.get("season") not in ("Summer 2027", "Summer"):
-                continue
             if item.get("is_visible") is False or item.get("active") is False:
                 continue
             posted = item.get("date_posted")

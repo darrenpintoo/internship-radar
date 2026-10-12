@@ -53,7 +53,11 @@ def _build_adapters(http, registry, limit_sources: list[str] | None):
         if enabled(name) and companies:
             adapters.append(cls(http, companies))
     if enabled("github_trackers"):
-        adapters.append(GithubTrackersAdapter(http))
+        adapters.append(
+            GithubTrackersAdapter(
+                http, target=getattr(settings_mod.load_settings(), "target", "internship")
+            )
+        )
     if enabled("hn"):
         adapters.append(HnWhoIsHiringAdapter(http))
     if enabled("reddit"):
@@ -91,7 +95,7 @@ def _poll(settings, registry, limit_sources, *, cap, suppress_alerts, mode="poll
     try:
         adapters = _build_adapters(http, registry, limit_sources)
         report, new_ids, repost_ids = pipeline.run_poll(
-            conn, adapters, registry["aliases"], mode=mode
+            conn, adapters, registry["aliases"], mode=mode, target=settings.target
         )
         llm_calls, sent = _enrich_and_alert(
             conn, settings, registry, new_ids, repost_ids, cap=cap, suppress_alerts=suppress_alerts

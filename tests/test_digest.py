@@ -58,12 +58,21 @@ def store(conn, postings, policy="full", now=None):
     return dedup.process_board(conn, postings, policy, REGISTRY["aliases"], now=now)
 
 
-def enrich(conn, pid, fit=80, category="swe", season="summer_2027", deadline=None, grad=None):
+def enrich(
+    conn,
+    pid,
+    fit=80,
+    category="swe",
+    season="summer_2027",
+    deadline=None,
+    grad=None,
+    workauth="sponsors_ok",
+):
     out = EnrichmentOut(
         category=category,
         season=season,
         grad_window=GradWindow(**(grad or {})),
-        workauth="sponsors_ok",
+        workauth=workauth,
         deadline=deadline,
         fit=Fit(quant=fit, ai_infra=fit, swe=fit, robotics=fit),
         rationale="Systems-heavy role.",
@@ -424,3 +433,36 @@ def test_best_effort_source_failures_do_not_prefix_subject(conn):
     d = digest.build_digest(conn, settings(), REGISTRY, today="2026-08-23")
     assert not d.subject.startswith("Radar [")
     assert "reddit" in d.html  # still visible in the footer
+
+
+def test_min_fit_suppresses_and_consumes(conn):
+    """Clusters below DIGEST_MIN_FIT are marked digested without rendering."""
+    st = store(
+        conn,
+        [
+            make_posting(source_key="lo", title="QA Intern (Summer 2027)"),
+            make_posting(source_key="hi", title="Quant Dev Intern (Summer 2027)"),
+        ],
+    )
+    lo, hi = st.new_ids
+    enrich(conn, lo, fit=20)
+    enrich(conn, hi, fit=90)
+    d = digest.build_digest(conn, settings(digest_min_fit=40), REGISTRY, today=TODAY)
+    assert d.counts["new"] == 1
+    assert lo in d.rendered_member_ids  # consumed silently
+    assert "QA Intern" not in d.html
+
+
+def test_workauth_ok_hides_citizenship_chip(conn):
+    st = store(conn, [make_posting(title="Defense SWE Intern (Summer 2027)")])
+    [pid] = st.new_ids
+    enrich(conn, pid, fit=80, workauth="citizen_only")
+    flagged = digest.build_digest(conn, settings(), REGISTRY, today=TODAY)
+    assert "citizen only" in flagged.html  # default: warn
+    ok = digest.build_digest(
+        conn,
+        settings(workauth_ok=frozenset({"citizen_only", "no_sponsorship", "sponsors_ok"})),
+        REGISTRY,
+        today=TODAY,
+    )
+    assert "citizen only" not in ok.html  # US citizen: no warning

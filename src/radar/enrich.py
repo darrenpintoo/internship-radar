@@ -143,7 +143,37 @@ class OpenAIClient:
         return out
 
 
+class OpenRouterClient:
+    """OpenRouter is OpenAI-compatible but has no Responses API — use
+    chat.completions.parse against its base_url. Structured outputs require a
+    model that supports json_schema (most paid ones; many :free ones do not)."""
+
+    def __init__(self, api_key: str, model: str) -> None:
+        import openai
+
+        self._client = openai.OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
+        self.model_name = model
+
+    def parse(self, system: str, user: str) -> EnrichmentOut:
+        resp = self._client.chat.completions.parse(
+            model=self.model_name,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            response_format=EnrichmentOut,
+        )
+        out = resp.choices[0].message.parsed
+        if out is None:
+            raise Truncated(self.model_name)
+        return out
+
+
 def build_client(settings: Settings) -> LLMClient:
+    if settings.llm_provider == "openrouter":
+        if not settings.openrouter_api_key:
+            raise RuntimeError("RADAR_LLM_PROVIDER=openrouter but OPENROUTER_API_KEY is empty")
+        return OpenRouterClient(settings.openrouter_api_key, settings.openrouter_model)
     if settings.llm_provider == "openai":
         if not settings.openai_api_key:
             raise RuntimeError("RADAR_LLM_PROVIDER=openai but OPENAI_API_KEY is empty")
