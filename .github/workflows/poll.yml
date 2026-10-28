@@ -32,6 +32,8 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}    # flash alerts send from poll runs
           DIGEST_TO: ${{ vars.DIGEST_TO }}
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
+          RADAR_PROFILE: ${{ secrets.RADAR_PROFILE }}
+          RADAR_GRAD_DATES: ${{ vars.RADAR_GRAD_DATES }}
           GITHUB_TOKEN: ${{ github.token }}
       # Pushes made with the built-in GITHUB_TOKEN do not trigger push-event
       # workflows — THAT is the recursion guard; [skip ci] is insurance for a

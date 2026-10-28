@@ -103,7 +103,7 @@ class TestGradFlag:
 
     def test_some(self):
         assert digest.grad_flag("2028-06", "2029-06") == "⚠ use 2028-12"
-        assert digest.grad_flag(None, "2028-05") == "⚠ use 2028-05"
+        assert digest.grad_flag(None, "2028-05") == "⚠ use 2027-12, 2028-05"
 
     def test_none(self):
         assert digest.grad_flag("2026-05", "2027-06") == "✗ outside window"

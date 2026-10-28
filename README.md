@@ -26,22 +26,29 @@ digests sent to** (the free sender only delivers to the account's own address).
 
 2. **Personalize — the three files that make it YOURS** (this is the part to
    hand to your AI assistant along with this repo):
-   - `config/profile.md` — rewrite completely: who you are, your strengths,
-     your target tracks in priority order, your possible graduation dates.
-     This text IS the scoring rubric; the LLM scores every posting against it.
+   - your profile — who you are, your strengths, your target tracks in
+     priority order, your possible graduation dates. This text IS the scoring
+     rubric; the LLM scores every posting against it. The tracked
+     `config/profile.md` is a public example: put your real profile in
+     `config/profile.local.md` (gitignored) for local runs and in the
+     `RADAR_PROFILE` Actions secret for CI — both override the example, so
+     your personal details never land in the repo.
    - `config/registry.yaml` — the company list. Keep it (it's live-verified) but
      re-tier it: `S` = your dream companies (instant alerts + top placement),
      `1`/`2` = priority order. Add/remove companies freely; run
      `uv run python scripts/probe_ats.py` to auto-resolve board tokens for
      additions.
-   - `src/radar/digest.py` grad-flag dates + `src/radar/models.py` fit tracks —
-     only if your grad dates / track names differ from the profile defaults.
+   - grad-flag dates: set the `RADAR_GRAD_DATES` repo variable (comma-separated
+     `YYYY-MM`, e.g. `2028-05,2028-12`); `src/radar/models.py` fit tracks —
+     only if your track names differ from the defaults.
 
 3. **Secrets and variables** (repo → Settings → Secrets and variables → Actions,
    or `gh secret set` / `gh variable set`):
-   - Secrets: `OPENAI_API_KEY` (or `ANTHROPIC_API_KEY`), `RESEND_API_KEY`
+   - Secrets: `OPENAI_API_KEY` (or `ANTHROPIC_API_KEY`), `RESEND_API_KEY`,
+     `RADAR_PROFILE` = your real profile text (keeps it out of the public repo)
    - Variables: `DIGEST_TO` = your Resend signup email, `OWNER_EMAIL` = your
-     email (goes in the polite User-Agent)
+     email (goes in the polite User-Agent), `RADAR_GRAD_DATES` = your possible
+     graduation dates (`YYYY-MM`, comma-separated)
 
 4. **First run**: Actions tab → `bootstrap` → Run workflow. It ingests
    everything (~2,000 postings), scores the backlog (one-time ~$5–10), and the
@@ -63,13 +70,14 @@ Paste this with the repo:
 
 > This is internship-radar (see SPEC.md — the full design doc). Don't rebuild
 > anything; the endpoints and tokens are live-verified. Do the personalization:
-> (1) rewrite config/profile.md for me from my resume below, keeping the same
-> structure (strengths, numbered target tracks, grad dates, the work-auth
-> line); (2) re-tier config/registry.yaml to my preferences — S for companies
-> I'd drop everything for; (3) if my graduation dates differ from the profile,
-> update GRAD_CANDIDATES in src/radar/digest.py and the four fit tracks in
-> src/radar/models.py + the §7 prompt in src/radar/enrich.py only if my tracks
-> differ; (4) run `uv sync && uv run pytest` and `uv run radar dry-run` to
+> (1) write config/profile.local.md for me from my resume below, keeping the
+> same structure as config/profile.md (strengths, numbered target tracks, grad
+> dates, the work-auth line) — it's gitignored; also set it as the
+> RADAR_PROFILE Actions secret; (2) re-tier config/registry.yaml to my
+> preferences — S for companies I'd drop everything for; (3) set the
+> RADAR_GRAD_DATES repo variable to my graduation dates, and touch the four
+> fit tracks in src/radar/models.py + the §7 prompt in src/radar/enrich.py
+> only if my tracks differ; (4) run `uv sync && uv run pytest` and `uv run radar dry-run` to
 > verify; (5) walk me through step 3 above (secrets) — never ask me to paste
 > key values into chat.
 
@@ -78,7 +86,7 @@ Paste this with the repo:
 Set the repo variable `RADAR_TARGET=newgrad`. The prefilter switches to
 entry-level titles (new grad / graduate engineer / entry-level...) and the
 tracker sources switch to the new-grad repos (SimplifyJobs/New-Grad-Positions,
-vanshb03/New-Grad-2027, speedyapply NEW_GRAD_USA). Rewrite config/profile.md
+vanshb03/New-Grad-2027, speedyapply NEW_GRAD_USA). Rewrite your profile
 accordingly ("seeking full-time new-grad roles").
 
 ## Filtering knobs (repo variables)
@@ -86,7 +94,7 @@ accordingly ("seeking full-time new-grad roles").
 - `RADAR_WORKAUTH_OK` — comma list of work-auth statuses that are FINE for you;
   the digest warns only about the rest. US citizen:
   `citizen_only,no_sponsorship,sponsors_ok`. Needs sponsorship: leave the
-  default (`sponsors_ok`). Also state your status in config/profile.md so the
+  default (`sponsors_ok`). Also state your status in your profile so the
   scorer stops flagging it.
 - `DIGEST_MIN_FIT` — hide scored postings below this fit (e.g. `40`).
 - `DIGEST_HIDE_CATEGORIES` — e.g. `other` to drop off-track roles entirely.

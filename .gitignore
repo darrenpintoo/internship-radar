@@ -3,6 +3,9 @@
 data/jobs.db-journal
 data/jobs.db-wal
 
+# real candidate profile — never commit (tracked profile.md is a public example)
+config/profile.local.md
+
 .venv/
 __pycache__/
 *.pyc

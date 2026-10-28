@@ -181,7 +181,9 @@ def test_tier_s_before_tier_2_when_cap_is_one(conn):
     assert client.calls[0][1].startswith("company: Hudson River Trading")
 
 
-def test_system_prompt_contains_profile_and_rubric(conn):
+def test_system_prompt_contains_profile_and_rubric(conn, monkeypatch):
+    # Pin the profile: locally config/profile.local.md would otherwise win.
+    monkeypatch.setenv("RADAR_PROFILE", "Candidate: Example University ECE undergrad.")
     store(conn, [make_posting(tracker_hints={"sponsorship": "Does not offer"})])
     client = StubClient()
     run(conn, client)

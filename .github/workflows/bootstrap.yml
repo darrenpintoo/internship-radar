@@ -33,6 +33,8 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_TO: ${{ vars.DIGEST_TO }}
           OWNER_EMAIL: ${{ vars.OWNER_EMAIL }}
+          RADAR_PROFILE: ${{ secrets.RADAR_PROFILE }}
+          RADAR_GRAD_DATES: ${{ vars.RADAR_GRAD_DATES }}
           GITHUB_TOKEN: ${{ github.token }}
       - name: persist state
         if: ${{ always() }}          # a timeout/cancel must never discard finished work

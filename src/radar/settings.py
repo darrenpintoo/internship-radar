@@ -125,8 +125,19 @@ def load_registry(config_dir: Path | None = None) -> dict:
 
 
 def load_profile(config_dir: Path | None = None) -> str:
-    path = (config_dir or CONFIG_DIR) / "profile.md"
-    return path.read_text(encoding="utf-8")
+    """Candidate profile for the enrichment prompt.
+
+    Precedence: RADAR_PROFILE env (CI secret) > config/profile.local.md
+    (untracked personal copy) > config/profile.md (tracked example).
+    """
+    env = os.environ.get("RADAR_PROFILE", "")
+    if env.strip():
+        return env
+    base = config_dir or CONFIG_DIR
+    local = base / "profile.local.md"
+    if local.exists():
+        return local.read_text(encoding="utf-8")
+    return (base / "profile.md").read_text(encoding="utf-8")
 
 
 def companies_for(registry: dict, ats: str) -> list[tuple[str, str]]:

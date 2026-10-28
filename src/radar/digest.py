@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import sqlite3
 from dataclasses import dataclass, field
 from datetime import date, timedelta
@@ -26,7 +27,13 @@ log = logging.getLogger(__name__)
 TEMPLATES_DIR = Path(__file__).resolve().parents[2] / "templates"
 DIRECT_ATS = ("greenhouse", "lever", "ashby", "icims")
 TRACK_CATEGORIES = frozenset({"quant", "ai_infra", "swe", "robotics"})
-GRAD_CANDIDATES = ("2027-12", "2028-05", "2028-12")
+# Your possible graduation dates ('YYYY-MM'). Override via the RADAR_GRAD_DATES
+# env var / repo variable (comma-separated) instead of editing the default.
+GRAD_CANDIDATES = tuple(
+    d.strip()
+    for d in os.environ.get("RADAR_GRAD_DATES", "2027-12,2028-05,2028-12").split(",")
+    if d.strip()
+)
 HTML_BYTE_BUDGET = 95_000  # Gmail clips at ~102 KB
 CLOSING_MIN_FIT = 50  # closing-soon rows must be worth applying to
 CLOSING_CAP = 12
